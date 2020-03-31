@@ -2,7 +2,7 @@
 
 namespace StarkBank\Test;
 
-require("src/key.php");
+require("vendor/autoload.php");
 
 use StarkBank\Key;
 

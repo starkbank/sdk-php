@@ -5,8 +5,11 @@ namespace StarkBank;
 require __DIR__ . '/../vendor/autoload.php';
 use EllipticCurve\PrivateKey;
 
-class Key {
-    public static function create ($path = null) {
+
+class Key
+{
+    public static function create ($path = null)
+    {
         $privateKey = new PrivateKey();
         $publicKey = $privateKey->publicKey();
 
@@ -30,7 +33,8 @@ class Key {
         return array($privateKeyPem, $publicKeyPem);
     }
 
-    private function addFileToPath($path, $file) {
+    private static function addFileToPath($path, $file)
+    {
         return join('/', array(trim($path, '/'), $file));
     }
 }
