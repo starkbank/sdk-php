@@ -1,5 +1,8 @@
 <?php
 
+namespace StarkBank\Exception;
+use \Exception;
+
 class ErrorElement extends Exception
 {
     public function __construct($code, $message)
