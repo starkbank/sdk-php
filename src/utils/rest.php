@@ -1,7 +1,7 @@
 <?php
 
 namespace StarkBank\Utils;
-use StarkBank\Utils\API;
+
 
 class Rest
 {

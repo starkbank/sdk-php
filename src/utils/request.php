@@ -30,8 +30,8 @@ class Request
     public static function fetch($user, $method, $path, $payload = null, $query = null, $version = "v2")
     {
         $url = [
-            "production" => "https://api.starkbank.com/",
-            "sandbox" => "https://sandbox.api.starkbank.com/",
+            Environment::production => "https://api.starkbank.com/",
+            Environment::sandbox => "https://sandbox.api.starkbank.com/",
         ][$user->environment] . $version . "/";
 
         $url = $url . $path;
