@@ -25,7 +25,7 @@ class API
         return $data;
     }
 
-    public static function fromApiJSON($resource, $json)
+    public static function fromApiJson($resource, $json)
     {
         $params = func_get_args($resource::__construct);
 

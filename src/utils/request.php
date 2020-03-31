@@ -27,7 +27,7 @@ class Response
 
 class Request
 {
-    public static function fetch($method, $path, $payload=null, $query=null, $user=null, $version="v2")
+    public static function fetch($user, $method, $path, $payload = null, $query = null, $version = "v2")
     {
         $url = [
             "production" => "https://api.starkbank.com/",
