@@ -14,6 +14,6 @@ class Enum
 
     public function isValid($item)
     {
-        return in_array($item, Enum::values());
+        return in_array($item, get_called_class()::values());
     }
 }

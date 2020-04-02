@@ -36,7 +36,7 @@ class InternalServerError extends Exception
     }
 }
 
-class UnknownException extends Exception
+class UnknownError extends Exception
 {
     public function __construct($message)
     {
@@ -44,7 +44,7 @@ class UnknownException extends Exception
     }
 }
 
-class InvalidSignatureException extends Exception
+class InvalidSignatureError extends Exception
 {
     public function __construct($message)
     {

@@ -1,22 +1,22 @@
 <?php
 
-namespace StarkBank\Test;
-
-require("vendor/autoload.php");
-
+namespace Test\Key;
 use StarkBank\Key;
 
-class KeyTest
+
+class Test
 {
-  public function test()
+  public function create()
   {
     list($priv, $pub) = Key::create();
     list($priv2, $pub2) = Key::create("keys");
   }
 }
 
-$keyTest = new KeyTest();
+echo "\nKey:";
 
-$keyTest->test();
+$test = new Test();
 
-?>
+echo "\n\t- create";
+$test->create();
+echo " - OK";

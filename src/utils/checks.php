@@ -10,7 +10,9 @@ class Checks
 {
     public static function checkEnvironment($environment)
     {
-        assert(Environment::isValid($environment), "Select a valid environment:  " . strval(Environment::values()));
+        if (!Environment::isValid($environment)) {
+            throw new Exception("Select a valid environment:  " . join(", ", (Environment::values())));
+        }
         return $environment;
     }
 

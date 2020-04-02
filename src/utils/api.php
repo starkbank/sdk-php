@@ -4,6 +4,7 @@ namespace StarkBank\Utils;
 use StarkBank\Utils\StringCase;
 use \DateTime;
 
+
 class API
 {
     public static function apiJson($entity)
@@ -25,34 +26,19 @@ class API
         return $data;
     }
 
-    public static function fromApiJson($resource, $json)
+    public static function endpoint($resourceName)
     {
-        $params = func_get_args($resource::__construct);
-
-        $cleanJson = [];
-        foreach ($params as $key) {
-            $cleanJson[$key] = null;
-            if (array_key_exists($key, $json)) {
-                $cleanJson[$key] = $json[$key];
-            }
-        }
-
-        return call_user_func_array($resource::__construct, $cleanJson);
+        return str_replace("-log", "/log", StringCase::camelToKebab($resourceName));
     }
 
-    public static function endpoint($resource)
+    public static function lastName($resourceName)
     {
-        return str_replace("-log", "/log", StringCase::camelToKebab($resource));
+        return end(explode("-", StringCase::camelToKebab($resourceName)));
     }
 
-    public static function lastName($resource)
+    public static function lastNamePlural($resourceName)
     {
-        return end(explode("-", StringCase::camelToKebab($resource)));
-    }
-
-    public static function lastNamePlural($resource)
-    {
-        return API::lastName($resource) . "s";
+        return API::lastName($resourceName) . "s";
     }
 }
 

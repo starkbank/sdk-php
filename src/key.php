@@ -2,7 +2,6 @@
 
 namespace StarkBank;
 
-require __DIR__ . '/../vendor/autoload.php';
 use EllipticCurve\PrivateKey;
 
 

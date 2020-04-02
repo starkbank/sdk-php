@@ -15,9 +15,9 @@ class User extends Resource
         $this->environment = Checks::checkEnvironment($environment);
     }
 
-    public function acessId()
+    public function accessId()
     {
-        return strtolower(get_called_class()) . "/" . strval($this->id);
+        return end(explode("\\", strtolower(get_called_class()))) . "/" . strval($this->id);
     }
 
     public function privateKey()

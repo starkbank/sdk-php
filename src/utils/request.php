@@ -2,12 +2,12 @@
 
 namespace StarkBank\Utils;
 
-require __DIR__ . '/.../vendor/autoload.php';
 use EllipticCurve\Ecdsa;
 use \Exception;
+use StarkBank\Utils\URL;
 use StarkBank\Exception\InputErrors;
 use StarkBank\Exception\InternalServerError;
-use StarkBank\Exception\UnknownException;
+use StarkBank\Exception\UnknownError;
 
 
 class Response
@@ -20,7 +20,7 @@ class Response
 
     function json()
     {
-        return json_decode($this->content);
+        return json_decode($this->content, true);
     }
 }
 
@@ -33,47 +33,29 @@ class Request
             Environment::production => "https://api.starkbank.com/",
             Environment::sandbox => "https://sandbox.api.starkbank.com/",
         ][$user->environment] . $version . "/";
-
-        $url = $url . $path;
-
+        $url .= $path;
         if (!is_null($query)) {
-            $url = $url . "?" . urlencode($query);
+            $url .= URL::encode($query);
         }
 
         $accessTime = strval(time());
-        $message = $user->accessId . $accessTime;
+        $message = $user->accessId() . ":" . $accessTime . ":";
         $body = null;
         if (!is_null($payload)) {
             $body = json_encode($payload);
-            $message = $message . $body;
+            $message .= $body;
         }
-        $signature = Ecdsa::sign($message, $user->privateKey)->toBase64();
+        $signature = Ecdsa::sign($message, $user->privateKey())->toBase64();
 
         $headers = [
             "Access-Time" => $accessTime,
-            "Access-Id" => $user->accessId,
+            "Access-Id" => $user->accessId(),
             "Access-Signature" => $signature,
             "User-Agent" => "PHP-" . phpversion() . "-SDK-2.0.0",
             "Content-Type" => "application/json"
         ];
 
-        $opts = [
-            'http' => [
-                'method'  => $method,
-                'header'  => $headers,
-                'content' => $body
-            ]
-        ];
-
-        $context = stream_context_create($opts);
-
-        try {
-            $result = file_get_contents($url, false, $context);
-        } catch (Exception $e) {
-            throw new UnknownException(strval($e));
-        }
-
-        $response = new Response($result->status, $result->content);
+        $response = Request::makeRequest($method, $headers, $url, $body);
 
         if ($response->status == 500) {
             throw new InternalServerError();
@@ -82,10 +64,52 @@ class Request
             throw new InputErrors($response->json()["errors"]);
         }
         if ($response->status != 200) {
-            throw new UnknownException($response->content);
+            throw new UnknownError(strval($response->content));
         }
 
         return $response;
+    }
+
+    private function makeRequest($method, $headers, $url, $body)
+    {
+        $stringHeader = "";
+        foreach($headers as $key => $value) {
+            $stringHeader .= $key . ": " . $value . "\r\n";
+        }
+
+        $opts = [
+            'http' => [
+                'method'  => $method,
+                'header'  => $stringHeader,
+                'ignore_errors' => true
+            ]
+        ];
+        if (!is_null($body)) {
+            echo "\nbody\n";
+            $opts = [
+                'http' => [
+                    'method'  => $method,
+                    'header'  => $headers,
+                    'content' => $body,
+                    'ignore_errors' => true
+                ]
+            ];
+        }
+        
+        try {
+            $content = file_get_contents($url, false, stream_context_create($opts));
+        } catch (Exception $e) {
+            throw new UnknownError(strval($e));
+        }
+
+        $status = null;
+        if (is_array($http_response_header)) {
+            $parts = explode(' ', $http_response_header[0]);
+            if (count($parts) > 1) //HTTP/1.0 <code> <text>
+                $status = intval($parts[1]);
+        }
+        
+        return new Response($status, $content);
     }
 }
 
