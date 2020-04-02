@@ -26,6 +26,10 @@ class API
         return $data;
     }
 
+    public static function fromApiJson($resourceMaker, $json) {
+        return $resourceMaker($json);
+    }
+
     public static function endpoint($resourceName)
     {
         return str_replace("-log", "/log", StringCase::camelToKebab($resourceName));

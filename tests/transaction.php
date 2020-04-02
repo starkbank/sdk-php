@@ -11,13 +11,13 @@ class Test
     public function createAndQuery()
     {
         $externalId = uniqid();
-        $transactions = [new Transaction(
-            1,
-            "transaction to random workspace",
-            $externalId,
-            "5768064935133184"
-        )];
-        
+        $transactions = [new Transaction([
+            "amount" => 1,
+            "description" => "transaction to random workspace",
+            "externalId" => $externalId,
+            "receiverId" => "5768064935133184",
+        ])];
+
         $transactions = Transaction::create(TestUser::project(), $transactions);
 
         if ($transactions[0]->externalId != $externalId) {

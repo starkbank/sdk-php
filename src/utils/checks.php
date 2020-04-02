@@ -8,6 +8,26 @@ use \DateTime;
 
 class Checks
 {
+    public static function checkParams($params) {
+        $checkParams = true;
+        if (array_key_exists("checkParams", $params)) {
+            $checkParams = $params["checkParams"];
+            unset($params["checkParams"]);
+        }
+
+        if ($checkParams & count($params) > 0) {
+            throw new Exception("unknown parameters: " . join(", ", array_keys($params)));
+        }
+    }
+
+    public static function checkId($id) {
+        $id = strval($id);
+        if (strlen($id) == 0) {
+            throw new \Exception("invalid id: " . $id);
+        }
+        return $id;
+    }
+
     public static function checkEnvironment($environment)
     {
         if (!Environment::isValid($environment)) {

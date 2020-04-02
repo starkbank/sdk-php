@@ -33,18 +33,28 @@ class Transaction extends Resource
         fee [integer, default None]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
         created [datetime.datetime, default None]: creation datetime for the boleto. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
      */
-    function __construct($amount, $description, $externalId, $receiverId, $tags = null, $id = null, $fee = null, $created = null, $source = null)
+    function __construct(array $params)
     {
-        parent::__construct($id);
-        $this->amount = $amount;
-        $this->description = $description;
-        $this->externalId = $externalId;
-        $this->receiverId = $receiverId;
-        $this->tags = $tags;
-        $this->id = $id;
-        $this->fee = $fee;
-        $this->created = Checks::checkDateTime($created);
-        $this->source = $source;
+        parent::__construct($params["id"]);
+        unset($params["id"]);
+        $this->amount = $params["amount"];
+        unset($params["amount"]);
+        $this->description = $params["description"];
+        unset($params["description"]);
+        $this->externalId = $params["externalId"];
+        unset($params["externalId"]);
+        $this->receiverId = $params["receiverId"];
+        unset($params["receiverId"]);
+        $this->tags = $params["tags"];
+        unset($params["tags"]);
+        $this->fee = $params["fee"];
+        unset($params["fee"]);
+        $this->created = Checks::checkDateTime($params["created"]);
+        unset($params["created"]);
+        $this->source = $params["source"];
+        unset($params["source"]);
+
+        Checks::checkParams($params);
     }
 
     /**
@@ -104,8 +114,8 @@ class Transaction extends Resource
 
     private function resource()
     {
-        $transaction = function ($json) {
-            return new Transaction($json["amount"], $json["description"], $json["externalId"], $json["receiverId"], $json["tags"], $json["id"], $json["fee"], $json["created"], $json["source"]);
+        $transaction = function ($array) {
+            return new Transaction($array);
         };
         return [
             "name" => "Transaction",

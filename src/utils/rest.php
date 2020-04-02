@@ -12,9 +12,9 @@ class Rest
         while (true) {
             $json = Request::fetch($user, "GET", API::endpoint($resource["name"]), null, $query)->json();
             $entities = $json[API::lastNamePlural($resource["name"])];
-
+            
             foreach($entities as $entity) {
-                yield $resource["maker"]($entity);
+                yield API::fromApiJson($resource["maker"], $entity);
             }
 
             if (!is_null($limit)) {
@@ -32,13 +32,15 @@ class Rest
 
     public static function getId($user, $resource, $id)
     {
+        $id = Checks::checkId($id);
         $json = Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id)->json();
         $entity = $json[API::lastName($resource["name"])];
-        return $resource["maker"]($entity);
+        return API::fromApiJson($resource["maker"], $entity);
     }
 
     public static function getPdf($user, $resource, $id)
     {
+        $id = Checks::checkId($id);
         return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/pdf");
     }
 
@@ -56,7 +58,7 @@ class Rest
 
         $retrievedEntities = [];
         foreach($json[API::lastNamePlural($resource["name"])] as $entity){
-            $retrievedEntities[] = $resource["maker"]($entity);
+            $retrievedEntities[] = API::fromApiJson($resource["maker"], $entity);
         }
 
         return $retrievedEntities;
@@ -67,21 +69,23 @@ class Rest
         $payload = API::apiJson($entity);
         $json = Request::fetch($user, "POST", API::endpoint($resource["name"]), $payload)->json();
         $entityJson = $json[API::lastName($resource["name"])];
-        return $resource["maker"]($entityJson);
+        return API::fromApiJson($resource["maker"], $entityJson);
     }
 
     public static function deleteId($user, $resource, $id)
     {
+        $id = Checks::checkId($id);
         $json = Request::fetch($user, "DELETE", API::endpoint($resource["name"]) . "/" . $id)->json();
         $entity = $json[API::lastName($resource["name"])];
-        return $resource["maker"]($entity);
+        return API::fromApiJson($resource["maker"], $entity);
     }
 
     public static function patchId($user, $resource, $id)
     {
+        $id = Checks::checkId($id);
         $json = Request::fetch($user, "PATCH", API::endpoint($resource["name"]) . "/" . $id)->json();
         $entity = $json[API::lastName($resource["name"])];
-        return $resource["maker"]($entity);
+        return API::fromApiJson($resource["maker"], $entity);
     }
 }
 

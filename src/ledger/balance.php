@@ -22,12 +22,18 @@ class Balance extends Resource
         currency [string, default None]: currency of the current workspace. Expect others to be added eventually. ex: "BRL"
         updated [datetime.datetime, default None]: update datetime for the balance. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
      */
-    function __construct($id = null, $amount = null, $currency = null, $updated = null)
+    function __construct(array $params)
     {
-        parent::__construct($id);
-        $this->amount = $amount;
-        $this->currency = $currency;
-        $this->updated = Checks::checkDateTime($updated);
+        parent::__construct($params["id"]);
+        unset($params["id"]);
+        $this->amount = $params["amount"];
+        unset($params["amount"]);
+        $this->currency = $params["currency"];
+        unset($params["currency"]);
+        $this->updated = Checks::checkDateTime($params["updated"]);
+        unset($params["updated"]);
+
+        Checks::checkParams($params);
     }
 
     /**
@@ -47,8 +53,8 @@ class Balance extends Resource
 
     private function resource()
     {
-        $balance = function ($json) {
-            return new Balance($json["id"], $json["amount"], $json["currency"], $json["updated"]);
+        $balance = function ($array) {
+            return new Balance($array);
         };
         return [
             "name" => "Balance",
