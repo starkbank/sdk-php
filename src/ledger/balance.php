@@ -40,7 +40,7 @@ class Balance extends Resource
     Return:
         Balance object with updated attributes
      */
-    public function get($user = null)
+    public function get($user)
     {
         return Rest::getList($user, Balance::resource())->current();
     }

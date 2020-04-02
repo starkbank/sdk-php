@@ -13,7 +13,7 @@ class Test
   }
 }
 
-echo "\nKey:";
+echo "\n\nKey:";
 
 $test = new Test();
 

@@ -85,11 +85,10 @@ class Request
             ]
         ];
         if (!is_null($body)) {
-            echo "\nbody\n";
             $opts = [
                 'http' => [
                     'method'  => $method,
-                    'header'  => $headers,
+                    'header'  => $stringHeader,
                     'content' => $body,
                     'ignore_errors' => true
                 ]

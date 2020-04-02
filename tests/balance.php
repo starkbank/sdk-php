@@ -17,7 +17,7 @@ class Test
   }
 }
 
-echo "\nBalance:";
+echo "\n\nBalance:";
 
 $test = new Test();
 

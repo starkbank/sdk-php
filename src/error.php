@@ -18,7 +18,7 @@ class InputErrors extends Exception
 {
     public function __construct($content)
     {
-        parent::__construct(strval($content), 0, null);
+        parent::__construct(json_encode($content), 0, null);
 
         $errors = [];
         foreach ($content as $error){ 
