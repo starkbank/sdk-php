@@ -75,12 +75,12 @@ class Transfer extends Resource
         - transfers [list of Transfer objects]: list of Transfer objects to be created in the API
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - list of Transfer objects with updated attributes
      */
-    public function create($user, $transfers)
+    public function create($transfers, $user = null)
     {
         return Rest::post($user, Transfer::resource(), $transfers);
     }
@@ -94,12 +94,12 @@ class Transfer extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Transfer object with updated attributes
      */
-    public function get($user, $id)
+    public function get($id, $user = null)
     {
         return Rest::getId($user, Transfer::resource(), $id);
     }
@@ -114,12 +114,12 @@ class Transfer extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Transfer pdf file
      */
-    public function pdf($user, $id)
+    public function pdf($id, $user = null)
     {
         return Rest::getPdf($user, Transfer::resource(), $id);
     }
@@ -137,12 +137,12 @@ class Transfer extends Resource
         - after [DateTime, default null]: date filter for objects created only after specified date.
         - before [DateTime, default null]: date filter for objects only before specified date.
         - sort [string, default "-created"]: sort order considered in response. Valid options are 'created', '-created', 'updated' or '-updated'.
-        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - generator of Transfer objects with updated attributes
      */
-    public function query($user, $options = [])
+    public function query($options = [], $user = null)
     {
         $options["after"] = Checks::checkDateTime($options["after"]);
         $options["before"] = Checks::checkDateTime($options["before"]);

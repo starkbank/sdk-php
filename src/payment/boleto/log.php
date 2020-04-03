@@ -50,12 +50,12 @@ class BoletoPaymentLog extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - BoletoPaymentLog object with updated attributes
      */
-    public function get($user, $id)
+    public function get($id, $user = null)
     {
         return Rest::getId($user, BoletoPaymentLog::resource(), $id);
     }
@@ -69,12 +69,12 @@ class BoletoPaymentLog extends Resource
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
         - payment_ids [list of strings, default null]: list of BoletoPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - types [list of strings, default null]: filter retrieved objects by event types. ex: "paid" or "registered"
-        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - list of BoletoPaymentLog objects with updated attributes
      */
-    public function query($user, $options = [])
+    public function query($options = [], $user = null)
     {
         return Rest::getList($user, BoletoPaymentLog::resource(), $options);
     }

@@ -3,7 +3,6 @@
 namespace Test\Webhook;
 
 use \Exception;
-use Test\TestUser;
 use StarkBank\Webhook;
 
 
@@ -11,13 +10,11 @@ class Test
 {
     public function createAndDelete()
     {
-        $user = TestUser::project();
-
         $webhook = Test::example();
 
-        $webhook = Webhook::create($user, $webhook->url, $webhook->subscriptions);
+        $webhook = Webhook::create($webhook->url, $webhook->subscriptions);
 
-        $deleted = Webhook::delete($user, $webhook->id);
+        $deleted = Webhook::delete($webhook->id);
 
         if (is_null($webhook->id) | $webhook->id != $deleted->id) {
             throw new Exception("failed");
@@ -26,15 +23,13 @@ class Test
 
     public function queryAndGet()
     {
-        $user = TestUser::project();
-
-        $webhooks = iterator_to_array(Webhook::query($user));
+        $webhooks = iterator_to_array(Webhook::query());
 
         if (count($webhooks) == 0) {
             throw new Exception("failed");
         }
 
-        $webhook = Webhook::get($user, $webhooks[0]->id);
+        $webhook = Webhook::get($webhooks[0]->id);
 
         if ($webhooks[0]->id != $webhook->id) {
             throw new Exception("failed");

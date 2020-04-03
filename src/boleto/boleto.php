@@ -99,12 +99,12 @@ class Boleto extends Resource
         - boletos [list of Boleto objects]: list of Boleto objects to be created in the API
     
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
     
     ## Return:
         - list of Boleto objects with updated attributes
      */
-    public function create($user, $boletos)
+    public function create($boletos, $user = null)
     {
         return Rest::post($user, Boleto::resource(), $boletos);
     }
@@ -118,12 +118,12 @@ class Boleto extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Boleto object with updated attributes
      */
-    public function get($user, $id)
+    public function get($id, $user = null)
     {
         return Rest::getId($user, Boleto::resource(), $id);
     }
@@ -137,12 +137,12 @@ class Boleto extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Boleto pdf file
      */
-    public function pdf($user, $id)
+    public function pdf($id, $user = null)
     {
         return Rest::getPdf($user, Boleto::resource(), $id);
     }
@@ -159,12 +159,12 @@ class Boleto extends Resource
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - after [DateTime, default null] date filter for objects created only after specified date.
         - before [DateTime, default null] date filter for objects only before specified date.
-        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - generator of Boleto objects with updated attributes
      */
-    public function query($user, $options = [])
+    public function query($options = [], $user = null)
     {
         $options["after"] = Checks::checkDateTime($options["after"]);
         $options["before"] = Checks::checkDateTime($options["before"]);
@@ -180,12 +180,12 @@ class Boleto extends Resource
         - id [string]: Boleto unique id. ex: "5656565656565656"
     
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
     
     ## Return:
         - deleted Boleto with updated attributes
      */
-    public function delete($user, $id)
+    public function delete($id, $user = null)
     {
         return Rest::deleteId($user, Boleto::resource(), $id);
     }

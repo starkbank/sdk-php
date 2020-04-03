@@ -2,7 +2,6 @@
 
 namespace Test\TransferLog;
 use \Exception;
-use Test\TestUser;
 use StarkBank\TransferLog;
 
 
@@ -10,9 +9,7 @@ class Test
 {
     public function queryAndGet()
     {
-        $user = TestUser::project();
-
-        $transferLogs = iterator_to_array(TransferLog::query($user, ["limit" => 10, "types" => ["created"]]));
+        $transferLogs = iterator_to_array(TransferLog::query(["limit" => 10, "types" => ["created"]]));
 
         if (count($transferLogs) != 10) {
             throw new Exception("failed");
@@ -24,7 +21,7 @@ class Test
             }
         }
 
-        $transferLog = TransferLog::get($user, $transferLogs[0]->id);
+        $transferLog = TransferLog::get($transferLogs[0]->id);
 
         if ($transferLogs[0]->id != $transferLog->id) {
             throw new Exception("failed");

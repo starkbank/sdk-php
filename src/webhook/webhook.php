@@ -45,12 +45,12 @@ class Webhook extends Resource
         - subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Webhook object with updated attributes
      */
-    public function create($user, $url, $subscriptions)
+    public function create($url, $subscriptions, $user = null)
     {
         return Rest::postSingle($user, Webhook::resource(), new Webhook(["url" => $url, "subscriptions" => $subscriptions]));
     }
@@ -64,12 +64,12 @@ class Webhook extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Webhook object with updated attributes
      */
-    public function get($user, $id)
+    public function get($id, $user = null)
     {
         return Rest::getId($user, Webhook::resource(), $id);
     }
@@ -81,12 +81,12 @@ class Webhook extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - generator of Webhook objects with updated attributes
      */
-    public function query($user, $options = [])
+    public function query($options = [], $user = null)
     {
         return Rest::getList($user, Webhook::resource(), $options);
     }
@@ -100,12 +100,12 @@ class Webhook extends Resource
         - id [string]: Webhook unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - deleted Webhook with updated attributes
      */
-    public function delete($user, $id)
+    public function delete($id, $user = null)
     {
         return Rest::deleteId($user, Webhook::resource(), $id);
     }

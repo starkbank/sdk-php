@@ -2,7 +2,6 @@
 
 namespace Test\Transfer;
 use \Exception;
-use Test\TestUser;
 use StarkBank\Transfer;
 
 
@@ -10,9 +9,7 @@ class Test
 {
     public function create()
     {
-        $user = TestUser::project();
-
-        $transfer = Transfer::create($user, [Test::example()])[0];
+        $transfer = Transfer::create([Test::example()])[0];
 
         if (is_null($transfer->id)) {
             throw new Exception("failed");
@@ -21,15 +18,13 @@ class Test
 
     public function queryAndGet()
     {
-        $user = TestUser::project();
-
-        $transfers = iterator_to_array(Transfer::query($user, ["limit" => 10]));
+        $transfers = iterator_to_array(Transfer::query(["limit" => 10]));
 
         if (count($transfers) != 10) {
             throw new Exception("failed");
         }
 
-        $transfer = Transfer::get($user, $transfers[0]->id);
+        $transfer = Transfer::get($transfers[0]->id);
 
         if ($transfers[0]->id != $transfer->id) {
             throw new Exception("failed");
@@ -38,15 +33,13 @@ class Test
 
     public function queryAndGetPdf()
     {
-        $user = TestUser::project();
-
-        $transfers = iterator_to_array(Transfer::query($user, ["limit" => 10, "status" => "success"]));
+        $transfers = iterator_to_array(Transfer::query(["limit" => 10, "status" => "success"]));
 
         if (count($transfers) != 10) {
             throw new Exception("failed");
         }
 
-        $pdf = Transfer::pdf($user, $transfers[0]->id);
+        $pdf = Transfer::pdf($transfers[0]->id);
 
         $fp = fopen('transfer.pdf', 'w');
         fwrite($fp, $pdf);

@@ -63,73 +63,80 @@ class BoletoPayment extends Resource
     }
 
     /**
-    Create BoletoPayments
+    # Create BoletoPayments
 
     Send a list of BoletoPayment objects for creation in the Stark Bank API
 
-    Parameters (required):
-        payments [list of BoletoPayment objects]: list of BoletoPayment objects to be created in the API
-    Parameters (optional):
-        user [Project object]: Project object. Not necessary if starkbank.user was set before function call
-    Return:
-        list of BoletoPayment objects with updated attributes
+    ## Parameters (required):
+        - payments [list of BoletoPayment objects]: list of BoletoPayment objects to be created in the API
+
+    ## Parameters (optional):
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+
+    ## Return:
+        - list of BoletoPayment objects with updated attributes
      */
-    public function create($user, $payments)
+    public function create($payments, $user = null)
     {
         return Rest::post($user, BoletoPayment::resource(), $payments);
     }
 
     /**
-    Retrieve a specific BoletoPayment
+    # Retrieve a specific BoletoPayment
 
     Receive a single BoletoPayment object previously created by the Stark Bank API by passing its id
 
-    Parameters (required):
-        id [string]: object unique id. ex: "5656565656565656"
-    Parameters (optional):
-        user [Project object]: Project object. Not necessary if starkbank.user was set before function call
-    Return:
-        BoletoPayment object with updated attributes
+    ## Parameters (required):
+        - id [string]: object unique id. ex: "5656565656565656"
+
+    ## Parameters (optional):
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+
+    ## Return:
+        - BoletoPayment object with updated attributes
      */
-    public function get($user, $id)
+    public function get($id, $user = null)
     {
         return Rest::getId($user, BoletoPayment::resource(), $id);
     }
 
     /**
-    Retrieve a specific BoletoPayment pdf file
+    # Retrieve a specific BoletoPayment pdf file
 
     Receive a single BoletoPayment pdf file generated in the Stark Bank API by passing its id.
     Only valid for boleto payments with "success" status.
 
-    Parameters (required):
-        id [string]: object unique id. ex: "5656565656565656"
-    Parameters (optional):
-        user [Project object]: Project object. Not necessary if starkbank.user was set before function call
-    Return:
-        BoletoPayment pdf file
+    ## Parameters (required):
+        - id [string]: object unique id. ex: "5656565656565656"
+
+    ## Parameters (optional):
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+
+    ## Return:
+        - BoletoPayment pdf file
      */
-    public function pdf($user, $id)
+    public function pdf($id, $user = null)
     {
         return Rest::getPdf($user, BoletoPayment::resource(), $id);
     }
 
     /**
-    Retrieve BoletoPayments
+    # Retrieve BoletoPayments
 
     Receive a generator of BoletoPayment objects previously created in the Stark Bank API
 
-    Parameters (optional):
-        limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        status [string, default null]: filter for status of retrieved objects. ex: "paid"
-        tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-        after [DateTime, default null] date filter for objects created only after specified date.
-        before [DateTime, default null] date filter for objects only before specified date.
-        user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
-    Return:
-        generator of BoletoPayment objects with updated attributes
+    ## Parameters (optional):
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - status [string, default null]: filter for status of retrieved objects. ex: "paid"
+        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - after [DateTime, default null] date filter for objects created only after specified date.
+        - before [DateTime, default null] date filter for objects only before specified date.
+        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+
+    ## Return:
+        - generator of BoletoPayment objects with updated attributes
      */
-    public function query($user, $options = [])
+    public function query($options = [], $user = null)
     {
         $options["after"] = Checks::checkDateTime($options["after"]);
         $options["before"] = Checks::checkDateTime($options["before"]);
@@ -137,18 +144,20 @@ class BoletoPayment extends Resource
     }
 
     /**
-    Delete a BoletoPayment entity
+    # Delete a BoletoPayment entity
 
     Delete a BoletoPayment entity previously created in the Stark Bank API
 
-    Parameters (required):
-        id [string]: BoletoPayment unique id. ex: "5656565656565656"
-    Parameters (optional):
-        user [Project object]: Project object. Not necessary if starkbank.user was set before function call
-    Return:
-        deleted BoletoPayment with updated attributes
+    ## Parameters (required):
+        - id [string]: BoletoPayment unique id. ex: "5656565656565656"
+
+    ## Parameters (optional):
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+
+    ## Return:
+        - deleted BoletoPayment with updated attributes
      */
-    public function delete($user, $id)
+    public function delete($id, $user = null)
     {
         return Rest::deleteId($user, BoletoPayment::resource(), $id);
     }

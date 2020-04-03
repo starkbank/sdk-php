@@ -2,7 +2,6 @@
 
 namespace Test\Transaction;
 use \Exception;
-use Test\TestUser;
 use StarkBank\Transaction;
 
 
@@ -18,13 +17,13 @@ class Test
             "receiverId" => "5768064935133184",
         ])];
 
-        $transactions = Transaction::create(TestUser::project(), $transactions);
+        $transactions = Transaction::create($transactions);
 
         if ($transactions[0]->externalId != $externalId) {
             throw new Exception("failed");
         }
 
-        $transactions = iterator_to_array(Transaction::query(TestUser::project(), ["limit" => 10, "externalIds" => [$externalId]]));
+        $transactions = iterator_to_array(Transaction::query(["limit" => 10, "externalIds" => [$externalId]]));
 
         if (count($transactions) != 1) {
             throw new Exception("failed");
@@ -37,14 +36,14 @@ class Test
 
     public function queryAndGet()
     {
-        $transactions = iterator_to_array(Transaction::query(TestUser::project(), ["limit" => 101]));
+        $transactions = iterator_to_array(Transaction::query(["limit" => 101]));
         if (count($transactions) != 101) {
             throw new Exception("failed");
         }
         if (!is_int($transactions[0]->amount)) {
             throw new Exception("failed");
         }
-        $transaction = Transaction::get(TestUser::project(), $transactions[0]->id);
+        $transaction = Transaction::get($transactions[0]->id);
         if (!is_int($transaction->amount)) {
             throw new Exception("failed");
         }

@@ -2,7 +2,6 @@
 
 namespace Test\Boleto;
 use \Exception;
-use Test\TestUser;
 use StarkBank\Boleto;
 use \DateTime;
 use \DateInterval;
@@ -12,13 +11,11 @@ class Test
 {
     public function createAndDelete()
     {
-        $user = TestUser::project();
-
         $boletos = [Test::example()];
 
-        $boleto = Boleto::create($user, $boletos)[0];
+        $boleto = Boleto::create($boletos)[0];
 
-        $deleted = Boleto::delete($user, $boleto->id);
+        $deleted = Boleto::delete($boleto->id);
 
         if (is_null($boleto->id) | $boleto->id != $deleted->id) {
             throw new Exception("failed");
@@ -27,15 +24,13 @@ class Test
 
     public function queryAndGet()
     {
-        $user = TestUser::project();
-
-        $boletos = iterator_to_array(Boleto::query($user, ["limit" => 10]));
+        $boletos = iterator_to_array(Boleto::query(["limit" => 10]));
 
         if (count($boletos) != 10) {
             throw new Exception("failed");
         }
 
-        $boleto = Boleto::get($user, $boletos[0]->id);
+        $boleto = Boleto::get($boletos[0]->id);
 
         if ($boletos[0]->id != $boleto->id) {
             throw new Exception("failed");
@@ -44,15 +39,13 @@ class Test
 
     public function queryAndGetPdf()
     {
-        $user = TestUser::project();
-
-        $boletos = iterator_to_array(Boleto::query($user, ["limit" => 10]));
+        $boletos = iterator_to_array(Boleto::query(["limit" => 10]));
 
         if (count($boletos) != 10) {
             throw new Exception("failed");
         }
 
-        $pdf = Boleto::pdf($user, $boletos[0]->id);
+        $pdf = Boleto::pdf($boletos[0]->id);
 
         $fp = fopen('boleto.pdf', 'w');
         fwrite($fp, $pdf);

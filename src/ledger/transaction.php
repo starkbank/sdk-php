@@ -68,12 +68,12 @@ class Transaction extends Resource
         - transactions [list of Transaction objects]: list of Transaction objects to be created in the API
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - list of Transaction objects with updated attributes
      */
-    public function create($user, $transactions)
+    public function create($transactions, $user = null)
     {
         return Rest::post($user, Transaction::resource(), $transactions);
     }
@@ -87,12 +87,12 @@ class Transaction extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
     
     ## Return:
         - Transaction object with updated attributes
      */
-    public function get($user, $id)
+    public function get($id, $user = null)
     {
         return Rest::getId($user, Transaction::resource(), $id);
     }
@@ -107,12 +107,12 @@ class Transaction extends Resource
         - external_ids [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - after [DateTime, default null] date filter for objects created only after specified date.
         - before [DateTime, default null] date filter for objects created only before specified date.
-        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - generator of Transaction objects with updated attributes
      */
-    public function query($user, $options = [])
+    public function query($options = [], $user = null)
     {
         $options["after"] = Checks::checkDateTime($options["after"]);
         $options["before"] = Checks::checkDateTime($options["before"]);

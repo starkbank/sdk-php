@@ -2,7 +2,6 @@
 
 namespace Test\Balance;
 use \Exception;
-use Test\TestUser;
 use StarkBank\Balance;
 
 
@@ -10,7 +9,7 @@ class Test
 {
   public function get()
   {
-    $balance = Balance::get(TestUser::project());
+    $balance = Balance::get();
     if (!is_int($balance->amount)) {
       throw new Exception("failed");
     }

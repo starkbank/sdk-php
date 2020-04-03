@@ -110,12 +110,12 @@ class Event extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Event object with updated attributes
      */
-    public static function get($user, $id)
+    public static function get($id, $user = null)
     {
         return Rest::getId($user, Event::resource(), $id);
     }
@@ -130,12 +130,12 @@ class Event extends Resource
         - is_delivered [bool, default null]: bool to filter successfully delivered events. ex: True or False
         - after [DateTime, default null]: date filter for objects created only after specified date.
         - before [DateTime, default null]: date filter for objects only before specified date.
-        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - generator of Event objects with updated attributes
      */
-    public static function query($user, $options = [])
+    public static function query($options = [], $user = null)
     {
         $options["after"] = Checks::checkDateTime($options["after"]);
         $options["before"] = Checks::checkDateTime($options["before"]);
@@ -151,12 +151,12 @@ class Event extends Resource
         - id [string]: Event unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - deleted Event with updated attributes
      */
-    public static function delete($user, $id)
+    public static function delete($id, $user = null)
     {
         return Rest::deleteId($user, Event::resource(), $id);
     }
@@ -172,12 +172,12 @@ class Event extends Resource
         - is_delivered [bool]: If True and event hasn't been delivered already, event will be set as delivered. ex: True
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - target Event with updated attributes
      */
-    public static function update($user, $id, $options = [])
+    public static function update($id, $options = [], $user = null)
     {
         return Rest::patchId($user, Event::resource(), $id, $options);
     }
@@ -194,12 +194,12 @@ class Event extends Resource
         - signature [string]: base-64 digital signature received at response header "Digital-Signature"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Event object with updated attributes
      */
-    public static function parse($user, $content, $signature)
+    public static function parse($content, $signature, $user = null)
     {
         $event = API::fromApiJson(Event::resource()["maker"], json_decode($content, true)["event"]);
 

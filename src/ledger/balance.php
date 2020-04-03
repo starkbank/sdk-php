@@ -42,12 +42,12 @@ class Balance extends Resource
     Receive the Balance object linked to your workspace in the Stark Bank API
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Balance object with updated attributes
      */
-    public function get($user)
+    public function get($user = null)
     {
         return Rest::getList($user, Balance::resource())->current();
     }

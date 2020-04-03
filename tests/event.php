@@ -3,7 +3,6 @@
 namespace Test\Event;
 
 use \Exception;
-use Test\TestUser;
 use StarkBank\Event;
 use StarkBank\Exception\InvalidSignatureError;
 
@@ -17,9 +16,7 @@ class Test
 
     public function queryAndDelete()
     {
-        $user = TestUser::project();
-
-        $events = iterator_to_array(Event::query($user, ["limit" => 10, "isDelivered" => true]));
+        $events = iterator_to_array(Event::query(["limit" => 10, "isDelivered" => true]));
 
         if (count($events) != 10) {
             throw new Exception("failed");
@@ -31,7 +28,7 @@ class Test
             }
         }
 
-        $deleted = Event::delete($user, $events[0]->id);
+        $deleted = Event::delete($events[0]->id);
 
         if (is_null($events[0]->id) | $events[0]->id != $deleted->id) {
             throw new Exception("failed");
@@ -40,31 +37,25 @@ class Test
 
     public function queryGetAndUpdate()
     {
-        $user = TestUser::project();
-
-        $events = iterator_to_array(Event::query($user, ["limit" => 1, "isDelivered" => false]));
+        $events = iterator_to_array(Event::query(["limit" => 1, "isDelivered" => false]));
 
         if (count($events) != 1) {
             throw new Exception("failed");
         }
 
-        $event = Event::get($user, $events[0]->id);
+        $event = Event::get($events[0]->id);
 
         if ($events[0]->id != $event->id) {
             throw new Exception("failed");
         }
 
-        $event = Event::update($user, $event->id, ["isDelivered" => true]);
-
-        print_r($event);
+        $event = Event::update($event->id, ["isDelivered" => true]);
     }
 
     public function parseRight()
     {
-        $user = TestUser::project();
-
-        $event_1 = Event::parse($user, self::CONTENT, self::VALID_SIGNATURE);
-        $event_2 = Event::parse($user, self::CONTENT, self::VALID_SIGNATURE); // using cache
+        $event_1 = Event::parse(self::CONTENT, self::VALID_SIGNATURE);
+        $event_2 = Event::parse(self::CONTENT, self::VALID_SIGNATURE); // using cache
 
         if ($event_1 != $event_2) {
             throw new Exception("failed");
@@ -73,11 +64,9 @@ class Test
 
     public function parseWrong()
     {
-        $user = TestUser::project();
-
         $error = false;
         try {
-            $event = Event::parse($user, self::CONTENT, self::INVALID_SIGNATURE);
+            $event = Event::parse(self::CONTENT, self::INVALID_SIGNATURE);
         } catch (InvalidSignatureError $e) {
             $error = true;
         }

@@ -3,7 +3,19 @@
 namespace Test;
 require_once("vendor/autoload.php");
 require_once("src/starkbank.php");
-require_once("tests/user.php");
+
+$project = new \StarkBank\Project(
+    "sandbox",
+    "5690398416568320",
+    "
+    -----BEGIN EC PRIVATE KEY-----
+    MHQCAQEEIIoYWZ2OGwqX6n1EVvj1C1YvWHSGqqhZJzfsZZnk0SVgoAcGBSuBBAAK
+    oUQDQgAEGS1jWJXoK9RUk+qoNNFquO7X4JzRf5ZA5UDJUfPCbbKe5KwtrBKTJC1/
+    vRGIpAM5gNsxdfKgmoXNriiuY4LEPQ==
+    -----END EC PRIVATE KEY-----
+    "
+);
+\StarkBank\User::setDefault($project);
 
 echo "\n\nStarting tests\n";
 

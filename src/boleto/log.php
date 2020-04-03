@@ -42,38 +42,41 @@ class BoletoLog extends Resource
     }
 
     /**
-    Retrieve a specific BoletoLog
+    # Retrieve a specific BoletoLog
 
     Receive a single BoletoLog object previously created by the Stark Bank API by passing its id
 
-    Parameters (required):
-        id [string]: object unique id. ex: "5656565656565656"
-    Parameters (optional):
-        user [Project object]: Project object. Not necessary if starkbank.user was set before function call
-    Return:
-        BoletoLog object with updated attributes
+    ## Parameters (required):
+        - id [string]: object unique id. ex: "5656565656565656"
+
+    ## Parameters (optional):
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+    
+    ## Return:
+        - BoletoLog object with updated attributes
      */
-    public function get($user, $id)
+    public function get($id, $user = null)
     {
         return Rest::getId($user, BoletoLog::resource(), $id);
     }
 
     /**
-    Retrieve BoletoLogs
+    # Retrieve BoletoLogs
 
     Receive a generator of BoletoLog objects previously created in the Stark Bank API
 
-    Parameters (optional):
-        limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        boleto_ids [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-        types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
-        after [DateTime, default null] date filter for objects created only after specified date.
-        before [DateTime, default null] date filter for objects only before specified date.
-        user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
-    Return:
-        list of BoletoLog objects with updated attributes
+    ## Parameters (optional):
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - boleto_ids [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+        - types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
+        - after [DateTime, default null] date filter for objects created only after specified date.
+        - before [DateTime, default null] date filter for objects only before specified date.
+        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+
+    ## Return:
+        - list of BoletoLog objects with updated attributes
      */
-    public function query($user, $options = [])
+    public function query($options = [], $user = null)
     {
         $options["after"] = Checks::checkDateTime($options["after"]);
         $options["before"] = Checks::checkDateTime($options["before"]);
