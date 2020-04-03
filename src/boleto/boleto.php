@@ -1,7 +1,6 @@
 <?php
 
 namespace StarkBank;
-
 use StarkBank\Utils\Resource;
 use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
@@ -156,11 +155,11 @@ class Boleto extends Resource
     Return:
         generator of Boleto objects with updated attributes
      */
-    public function query($user, $limit = null, $options = [])
+    public function query($user, $options = [])
     {
         $options["after"] = Checks::checkDateTime($options["after"]);
         $options["before"] = Checks::checkDateTime($options["before"]);
-        return Rest::getList($user, Boleto::resource(), $limit, $options);
+        return Rest::getList($user, Boleto::resource(), $options);
     }
 
     /**

@@ -24,7 +24,7 @@ class Test
             throw new Exception("failed");
         }
 
-        $transactions = iterator_to_array(Transaction::query(TestUser::project(), 10, ["externalIds" => [$externalId]]));
+        $transactions = iterator_to_array(Transaction::query(TestUser::project(), ["limit" => 10, "externalIds" => [$externalId]]));
 
         if (count($transactions) != 1) {
             throw new Exception("failed");
@@ -37,8 +37,8 @@ class Test
 
     public function queryAndGet()
     {
-        $transactions = iterator_to_array(Transaction::query(TestUser::project(), 101));
-        if (count($transactions) > 101) {
+        $transactions = iterator_to_array(Transaction::query(TestUser::project(), ["limit" => 101]));
+        if (count($transactions) != 101) {
             throw new Exception("failed");
         }
         if (!is_int($transactions[0]->amount)) {

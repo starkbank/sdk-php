@@ -5,8 +5,9 @@ namespace StarkBank\Utils;
 
 class Rest
 {
-    public static function getList($user, $resource, $limit = null, array $query = [])
+    public static function getList($user, $resource, array $query = [])
     {
+        $limit = $query["limit"];
         $query["limit"] = is_null($limit) ? null : min($limit, 100);
 
         while (true) {

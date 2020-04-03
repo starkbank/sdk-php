@@ -105,11 +105,11 @@ class Transaction extends Resource
     Return:
         generator of Transaction objects with updated attributes
      */
-    public function query($user, $limit = null, $options = [])
+    public function query($user, $options = [])
     {
         $options["after"] = Checks::checkDateTime($options["after"]);
         $options["before"] = Checks::checkDateTime($options["before"]);
-        return Rest::getList($user, Transaction::resource(), $limit, $options);
+        return Rest::getList($user, Transaction::resource(), $options);
     }
 
     private function resource()

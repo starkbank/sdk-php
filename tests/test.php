@@ -11,5 +11,6 @@ include_once("key.php");
 include_once("balance.php");
 include_once("transaction.php");
 include_once("boleto.php");
+include_once("boletoLog.php");
 
 echo "\n\nAll tests concluded\n\n";

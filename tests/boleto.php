@@ -29,7 +29,7 @@ class Test
     {
         $user = TestUser::project();
 
-        $boletos = iterator_to_array(Boleto::query($user, 10));
+        $boletos = iterator_to_array(Boleto::query($user, ["limit" => 10]));
 
         if (count($boletos) != 10) {
             throw new Exception("failed");
@@ -46,7 +46,7 @@ class Test
     {
         $user = TestUser::project();
 
-        $boletos = iterator_to_array(Boleto::query($user, 10));
+        $boletos = iterator_to_array(Boleto::query($user, ["limit" => 10]));
 
         if (count($boletos) != 10) {
             throw new Exception("failed");
