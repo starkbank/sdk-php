@@ -12,5 +12,7 @@ include_once("balance.php");
 include_once("transaction.php");
 include_once("boleto.php");
 include_once("boletoLog.php");
+include_once("transfer.php");
+include_once("transferLog.php");
 
 echo "\n\nAll tests concluded\n\n";

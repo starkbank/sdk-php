@@ -1,9 +1,9 @@
 <?php
 
-namespace Test\BoletoLog;
+namespace Test\TransferLog;
 use \Exception;
 use Test\TestUser;
-use StarkBank\BoletoLog;
+use StarkBank\TransferLog;
 
 
 class Test
@@ -12,27 +12,27 @@ class Test
     {
         $user = TestUser::project();
 
-        $boletoLogs = iterator_to_array(BoletoLog::query($user, ["limit" => 10, "types" => ["created"]]));
+        $transferLogs = iterator_to_array(TransferLog::query($user, ["limit" => 10, "types" => ["created"]]));
 
-        if (count($boletoLogs) != 10) {
+        if (count($transferLogs) != 10) {
             throw new Exception("failed");
         }
 
-        foreach($boletoLogs as $log) {
+        foreach($transferLogs as $log) {
             if ($log->type != "created") {
                 throw new Exception("failed");
             }
         }
 
-        $boletoLog = BoletoLog::get($user, $boletoLogs[0]->id);
+        $transferLog = TransferLog::get($user, $transferLogs[0]->id);
 
-        if ($boletoLogs[0]->id != $boletoLog->id) {
+        if ($transferLogs[0]->id != $transferLog->id) {
             throw new Exception("failed");
         }
     }
 }
 
-echo "\n\nBoletoLog:";
+echo "\n\nTransferLog:";
 
 $test = new Test();
 

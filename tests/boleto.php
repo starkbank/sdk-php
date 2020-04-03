@@ -10,7 +10,7 @@ use \DateInterval;
 
 class Test
 {
-    public function createAndGet()
+    public function createAndDelete()
     {
         $user = TestUser::project();
 
@@ -82,7 +82,7 @@ echo "\n\nBoleto:";
 $test = new Test();
 
 echo "\n\t- create and delete";
-$test->createAndGet();
+$test->createAndDelete();
 echo " - OK";
 
 echo "\n\t- query and get";
