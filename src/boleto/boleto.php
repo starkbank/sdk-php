@@ -25,22 +25,22 @@ class Boleto extends Resource
         - city [string]: payer address city. ex: Rio de Janeiro
         - state_code [string]: payer address state. ex: GO
         - zip_code [string]: payer address zip code. ex: 01311-200
-        - due [datetime.date, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
+        - due [DateTime, default today + 2 days]: Boleto due date in ISO format. ex: "2020-04-30"
     
     ## Parameters (optional):
         - fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
         - interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
         - overdue_limit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
-        - descriptions [list of dictionaries, default None]: list of dictionaries with "text":string and (optional) "amount":int pairs
+        - descriptions [list of dictionaries, default null]: list of dictionaries with "text":string and (optional) "amount":int pairs
         - tags [list of strings]: list of strings for tagging
     
     ## Attributes (return-only):
-        - id [string, default None]: unique id returned when Boleto is created. ex: "5656565656565656"
-        - fee [integer, default None]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
-        - line [string, default None]: generated Boleto line for payment. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
-        - bar_code [string, default None]: generated Boleto bar-code for payment. ex: "34195819600000000621090063571277307144464000"
-        - status [string, default None]: current Boleto status. ex: "registered" or "paid"
-        - created [datetime.datetime, default None]: creation datetime for the Boleto. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+        - id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
+        - fee [integer, default null]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
+        - line [string, default null]: generated Boleto line for payment. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
+        - bar_code [string, default null]: generated Boleto bar-code for payment. ex: "34195819600000000621090063571277307144464000"
+        - status [string, default null]: current Boleto status. ex: "registered" or "paid"
+        - created [DateTime, default null]: creation datetime for the Boleto.
      */
     function __construct(array $params)
     {
@@ -153,13 +153,13 @@ class Boleto extends Resource
     Receive a generator of Boleto objects previously created in the Stark Bank API
 
     ## Parameters (optional):
-        - limit [integer, default None]: maximum number of objects to be retrieved. Unlimited if None. ex: 35
-        - status [string, default None]: filter for status of retrieved objects. ex: "paid" or "registered"
-        - tags [list of strings, default None]: tags to filter retrieved objects. ex: ["tony", "stark"]
-        - ids [list of strings, default None]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - after [datetime.date, default None] date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
-        - before [datetime.date, default None] date filter for objects only before specified date. ex: datetime.date(2020, 3, 10)
-        - user [Project object, default None]: Project object. Not necessary if starkbank.user was set before function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - after [DateTime, default null] date filter for objects created only after specified date.
+        - before [DateTime, default null] date filter for objects only before specified date.
+        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
 
     ## Return:
         - generator of Boleto objects with updated attributes

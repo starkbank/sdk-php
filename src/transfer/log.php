@@ -22,7 +22,7 @@ class TransferLog extends Resource
         - transfer [Transfer]: Transfer entity to which the log refers to.
         - errors [list of strings]: list of errors linked to this BoletoPayment event.
         - type [string]: type of the Transfer event which triggered the log creation. ex: "processing" or "success"
-        - created [datetime.datetime]: creation datetime for the transfer. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+        - created [DateTime]: creation datetime for the transfer.
      */
     function __construct(array $params)
     {
@@ -65,12 +65,12 @@ class TransferLog extends Resource
     Receive a generator of TransferLog objects previously created in the Stark Bank API
 
     ## Parameters (optional):
-        - limit [integer, default None]: maximum number of objects to be retrieved. Unlimited if None. ex: 35
-        - transfer_ids [list of strings, default None]: list of Transfer ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - types [list of strings, default None]: filter retrieved objects by types. ex: "success" or "failed"
-        - after [datetime.date, default None] date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
-        - before [datetime.date, default None] date filter for objects only before specified date. ex: datetime.date(2020, 3, 10)
-        - user [Project object, default None]: Project object. Not necessary if starkbank.user was set before function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - transfer_ids [list of strings, default null]: list of Transfer ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - types [list of strings, default null]: filter retrieved objects by types. ex: "success" or "failed"
+        - after [DateTime, default null] date filter for objects created only after specified date.
+        - before [DateTime, default null] date filter for objects only before specified date.
+        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
     
     ## Return:
         - list of TransferLog objects with updated attributes

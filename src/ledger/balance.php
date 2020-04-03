@@ -17,10 +17,10 @@ class Balance extends Resource
     can be retrieved to see the information available.
 
     ## Attributes (return-only):
-        - id [string, default None]: unique id returned when Boleto is created. ex: "5656565656565656"
-        - amount [integer, default None]: current balance amount of the workspace in cents. ex: 200 (= R$ 2.00)
-        - currency [string, default None]: currency of the current workspace. Expect others to be added eventually. ex: "BRL"
-        - updated [datetime.datetime, default None]: update datetime for the balance. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+        - id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
+        - amount [integer, default null]: current balance amount of the workspace in cents. ex: 200 (= R$ 2.00)
+        - currency [string, default null]: currency of the current workspace. Expect others to be added eventually. ex: "BRL"
+        - updated [DateTime, default null]: update datetime for the balance.
      */
     function __construct(array $params)
     {

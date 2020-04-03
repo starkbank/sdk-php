@@ -30,10 +30,10 @@ class Transaction extends Resource
         - tags [list of strings]: list of strings for reference when searching transactions (may be empty). ex: ["abc", "test"]
 
     ## Attributes (return-only):
-        - source [string, default None]: locator of the entity that generated the transaction. ex: "charge/1827351876292", "transfer/92873912873/chargeback"
-        - id [string, default None]: unique id returned when Transaction is created. ex: "7656565656565656"
-        - fee [integer, default None]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
-        - created [datetime.datetime, default None]: creation datetime for the boleto. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+        - source [string, default null]: locator of the entity that generated the transaction. ex: "charge/1827351876292", "transfer/92873912873/chargeback"
+        - id [string, default null]: unique id returned when Transaction is created. ex: "7656565656565656"
+        - fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
+        - created [DateTime, default null]: creation datetime for the boleto.
      */
     function __construct(array $params)
     {
@@ -103,11 +103,11 @@ class Transaction extends Resource
     Receive a generator of Transaction objects previously created in the Stark Bank API
 
     ## Parameters (optional):
-        - limit [integer, default None]: maximum number of objects to be retrieved. Unlimited if None. ex: 35
-        - external_ids [list of strings, default None]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - after [datetime.date, default None] date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
-        - before [datetime.date, default None] date filter for objects created only before specified date. ex: datetime.date(2020, 3, 10)
-        - user [Project object, default None]: Project object. Not necessary if starkbank.user was set before function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - external_ids [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - after [DateTime, default null] date filter for objects created only after specified date.
+        - before [DateTime, default null] date filter for objects created only before specified date.
+        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
 
     ## Return:
         - generator of Transaction objects with updated attributes

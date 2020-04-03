@@ -23,7 +23,7 @@ class BoletoLog extends Resource
         - boleto [Boleto]: Boleto entity to which the log refers to.
         - errors [list of strings]: list of errors linked to this Boleto event
         - type [string]: type of the Boleto event which triggered the log creation. ex: "registered" or "paid"
-        - created [datetime.datetime]: creation datetime for the boleto. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+        - created [DateTime]: creation datetime for the boleto.
      */
     function __construct(array $params)
     {
@@ -64,12 +64,12 @@ class BoletoLog extends Resource
     Receive a generator of BoletoLog objects previously created in the Stark Bank API
 
     Parameters (optional):
-        limit [integer, default None]: maximum number of objects to be retrieved. Unlimited if None. ex: 35
-        boleto_ids [list of strings, default None]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-        types [list of strings, default None]: filter for log event types. ex: "paid" or "registered"
-        after [datetime.date, default None] date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
-        before [datetime.date, default None] date filter for objects only before specified date. ex: datetime.date(2020, 3, 10)
-        user [Project object, default None]: Project object. Not necessary if starkbank.user was set before function call
+        limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        boleto_ids [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+        types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
+        after [DateTime, default null] date filter for objects created only after specified date.
+        before [DateTime, default null] date filter for objects only before specified date.
+        user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
     Return:
         list of BoletoLog objects with updated attributes
      */

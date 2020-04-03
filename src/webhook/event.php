@@ -26,7 +26,7 @@ class Event extends Resource
     ## Attributes:
         - id [string]: unique id returned when the log is created. ex: "5656565656565656"
         - log [Log]: a Log object from one the subscription services (TransferLog, BoletoLog, BoletoPaymentlog or UtilityPaymentLog)
-        - created [datetime.datetime]: creation datetime for the notification event. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+        - created [DateTime]: creation datetime for the notification event.
         - is_delivered [bool]: true if the event has been successfully delivered to the user url. ex: False
         - subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
      */
@@ -126,11 +126,11 @@ class Event extends Resource
     Receive a generator of notification Event objects previously created in the Stark Bank API
 
     ## Parameters (optional):
-        - limit [integer, default None]: maximum number of objects to be retrieved. Unlimited if None. ex: 35
-        - is_delivered [bool, default None]: bool to filter successfully delivered events. ex: True or False
-        - after [datetime.date, default None]: date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
-        - before [datetime.date, default None]: date filter for objects only before specified date. ex: datetime.date(2020, 3, 10)
-        - user [Project object, default None]: Project object. Not necessary if starkbank.user was set before function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - is_delivered [bool, default null]: bool to filter successfully delivered events. ex: True or False
+        - after [DateTime, default null]: date filter for objects created only after specified date.
+        - before [DateTime, default null]: date filter for objects only before specified date.
+        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
 
     ## Return:
         - generator of Event objects with updated attributes

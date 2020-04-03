@@ -22,7 +22,7 @@ class UtilityPaymentLog extends Resource
         - payment [UtilityPayment]: UtilityPayment entity to which the log refers to.
         - errors [list of strings]: list of errors linked to this BoletoPayment event.
         - type [string]: type of the UtilityPayment event which triggered the log creation. ex: "registered" or "paid"
-        - created [datetime.datetime]: creation datetime for the payment. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+        - created [DateTime]: creation datetime for the payment.
      */
     function __construct(array $params)
     {
@@ -65,10 +65,10 @@ class UtilityPaymentLog extends Resource
     Receive a generator of UtilityPaymentLog objects previously created in the Stark Bank API
 
     Parameters (optional):
-        limit [integer, default None]: maximum number of objects to be retrieved. Unlimited if None. ex: 35
-        payment_ids [list of strings, default None]: list of UtilityPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        types [list of strings, default None]: filter retrieved objects by event types. ex: "paid" or "registered"
-        user [Project object, default None]: Project object. Not necessary if starkbank.user was set before function call
+        limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        payment_ids [list of strings, default null]: list of UtilityPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        types [list of strings, default null]: filter retrieved objects by event types. ex: "paid" or "registered"
+        user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
     Return:
         list of UtilityPaymentLog objects with updated attributes
      */

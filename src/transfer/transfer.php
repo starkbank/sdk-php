@@ -27,12 +27,12 @@ class Transfer extends Resource
         - tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
 
     ## Attributes (return-only):
-        - id [string, default None]: unique id returned when Transfer is created. ex: "5656565656565656"
-        - fee [integer, default None]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
-        - status [string, default None]: current transfer status. ex: "registered" or "paid"
-        - transaction_ids [list of strings, default None]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-        - created [datetime.datetime, default None]: creation datetime for the transfer. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
-        - updated [datetime.datetime, default None]: latest update datetime for the transfer. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+        - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
+        - fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
+        - status [string, default null]: current transfer status. ex: "registered" or "paid"
+        - transaction_ids [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
+        - created [DateTime, default null]: creation datetime for the transfer.
+        - updated [DateTime, default null]: latest update datetime for the transfer.
      */
     function __construct(array $params)
     {
@@ -130,14 +130,14 @@ class Transfer extends Resource
     Receive a generator of Transfer objects previously created in the Stark Bank API
 
     ## Parameters (optional):
-        - limit [integer, default None]: maximum number of objects to be retrieved. Unlimited if None. ex: 35
-        - status [string, default None]: filter for status of retrieved objects. ex: "paid" or "registered"
-        - tags [list of strings, default None]: tags to filter retrieved objects. ex: ["tony", "stark"]
-        - transaction_ids [list of strings, default None]: list of Transaction ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - after [datetime.date, default None]: date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
-        - before [datetime.date, default None]: date filter for objects only before specified date. ex: datetime.date(2020, 3, 10)
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - transaction_ids [list of strings, default null]: list of Transaction ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - after [DateTime, default null]: date filter for objects created only after specified date.
+        - before [DateTime, default null]: date filter for objects only before specified date.
         - sort [string, default "-created"]: sort order considered in response. Valid options are 'created', '-created', 'updated' or '-updated'.
-        - user [Project object, default None]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
 
     ## Return:
         - generator of Transfer objects with updated attributes

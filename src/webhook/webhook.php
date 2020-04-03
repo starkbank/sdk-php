@@ -21,7 +21,7 @@ class Webhook extends Resource
         - subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
 
     ## Attributes:
-        - id [string, default None]: unique id returned when the log is created. ex: "5656565656565656"
+        - id [string, default null]: unique id returned when the log is created. ex: "5656565656565656"
      */
     function __construct(array $params)
     {
@@ -80,8 +80,8 @@ class Webhook extends Resource
     Receive a generator of Webhook subcription objects previously created in the Stark Bank API
 
     ## Parameters (optional):
-        - limit [integer, default None]: maximum number of objects to be retrieved. Unlimited if None. ex: 35
-        - user [Project object, default None]: Project object. Not necessary if starkbank.user was set before function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
 
     ## Return:
         - generator of Webhook objects with updated attributes
