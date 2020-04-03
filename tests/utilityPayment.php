@@ -54,7 +54,7 @@ class Test
 
         $pdf = UtilityPayment::pdf($user, $payments[0]->id);
 
-        $fp = fopen('boletoPayment.pdf', 'w');
+        $fp = fopen('utilityPayment.pdf', 'w');
         fwrite($fp, $pdf);
         fclose($fp);
     }
