@@ -19,3 +19,5 @@ require_once("boleto/boleto.php");
 require_once("boleto/log.php");
 require_once("transfer/transfer.php");
 require_once("transfer/log.php");
+require_once("payment/boleto/boleto.php");
+require_once("payment/boleto/log.php");

@@ -14,5 +14,7 @@ include_once("boleto.php");
 include_once("boletoLog.php");
 include_once("transfer.php");
 include_once("transferLog.php");
+include_once("boletoPayment.php");
+include_once("boletoPaymentLog.php");
 
 echo "\n\nAll tests concluded\n\n";
