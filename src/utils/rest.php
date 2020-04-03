@@ -80,10 +80,10 @@ class Rest
         return API::fromApiJson($resource["maker"], $entity);
     }
 
-    public static function patchId($user, $resource, $id)
+    public static function patchId($user, $resource, $id, $payload = [])
     {
         $id = Checks::checkId($id);
-        $json = Request::fetch($user, "PATCH", API::endpoint($resource["name"]) . "/" . $id)->json();
+        $json = Request::fetch($user, "PATCH", API::endpoint($resource["name"]) . "/" . $id, API::castJsonToApiFormat($payload))->json();
         $entity = $json[API::lastName($resource["name"])];
         return API::fromApiJson($resource["maker"], $entity);
     }

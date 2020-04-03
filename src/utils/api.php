@@ -9,13 +9,18 @@ class API
 {
     public static function apiJson($entity)
     {
-        $cleanVars = [];
-        foreach(get_object_vars($entity) as $key => $value) {
+        return API::castJsonToApiFormat(get_object_vars($entity));
+    }
+
+    public static function castJsonToApiFormat($json)
+    {
+        $clean = [];
+        foreach ($json as $key => $value) {
             if (!is_null($value)) {
-                $cleanVars[$key] = API::dateToString($value);
+                $clean[$key] = API::dateToString($value);
             }
         }
-        return $cleanVars;
+        return $clean;
     }
 
     private static function dateToString($data)
