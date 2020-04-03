@@ -41,7 +41,7 @@ class Rest
     public static function getPdf($user, $resource, $id)
     {
         $id = Checks::checkId($id);
-        return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/pdf");
+        return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/pdf")->content;
     }
 
     public static function post($user, $resource, $entities)

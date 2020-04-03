@@ -32,6 +32,7 @@ class API
     }
 
     public static function fromApiJson($resourceMaker, $json) {
+        $json["checkParams"] = false;
         return $resourceMaker($json);
     }
 

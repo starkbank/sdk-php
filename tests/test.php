@@ -10,5 +10,6 @@ echo "\n\nStarting tests\n";
 include_once("key.php");
 include_once("balance.php");
 include_once("transaction.php");
+include_once("boleto.php");
 
 echo "\n\nAll tests concluded\n\n";
