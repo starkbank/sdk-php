@@ -21,3 +21,5 @@ require_once("transfer/transfer.php");
 require_once("transfer/log.php");
 require_once("payment/boleto/boleto.php");
 require_once("payment/boleto/log.php");
+require_once("payment/utility/utility.php");
+require_once("payment/utility/log.php");
