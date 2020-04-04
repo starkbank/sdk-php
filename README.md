@@ -825,4 +825,4 @@ transmissions of your **private-key**. Then you can export the **public-key** al
 computer where it will be used in the new Project creation.
 
 
-[API docs]: (https://docs.api.StarkBank.com/?version=v2)
+[API docs]: (https://starkbank.com/docs/api)
