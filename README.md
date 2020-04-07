@@ -722,7 +722,7 @@ use StarkBank\Event;
 $events = Event::query(["after" => "2020-03-20", "isDelivered" => false]);
 
 foreach($events as $event){
-    print_r($events);
+    print_r($event);
 }
 ```
 
@@ -754,7 +754,7 @@ print_r($event);
 
 This can be used in case you've lost events.
 With this function, you can manually set events retrieved from the API as
-"delivered" to help future event queries with `isDelivered=False`.
+"delivered" to help future event queries with `isDelivered=false`.
 
 ```php
 use StarkBank\Event;
@@ -779,7 +779,7 @@ use StarkBank\Transaction;
 try {
     $transactions = Transaction::create([
         new Transaction([
-            "amount" => 99999999999999,  # (R$ 1.00)
+            "amount" => 99999999999999,  # (R$ 999,999,999,999.99)
             "receiverId" => "1029378109327810",
             "description" => ".",
             "externalId" => "12345",  # so we can block anything you send twice by mistake
