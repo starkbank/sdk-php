@@ -2,14 +2,14 @@
 
 namespace Test\UtilityPaymentLog;
 use \Exception;
-use StarkBank\UtilityPaymentLog;
+use StarkBank\UtilityPayment\Log;
 
 
 class Test
 {
     public function queryAndGet()
     {
-        $paymentLogs = iterator_to_array(UtilityPaymentLog::query(["limit" => 10, "types" => ["created"]]));
+        $paymentLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created"]]));
 
         if (count($paymentLogs) != 10) {
             throw new Exception("failed");
@@ -21,7 +21,7 @@ class Test
             }
         }
 
-        $paymentLog = UtilityPaymentLog::get($paymentLogs[0]->id);
+        $paymentLog = Log::get($paymentLogs[0]->id);
 
         if ($paymentLogs[0]->id != $paymentLog->id) {
             throw new Exception("failed");

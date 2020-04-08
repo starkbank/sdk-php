@@ -2,14 +2,14 @@
 
 namespace Test\BoletoLog;
 use \Exception;
-use StarkBank\BoletoLog;
+use StarkBank\Boleto\Log;
 
 
 class Test
 {
     public function queryAndGet()
     {
-        $boletoLogs = iterator_to_array(BoletoLog::query(["limit" => 10, "types" => ["created"]]));
+        $boletoLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created"]]));
 
         if (count($boletoLogs) != 10) {
             throw new Exception("failed");
@@ -21,7 +21,7 @@ class Test
             }
         }
 
-        $boletoLog = BoletoLog::get($boletoLogs[0]->id);
+        $boletoLog = Log::get($boletoLogs[0]->id);
 
         if ($boletoLogs[0]->id != $boletoLog->id) {
             throw new Exception("failed");

@@ -215,9 +215,9 @@ foreach($boletos as $boleto){
 Logs are pretty important to understand the life cycle of a boleto.
 
 ```php
-use StarkBank\BoletoLog;
+use StarkBank\Boleto;
 
-$logs = BoletoLog::query(["limit" => 150]);
+$logs = Boleto\Log::query(["limit" => 150]);
 
 foreach($logs as $log){
     print_r($log);
@@ -229,9 +229,9 @@ foreach($logs as $log){
 You can get a single log by its id.
 
 ```php
-use StarkBank\BoletoLog;
+use StarkBank\Boleto;
 
-$log = BoletoLog::get("5155165527080960");
+$log = Boleto\Log::get("5155165527080960");
 
 print_r($log);
 ```
@@ -322,9 +322,9 @@ and strange characters.
 You can query transfer logs to better understand transfer life cycles.
 
 ```php
-use StarkBank\TransferLog;
+use StarkBank\Transfer;
 
-$logs = TransferLog::query(["limit" => 50]);
+$logs = Transfer\Log::query(["limit" => 50]);
 
 foreach($logs as $log){
     print_r($log->id);
@@ -336,9 +336,9 @@ foreach($logs as $log){
 You can also get a specific log by its id.
 
 ```php
-use StarkBank\TransferLog;
+use StarkBank\Transfer;
 
-$log = TransferLog::get("5155165527080960");
+$log = Transfer\Log::get("5155165527080960");
 
 print_r($log);
 ```
@@ -436,9 +436,9 @@ foreach($payments as $payment){
 Searches are also possible with boleto payment logs:
 
 ```php
-use StarkBank\BoletoPaymentLog;
+use StarkBank\BoletoPayment;
 
-$logs = BoletoPaymentLog::query([
+$logs = BoletoPayment\Log::query([
     "paymentIds" => ["5155165527080960", "76551659167801921"],
 ]);
 
@@ -453,9 +453,9 @@ foreach($logs as $log){
 You can also get a boleto payment log by specifying its id.
 
 ```php
-use StarkBank\BoletoPaymentLog;
+use StarkBank\BoletoPayment;
 
-$log = BoletoPaymentLog::get("5155165527080960");
+$log = BoletoPayment\Log::get("5155165527080960");
 
 print_r($log);
 ```
@@ -552,9 +552,9 @@ You can search for payments by specifying filters. Use this to understand the
 bills life cycles.
 
 ```php
-use StarkBank\UtilityPaymentLog;
+use StarkBank\UtilityPayment;
 
-$logs = UtilityPaymentLog::query(
+$logs = UtilityPayment\Log::query(
     paymentIds=["102893710982379182", "92837912873981273"],
 );
 
@@ -568,9 +568,9 @@ foreach($logs as $log){
 If you want to get a specific payment log by its id, just run:
 
 ```php
-use StarkBank\UtilityPaymentLog;
+use StarkBank\UtilityPayment;
 
-$log = UtilityPaymentLog::get("1902837198237992");
+$log = UtilityPayment\Log::get("1902837198237992");
 
 print_r($log);
 ```

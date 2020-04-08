@@ -25,7 +25,7 @@ class Event extends Resource
 
     ## Attributes:
         - id [string]: unique id returned when the log is created. ex: "5656565656565656"
-        - log [Log]: a Log object from one the subscription services (TransferLog, BoletoLog, BoletoPaymentlog or UtilityPaymentLog)
+        - log [Log]: a Log object from one the subscription services (Transfer\Log, Boleto\Log, BoletoPayment\log or UtilityPayment\Log)
         - created [DateTime]: creation datetime for the notification event.
         - is_delivered [bool]: true if the event has been successfully delivered to the user url. ex: False
         - subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
@@ -64,7 +64,7 @@ class Event extends Resource
                 return new Transfer($array);
             };
             $array["transfer"] = API::fromApiJson($transfer, $array["transfer"]);
-            return new TransferLog($array);
+            return new Transfer\Log($array);
         };
     }
 
@@ -75,7 +75,7 @@ class Event extends Resource
                 return new Boleto($array);
             };
             $array["boleto"] = API::fromApiJson($boleto, $array["boleto"]);
-            return new BoletoLog($array);
+            return new Boleto\Log($array);
         };
     }
 
@@ -86,7 +86,7 @@ class Event extends Resource
                 return new BoletoPayment($array);
             };
             $array["payment"] = API::fromApiJson($payment, $array["payment"]);
-            return new BoletoPaymentLog($array);
+            return new BoletoPayment\Log($array);
         };
     }
 
@@ -97,7 +97,7 @@ class Event extends Resource
                 return new UtilityPayment($array);
             };
             $array["payment"] = API::fromApiJson($payment, $array["payment"]);
-            return new UtilityPaymentLog($array);
+            return new UtilityPayment\Log($array);
         };
     }
 
