@@ -462,7 +462,7 @@ print_r($log);
 
 ### Create utility payment
 
-Its also simple to pay utility bills (such as electricity and water bills) in the SDK.
+It's also simple to pay utility bills (such as electricity and water bills) in the SDK.
 
 ```php
 use StarkBank\UtilityPayment;
@@ -690,8 +690,8 @@ print_r($webhook);
 
 ### Process webhook events
 
-Its easy to process events that arrived in your webhook. Remember to pass the
-signature header so the SDK can make sure its really StarkBank that sent you
+It's easy to process events that arrived in your webhook. Remember to pass the
+signature header so the SDK can make sure it's really StarkBank that sent you
 the event.
 
 ```php
@@ -801,7 +801,7 @@ is already rushing in to fix the mistake and get you back up to speed.
 __UnknownError__ will be raised if a request encounters an error that is
 neither __InputErrors__ nor an __InternalServerError__, such as connectivity problems.
 
-__InvalidSignatureError__ will be raised specifically by starkbank.webhook.event.parse()
+__InvalidSignatureError__ will be raised specifically by StarkBank\Event::parse()
 when the provided content and signature do not check out with the Stark Bank public
 key.
 
