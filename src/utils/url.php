@@ -1,6 +1,7 @@
 <?php
 
 namespace StarkBank\Utils;
+use DateTime;
 
 
 class URL
@@ -16,6 +17,9 @@ class URL
                         $stringValue[] = strval($v);
                     }
                     $value = join(",", $value);
+                }
+                if ($value instanceof DateTime) {
+                    $value = $value->format('Y-m-d');
                 }
                 if (is_bool($value)) {
                     $value = $value ? "true" : "false";

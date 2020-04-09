@@ -24,7 +24,7 @@ class Test
 
     public function queryAndGet()
     {
-        $boletos = iterator_to_array(Boleto::query(["limit" => 10]));
+        $boletos = iterator_to_array(Boleto::query(["limit" => 10, "before" => new DateTime("now")]));
 
         if (count($boletos) != 10) {
             throw new Exception("failed");
