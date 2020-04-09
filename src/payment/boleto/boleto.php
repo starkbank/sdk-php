@@ -16,11 +16,11 @@ class BoletoPayment extends Resource
     to the Stark Bank API and returns the list of created objects.
 
     ## Parameters (conditionally required):
-        - line [string, default null]: Number sequence that describes the payment. Either 'line' or 'bar_code' parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
-        - bar_code [string, default null]: Bar code number that describes the payment. Either 'line' or 'barCode' parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
+        - line [string, default null]: Number sequence that describes the payment. Either 'line' or 'barCode' parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
+        - barCode [string, default null]: Bar code number that describes the payment. Either 'line' or 'barCode' parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
 
     ## Parameters (required):
-        - tax_id [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+        - taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
         - description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
 
     ## Parameters (optional):
@@ -129,6 +129,7 @@ class BoletoPayment extends Resource
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
         - status [string, default null]: filter for status of retrieved objects. ex: "paid"
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - after [DateTime, default null] date filter for objects created only after specified date.
         - before [DateTime, default null] date filter for objects only before specified date.
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call

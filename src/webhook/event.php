@@ -27,7 +27,7 @@ class Event extends Resource
         - id [string]: unique id returned when the log is created. ex: "5656565656565656"
         - log [Log]: a Log object from one the subscription services (Transfer\Log, Boleto\Log, BoletoPayment\log or UtilityPayment\Log)
         - created [DateTime]: creation datetime for the notification event.
-        - is_delivered [bool]: true if the event has been successfully delivered to the user url. ex: False
+        - isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
         - subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
      */
     function __construct(array $params)
@@ -127,7 +127,7 @@ class Event extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - is_delivered [bool, default null]: bool to filter successfully delivered events. ex: True or False
+        - isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
         - after [DateTime, default null]: date filter for objects created only after specified date.
         - before [DateTime, default null]: date filter for objects only before specified date.
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
@@ -165,11 +165,11 @@ class Event extends Resource
     # Update notification Event entity
 
     Update notification Event by passing id.
-    If is_delivered is True, the event will no longer be returned on queries with is_delivered=False.
+    If isDelivered is true, the event will no longer be returned on queries with isDelivered=false.
 
     ## Parameters (required):
         - id [list of strings]: Event unique ids. ex: "5656565656565656"
-        - is_delivered [bool]: If True and event hasn't been delivered already, event will be set as delivered. ex: True
+        - isDelivered [bool]: If true and event hasn't been delivered already, event will be set as delivered. ex: true
 
     ## Parameters (optional):
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call

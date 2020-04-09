@@ -67,7 +67,7 @@ class Log extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - boleto_ids [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+        - boletoIds [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
         - types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
         - after [DateTime, default null] date filter for objects created only after specified date.
         - before [DateTime, default null] date filter for objects only before specified date.

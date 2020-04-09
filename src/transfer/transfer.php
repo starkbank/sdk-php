@@ -18,10 +18,10 @@ class Transfer extends Resource
     ## Parameters (required):
         - amount [integer]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
         - name [string]: receiver full name. ex: "Anthony Edward Stark"
-        - tax_id [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-        - bank_code [string]: receiver 1 to 3 digits of the bank institution in Brazil. ex: "200" or "341"
-        - branch_code [string]: receiver bank account branch. Use '-' in case there is a verifier digit. ex: "1357-9"
-        - account_number [string]: Receiver Bank Account number. Use '-' before the verifier digit. ex: "876543-2"
+        - taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+        - bankCode [string]: receiver 1 to 3 digits of the bank institution in Brazil. ex: "200" or "341"
+        - branchCode [string]: receiver bank account branch. Use '-' in case there is a verifier digit. ex: "1357-9"
+        - accountNumber [string]: Receiver Bank Account number. Use '-' before the verifier digit. ex: "876543-2"
 
     ## Parameters (optional):
         - tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
@@ -30,7 +30,7 @@ class Transfer extends Resource
         - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
         - fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
         - status [string, default null]: current transfer status. ex: "registered" or "paid"
-        - transaction_ids [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
+        - transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
         - created [DateTime, default null]: creation datetime for the transfer.
         - updated [DateTime, default null]: latest update datetime for the transfer.
      */
@@ -133,7 +133,7 @@ class Transfer extends Resource
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
         - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-        - transaction_ids [list of strings, default null]: list of Transaction ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - transactionIds [list of strings, default null]: list of Transaction ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - after [DateTime, default null]: date filter for objects created only after specified date.
         - before [DateTime, default null]: date filter for objects only before specified date.
         - sort [string, default "-created"]: sort order considered in response. Valid options are 'created', '-created', 'updated' or '-updated'.
