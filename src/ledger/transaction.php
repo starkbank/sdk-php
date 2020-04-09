@@ -100,7 +100,7 @@ class Transaction extends Resource
     /**
     # Retrieve Transactions
 
-    Receive a generator of Transaction objects previously created in the Stark Bank API
+    Receive a enumerator of Transaction objects previously created in the Stark Bank API
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
@@ -110,7 +110,7 @@ class Transaction extends Resource
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
-        - generator of Transaction objects with updated attributes
+        - enumerator of Transaction objects with updated attributes
      */
     public function query($options = [], $user = null)
     {

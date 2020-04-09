@@ -123,7 +123,7 @@ class Event extends Resource
     /**
     # Retrieve notification Events
 
-    Receive a generator of notification Event objects previously created in the Stark Bank API
+    Receive a enumerator of notification Event objects previously created in the Stark Bank API
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
@@ -133,7 +133,7 @@ class Event extends Resource
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
-        - generator of Event objects with updated attributes
+        - enumerator of Event objects with updated attributes
      */
     public static function query($options = [], $user = null)
     {

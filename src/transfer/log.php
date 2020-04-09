@@ -62,7 +62,7 @@ class Log extends Resource
     /**
     # Retrieve Logs
 
-    Receive a generator of Log objects previously created in the Stark Bank API
+    Receive a enumerator of Log objects previously created in the Stark Bank API
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
@@ -73,7 +73,7 @@ class Log extends Resource
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
     
     ## Return:
-        - list of Log objects with updated attributes
+        - enumerator of Log objects with updated attributes
      */
     public function query($options = [], $user = null)
     {

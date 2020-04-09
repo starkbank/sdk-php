@@ -117,7 +117,7 @@ class UtilityPayment extends Resource
     /**
     # Retrieve UtilityPayments
 
-    Receive a generator of UtilityPayment objects previously created in the Stark Bank API
+    Receive a enumerator of UtilityPayment objects previously created in the Stark Bank API
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
@@ -129,7 +129,7 @@ class UtilityPayment extends Resource
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
-        - generator of UtilityPayment objects with updated attributes
+        - enumerator of UtilityPayment objects with updated attributes
      */
     public function query($options = [], $user = null)
     {

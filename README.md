@@ -276,7 +276,7 @@ You can query multiple transfers according to filters.
 ```php
 use StarkBank\Transfer;
 
-$transfers = starkbank.transfer.query([
+$transfers = Transfer::query([
     "after" => "2020-01-01",
     "before" => "2020-04-01"
 ]);

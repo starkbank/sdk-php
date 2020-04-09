@@ -150,7 +150,7 @@ class Boleto extends Resource
     /**
     # Retrieve Boletos
 
-    Receive a generator of Boleto objects previously created in the Stark Bank API
+    Receive an enumerator of Boleto objects previously created in the Stark Bank API
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
@@ -162,7 +162,7 @@ class Boleto extends Resource
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
-        - generator of Boleto objects with updated attributes
+        - enumerator of Boleto objects with updated attributes
      */
     public function query($options = [], $user = null)
     {
