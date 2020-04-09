@@ -200,10 +200,10 @@ You can get a list of created boletos given some filters.
 use StarkBank\Boleto;
 use \DateTime;
 
-$boletos = Boleto::query(
-    after="2020-1-1",
-    before=(new DateTime("now"))->add(new DateInterval("P1D"))
-);
+$boletos = Boleto::query([
+    "after" => "2020-01-01",
+    "before" => (new DateTime("now"))->add(new DateInterval("P1D"))
+]);
 
 foreach($boletos as $boleto){
     print_r($boleto);
@@ -276,10 +276,10 @@ You can query multiple transfers according to filters.
 ```php
 use StarkBank\Transfer;
 
-$transfers = starkbank.transfer.query(
-    after="2020-1-1",
-    before="2020-4-1"
-);
+$transfers = starkbank.transfer.query([
+    "after" => "2020-01-01",
+    "before" => "2020-04-01"
+]);
 
 foreach($transfers as $transfer){
     print_r($transfer->name);
@@ -495,7 +495,7 @@ To search for utility payments using filters, run:
 use StarkBank\UtilityPayment;
 
 $payments = UtilityPayment::query(
-    tags=["electricity", "gas"]
+    "tags" => ["electricity", "gas"]
 );
 
 foreach($payments as $payment){
@@ -555,7 +555,7 @@ bills life cycles.
 use StarkBank\UtilityPayment;
 
 $logs = UtilityPayment\Log::query(
-    paymentIds=["102893710982379182", "92837912873981273"],
+    "paymentIds" => ["102893710982379182", "92837912873981273"],
 );
 
 foreach($logs as $log){
