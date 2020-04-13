@@ -88,6 +88,9 @@ class UtilityPayment extends Resource
 
     ## Parameters (optional):
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+    
+    ## Return:
+        - UtilityPayment object with updated attributes
      */
     public function get($id, $user = null)
     {
