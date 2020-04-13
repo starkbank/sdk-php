@@ -39,7 +39,7 @@ class Test
 
     public function queryAndGetPdf()
     {
-        $payments = iterator_to_array(BoletoPayment::query(["limit" => 10]));
+        $payments = iterator_to_array(BoletoPayment::query(["limit" => 10, "status" => "success"]));
 
         if (count($payments) != 10) {
             throw new Exception("failed");

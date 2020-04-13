@@ -17,18 +17,16 @@ class API
         $clean = [];
         foreach ($json as $key => $value) {
             if (!is_null($value)) {
-                $clean[$key] = API::dateToString($value);
+                if ($value instanceof DateTime) {
+                    $value = $value->format("Y-m-d");
+                }
+                if (is_bool($value)) {
+                    $value = $value ? "true" : "false";
+                }
+                $clean[$key] = $value;
             }
         }
         return $clean;
-    }
-
-    private static function dateToString($data)
-    {
-        if ($data instanceof DateTime){
-            return $data->format("Y-m-d");
-        }
-        return $data;
     }
 
     public static function fromApiJson($resourceMaker, $json) {
