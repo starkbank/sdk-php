@@ -48,7 +48,7 @@ class BoletoPayment extends Resource
         unset($params["description"]);
         $this->tags = $params["tags"];
         unset($params["tags"]);
-        $this->scheduled = $params["scheduled"];
+        $this->scheduled = Checks::checkDateTime($params["scheduled"]);
         unset($params["scheduled"]);
         $this->status = $params["status"];
         unset($params["status"]);
