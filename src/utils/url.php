@@ -17,6 +17,9 @@ class URL
                 }
                 $value = join(",", $value);
             }
+            if (is_bool($value)) {
+                $value = $value ? "true" : "false";
+            }
             $queryArray[] = strval($key) . "=" . strval($value);
         }
 

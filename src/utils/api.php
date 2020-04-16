@@ -20,9 +20,6 @@ class API
                 if ($value instanceof DateTime) {
                     $value = $value->format("Y-m-d");
                 }
-                if (is_bool($value)) {
-                    $value = $value ? "true" : "false";
-                }
                 $clean[$key] = $value;
             }
         }
