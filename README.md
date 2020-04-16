@@ -60,6 +60,10 @@ list($privateKey, $publicKey) = Key::create();
 # or, to also save .pem files in a specific path
 list($privateKey, $publicKey) = Key::create("file/keys/");
 ```
+NOTE: When you are creating a new Project, it is recommended that you create the
+keys inside the infrastructure that will use it, in order to avoid risky internet
+transmissions of your **private-key**. Then you can export the **public-key** alone to the
+computer where it will be used in the new Project creation.
 
 ### 3. Create a Project
 
@@ -89,12 +93,12 @@ MHQCAQEEIMCwW74H6egQkTiz87WDvLNm7fK/cA+ctA2vg/bbHx3woAcGBSuBBAAK
 oUQDQgAE0iaeEHEgr3oTbCfh8U2L+r7zoaeOX964xaAnND5jATGpD/tHec6Oe9U1
 IF16ZoTVt1FzZ8WkYQ3XomRD4HS13A==
 -----END EC PRIVATE KEY-----
-"
+";
 
 $project = new Project(
     "sandbox",
     "5656565656565656",
-    privateKeyContent
+    $privateKeyContent
 );
 ```
 
@@ -186,7 +190,7 @@ $boletos = Boleto::create([
         "city" => "São Paulo",
         "stateCode" => "SP",
         "zipCode" => "01310-000",
-        "due" => "2020-3-20",
+        "due" => (new DateTime("now"))->add(new DateInterval("P30D")),
         "fine" => 5,  # 5%
         "interest" => 2.5  # 2.5% per month
     ])
@@ -295,7 +299,7 @@ use StarkBank\Transfer;
 $transfers = Transfer::create([
     new Transfer([
         "amount" => 100,
-        "bankCode" => "200",
+        "bankCode" => "033",
         "branchCode" => "0001",
         "accountNumber" => "10000-0",
         "taxId" => "012.345.678-90",
@@ -401,16 +405,16 @@ use StarkBank\BoletoPayment;
 
 $payments = BoletoPayment::create([
     new BoletoPayment([
-        "line" => "34191.09008 61207.727308 71444.640008 5 81310001234321",
+        "line" => "34191.09008 64694.017308 71444.640008 1 96610000014500",
         "taxId" => "012.345.678-90",
-        "scheduled" => "2020-03-13",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P2D")),
         "description" => "take my money",
         "tags" => ["take", "my", "money"],
     ]),
     new BoletoPayment([
-        "barCode" => "34197819200000000011090063609567307144464000",
+        "barCode" => "34191972300000289001090064694197307144464000",
         "taxId" => "012.345.678-90",
-        "scheduled" => "2020-03-14",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
         "description" => "take my money one more time",
         "tags" => ["again"],
     ]),
@@ -518,14 +522,14 @@ use StarkBank\UtilityPayment;
 
 $payments = UtilityPayment::create([
     new UtilityPayment([
-        "line" => "34197819200000000011090063609567307144464000",
-        "scheduled" => "2020-03-13",
+        "line" => "83680000001 7 08430138003 0 71070987611 8 00041351685 7",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P2D")),
         "description" => "take my money",
         "tags" => ["take", "my", "money"],
     ]),
     new UtilityPayment([
-        "barCode" => "34191.09008 61207.727308 71444.640008 5 81310001234321",
-        "scheduled" => "2020-03-14",
+        "barCode" => "83600000001522801380037107172881100021296561",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
         "description" => "take my money one more time",
         "tags" => ["again"],
     ]),
@@ -853,25 +857,6 @@ neither __InputErrors__ nor an __InternalServerError__, such as connectivity pro
 __InvalidSignatureError__ will be raised specifically by StarkBank\Event::parse()
 when the provided content and signature do not check out with the Stark Bank public
 key.
-
-## Key pair generation
-
-The SDK provides a helper to allow you to easily create ECDSA secp256k1 keys to use
-within our API. If you ever need a new pair of keys, just run:
-
-```php
-use StarkBank\Key;
-
-list($privateKey, $publicKey) = Key::create();
-
-# or, to also save .pem files in a specific path
-list($privateKey, $publicKey) = Key::create("file/keys/");
-```
-
-NOTE: When you are creating a new Project, it is recommended that you create the
-keys inside the infrastructure that will use it, in order to avoid risky internet
-transmissions of your **private-key**. Then you can export the **public-key** alone to the
-computer where it will be used in the new Project creation.
 
 
 [API docs]: (https://starkbank.com/docs/api)
