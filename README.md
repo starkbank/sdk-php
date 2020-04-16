@@ -36,7 +36,7 @@ To install the package with composer, add this to your composer deps:
 
 ```sh
 "require": {
-    "starkbank/sdk": "dev-master#0.0.1"
+    "starkbank/sdk": "dev-master#0.0.2"
 },
 ```
 
