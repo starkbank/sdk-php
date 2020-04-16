@@ -66,6 +66,8 @@ class Log extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - after [DateTime, default null] date filter for objects created only after specified date.
+        - before [DateTime, default null] date filter for objects only before specified date.
         - paymentIds [list of strings, default null]: list of UtilityPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - types [list of strings, default null]: filter retrieved objects by event types. ex: "paid" or "registered"
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
@@ -75,6 +77,8 @@ class Log extends Resource
      */
     public function query($options = [], $user = null)
     {
+        $options["after"] = Checks::checkDateTime($options["after"]);
+        $options["before"] = Checks::checkDateTime($options["before"]);
         return Rest::getList($user, Log::resource(), $options);
     }
 
