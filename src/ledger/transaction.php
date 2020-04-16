@@ -30,6 +30,7 @@ class Transaction extends Resource
         - tags [list of strings]: list of strings for reference when searching transactions (may be empty). ex: ["abc", "test"]
 
     ## Attributes (return-only):
+        - senderId [string]: unique id of the sending workspace. ex: "5656565656565656"
         - source [string, default null]: locator of the entity that generated the transaction. ex: "charge/1827351876292", "transfer/92873912873/chargeback"
         - id [string, default null]: unique id returned when Transaction is created. ex: "7656565656565656"
         - fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
@@ -47,6 +48,8 @@ class Transaction extends Resource
         unset($params["externalId"]);
         $this->receiverId = $params["receiverId"];
         unset($params["receiverId"]);
+        $this->senderId = $params["senderId"];
+        unset($params["senderId"]);
         $this->tags = $params["tags"];
         unset($params["tags"]);
         $this->fee = $params["fee"];
