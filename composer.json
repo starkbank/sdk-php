@@ -26,14 +26,7 @@
     "sdk"
   ],
   "autoload": {
-    "psr-4": {
-      "StarkBank\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "StarkBank\\": "tests/"
-    }
+    "files": ["src/starkbank.php"]
   },
   "scripts": {
     "check-style": "phpcs src tests",
