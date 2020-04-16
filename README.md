@@ -828,6 +828,7 @@ For example:
 
 ```php
 use StarkBank\Transaction;
+use StarkBank\Error\InputErrors;
 
 try {
     $transactions = Transaction::create([
@@ -838,11 +839,11 @@ try {
             "externalId" => "12345",  # so we can block anything you send twice by mistake
             "tags" => ["provider"]
         ]),
-    ])
-} catch (Exception $e) {
+    ]);
+} catch (InputErrors $e) {
     foreach($e->errors as $error){
-        echo "\n\ncode: " . $error->code;
-        echo "\nmessage: " . $error->message;
+        echo "\n\ncode: " . $error->errorCode;
+        echo "\nmessage: " . $error->errorMessage;
     }
 }
 ```

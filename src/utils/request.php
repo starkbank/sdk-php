@@ -6,9 +6,9 @@ use \Exception;
 use EllipticCurve\Ecdsa;
 use StarkBank\User;
 use StarkBank\Utils\URL;
-use StarkBank\Exception\InputErrors;
-use StarkBank\Exception\InternalServerError;
-use StarkBank\Exception\UnknownError;
+use StarkBank\Error\InputErrors;
+use StarkBank\Error\InternalServerError;
+use StarkBank\Error\UnknownError;
 
 
 class Response

@@ -5,7 +5,7 @@ namespace StarkBank;
 use EllipticCurve\PublicKey;
 use EllipticCurve\Signature;
 use EllipticCurve\Ecdsa;
-use StarkBank\Exception\InvalidSignatureError;
+use StarkBank\Error\InvalidSignatureError;
 use StarkBank\Utils\Resource;
 use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;

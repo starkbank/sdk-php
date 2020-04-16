@@ -1,6 +1,6 @@
 <?php
 
-namespace StarkBank\Exception;
+namespace StarkBank\Error;
 use \Exception;
 
 class ErrorElement extends Exception
@@ -9,8 +9,8 @@ class ErrorElement extends Exception
     {
         parent::__construct($code . ": " . $message, 0, null);
 
-        $this->code = $code;
-        $this->message = $message;
+        $this->errorCode = $code;
+        $this->errorMessage = $message;
     }
 }
 
