@@ -123,7 +123,7 @@ There are two ways to inform the user to the SDK:
 ```php
 use StarkBank\Balance;
 
-$balance = Balance::get($project)
+$balance = Balance::get($project);
 ```
 
 4.2 Set it as a default user in the SDK:
@@ -251,7 +251,6 @@ You can get a list of created boletos given some filters.
 
 ```php
 use StarkBank\Boleto;
-use \DateTime;
 
 $boletos = Boleto::query([
     "after" => "2020-01-01",
@@ -547,9 +546,9 @@ To search for utility payments using filters, run:
 ```php
 use StarkBank\UtilityPayment;
 
-$payments = UtilityPayment::query(
+$payments = UtilityPayment::query([
     "tags" => ["electricity", "gas"]
-);
+]);
 
 foreach($payments as $payment){
     print_r($payment);
@@ -607,9 +606,9 @@ bills life cycles.
 ```php
 use StarkBank\UtilityPayment;
 
-$logs = UtilityPayment\Log::query(
+$logs = UtilityPayment\Log::query([
     "paymentIds" => ["102893710982379182", "92837912873981273"],
-);
+]);
 
 foreach($logs as $log){
     print_r($log);
