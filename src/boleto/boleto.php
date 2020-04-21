@@ -25,13 +25,14 @@ class Boleto extends Resource
         - city [string]: payer address city. ex: Rio de Janeiro
         - stateCode [string]: payer address state. ex: GO
         - zipCode [string]: payer address zip code. ex: 01311-200
-        - due [DateTime, default today + 2 days]: Boleto due date in ISO format. ex: "2020-04-30"
     
     ## Parameters (optional):
+        - due [DateTime or string, default today + 2 days]: Boleto due date in ISO format. ex: "2020-04-30"
         - fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
         - interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
         - overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
         - descriptions [list of dictionaries, default null]: list of dictionaries with "text":string and (optional) "amount":int pairs
+        - discounts [list of dictionaries, default null]: list of dictionaries with "percentage":float and "date":DateTime or string pairs
         - tags [list of strings]: list of strings for tagging
     
     ## Attributes (return-only):
@@ -76,6 +77,8 @@ class Boleto extends Resource
         unset($params["tags"]);
         $this->descriptions = $params["descriptions"];
         unset($params["descriptions"]);
+        $this->discounts = $params["discounts"];
+        unset($params["discounts"]);
         $this->fee = $params["fee"];
         unset($params["fee"]);
         $this->line = $params["line"];

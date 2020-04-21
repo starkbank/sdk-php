@@ -16,12 +16,15 @@ class API
     {
         $clean = [];
         foreach ($json as $key => $value) {
-            if (!is_null($value)) {
-                if ($value instanceof DateTime) {
-                    $value = $value->format("Y-m-d");
-                }
-                $clean[$key] = $value;
+            if (is_null($value)) {
+                continue;
             }
+            if ($value instanceof DateTime) {
+                $value = $value->format("Y-m-d");
+            } elseif (is_array($value)) {
+                $value = API::castJsonToApiFormat($value);
+            }
+            $clean[$key] = $value;
         }
         return $clean;
     }
