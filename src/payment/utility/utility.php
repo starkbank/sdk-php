@@ -23,7 +23,7 @@ class UtilityPayment extends Resource
         - description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
 
     ## Parameters (optional):
-        - scheduled [DateTime, default today]: payment scheduled date.
+        - scheduled [DateTime or string, default today]: payment scheduled date.
         - tags [list of strings]: list of strings for tagging
 
     ## Attributes (return-only):
@@ -124,8 +124,8 @@ class UtilityPayment extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime, default null] date filter for objects created only after specified date.
-        - before [DateTime, default null] date filter for objects only before specified date.
+        - after [DateTime or string, default null] date filter for objects created only after specified date.
+        - before [DateTime or string, default null] date filter for objects created only before specified date.
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default null]: filter for status of retrieved objects. ex: "paid"
