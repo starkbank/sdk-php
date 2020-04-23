@@ -14,17 +14,17 @@ require_once("utils/rest.php");
 require_once("utils/url.php");
 require_once("user/user.php");
 require_once("user/project.php");
-require_once("ledger/balance.php");
-require_once("ledger/transaction.php");
+require_once("balance/balance.php");
+require_once("transaction/transaction.php");
 require_once("boleto/boleto.php");
 require_once("boleto/log.php");
 require_once("transfer/transfer.php");
 require_once("transfer/log.php");
-require_once("payment/boleto/boleto.php");
-require_once("payment/boleto/log.php");
-require_once("payment/utility/utility.php");
-require_once("payment/utility/log.php");
+require_once("boletoPayment/boletoPayment.php");
+require_once("boletoPayment/log.php");
+require_once("utilityPayment/utilityPayment.php");
+require_once("utilityPayment/log.php");
 require_once("webhook/webhook.php");
-require_once("webhook/event.php");
+require_once("event/event.php");
 
 ?>
