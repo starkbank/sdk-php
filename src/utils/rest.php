@@ -2,12 +2,14 @@
 
 namespace StarkBank\Utils;
 
+use StarkBank\Utils\Checks;
+
 
 class Rest
 {
     public static function getList($user, $resource, array $query = [])
     {
-        $limit = $query["limit"];
+        $limit = Checks::CheckParam($query, "limit");
         $query["limit"] = is_null($limit) ? null : min($limit, 100);
 
         while (true) {

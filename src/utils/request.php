@@ -78,7 +78,7 @@ class Request
         return $response;
     }
 
-    private function makeRequest($method, $headers, $url, $body)
+    private static function makeRequest($method, $headers, $url, $body)
     {
         $stringHeader = "";
         foreach($headers as $key => $value) {

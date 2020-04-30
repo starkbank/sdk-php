@@ -29,21 +29,11 @@ class Project extends User
     */
     function __construct(array $params)
     {
-        $environment = $params["environment"];
-        unset($params["environment"]);
-        $id = $params["id"];
-        unset($params["id"]);
-        $privateKey = $params["privateKey"];
-        unset($params["privateKey"]);
-        $name = $params["name"];
-        unset($params["name"]);
-        $allowedIps = $params["allowedIps"];
-        unset($params["allowedIps"]);
+        parent::__construct($params);
 
+        $this->name = Checks::checkParam($params, "name");
+        $this->allowedIps = Checks::checkParam($params, "allowedIps");
+        
         Checks::checkParams($params);
-
-        parent::__construct($id, $privateKey, $environment);
-        $this->name = $name;
-        $this->allowedIps = $allowedIps;
     }
 }

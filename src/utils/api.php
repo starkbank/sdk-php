@@ -41,7 +41,8 @@ class API
 
     public static function lastName($resourceName)
     {
-        return end(explode("-", StringCase::camelToKebab($resourceName)));
+        $parts = explode("-", StringCase::camelToKebab($resourceName));
+        return end($parts);
     }
 
     public static function lastNamePlural($resourceName)

@@ -36,32 +36,20 @@ class Transfer extends Resource
      */
     function __construct(array $params)
     {
-        parent::__construct($params["id"]);
-        unset($params["id"]);
-        $this->amount = $params["amount"];
-        unset($params["amount"]);
-        $this->name = $params["name"];
-        unset($params["name"]);
-        $this->taxId = $params["taxId"];
-        unset($params["taxId"]);
-        $this->bankCode = $params["bankCode"];
-        unset($params["bankCode"]);
-        $this->branchCode = $params["branchCode"];
-        unset($params["branchCode"]);
-        $this->accountNumber = $params["accountNumber"];
-        unset($params["accountNumber"]);
-        $this->tags = $params["tags"];
-        unset($params["tags"]);
-        $this->fee = $params["fee"];
-        unset($params["fee"]);
-        $this->status = $params["status"];
-        unset($params["status"]);
-        $this->transactionIds = $params["transactionIds"];
-        unset($params["transactionIds"]);
-        $this->created = Checks::checkDateTime($params["created"]);
-        unset($params["created"]);
-        $this->updated = Checks::checkDateTime($params["updated"]);
-        unset($params["updated"]);
+        parent::__construct($params);
+
+        $this->amount = Checks::checkParam($params, "amount");
+        $this->name = Checks::checkParam($params, "name");
+        $this->taxId = Checks::checkParam($params, "taxId");
+        $this->bankCode = Checks::checkParam($params, "bankCode");
+        $this->branchCode = Checks::checkParam($params, "branchCode");
+        $this->accountNumber = Checks::checkParam($params, "accountNumber");
+        $this->tags = Checks::checkParam($params, "tags");
+        $this->fee = Checks::checkParam($params, "fee");
+        $this->status = Checks::checkParam($params, "status");
+        $this->transactionIds = Checks::checkParam($params, "transactionIds");
+        $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
+        $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
 
         Checks::checkParams($params);
     }
@@ -80,7 +68,7 @@ class Transfer extends Resource
     ## Return:
         - list of Transfer objects with updated attributes
      */
-    public function create($transfers, $user = null)
+    public static function create($transfers, $user = null)
     {
         return Rest::post($user, Transfer::resource(), $transfers);
     }
@@ -99,7 +87,7 @@ class Transfer extends Resource
     ## Return:
         - Transfer object with updated attributes
      */
-    public function get($id, $user = null)
+    public static function get($id, $user = null)
     {
         return Rest::getId($user, Transfer::resource(), $id);
     }
@@ -119,7 +107,7 @@ class Transfer extends Resource
     ## Return:
         - Transfer pdf file
      */
-    public function pdf($id, $user = null)
+    public static function pdf($id, $user = null)
     {
         return Rest::getPdf($user, Transfer::resource(), $id);
     }
@@ -142,14 +130,14 @@ class Transfer extends Resource
     ## Return:
         - enumerator of Transfer objects with updated attributes
      */
-    public function query($options = [], $user = null)
+    public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime($options["after"]);
-        $options["before"] = Checks::checkDateTime($options["before"]);
+        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
+        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
         return Rest::getList($user, Transfer::resource(), $options);
     }
 
-    private function resource()
+    private static function resource()
     {
         $transfer = function ($array) {
             return new Transfer($array);

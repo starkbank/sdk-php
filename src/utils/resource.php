@@ -5,8 +5,9 @@ namespace StarkBank\Utils;
 
 class Resource
 {
-    function __construct($id)
+    function __construct(&$params)
     {
+        $id = Checks::checkParam($params, "id");
         if (!is_null($id)) {
             $id = strval($id);
         }

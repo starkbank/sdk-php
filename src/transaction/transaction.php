@@ -38,26 +38,17 @@ class Transaction extends Resource
      */
     function __construct(array $params)
     {
-        parent::__construct($params["id"]);
-        unset($params["id"]);
-        $this->amount = $params["amount"];
-        unset($params["amount"]);
-        $this->description = $params["description"];
-        unset($params["description"]);
-        $this->externalId = $params["externalId"];
-        unset($params["externalId"]);
-        $this->receiverId = $params["receiverId"];
-        unset($params["receiverId"]);
-        $this->senderId = $params["senderId"];
-        unset($params["senderId"]);
-        $this->tags = $params["tags"];
-        unset($params["tags"]);
-        $this->fee = $params["fee"];
-        unset($params["fee"]);
-        $this->created = Checks::checkDateTime($params["created"]);
-        unset($params["created"]);
-        $this->source = $params["source"];
-        unset($params["source"]);
+        parent::__construct($params);
+
+        $this->amount = Checks::checkParam($params, "amount");
+        $this->description = Checks::checkParam($params, "description");
+        $this->externalId = Checks::checkParam($params, "externalId");
+        $this->receiverId = Checks::checkParam($params, "receiverId");
+        $this->senderId = Checks::checkParam($params, "senderId");
+        $this->tags = Checks::checkParam($params, "tags");
+        $this->fee = Checks::checkParam($params, "fee");
+        $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
+        $this->source = Checks::checkParam($params, "source");
 
         Checks::checkParams($params);
     }
@@ -76,7 +67,7 @@ class Transaction extends Resource
     ## Return:
         - list of Transaction objects with updated attributes
      */
-    public function create($transactions, $user = null)
+    public static function create($transactions, $user = null)
     {
         return Rest::post($user, Transaction::resource(), $transactions);
     }
@@ -95,7 +86,7 @@ class Transaction extends Resource
     ## Return:
         - Transaction object with updated attributes
      */
-    public function get($id, $user = null)
+    public static function get($id, $user = null)
     {
         return Rest::getId($user, Transaction::resource(), $id);
     }
@@ -115,14 +106,14 @@ class Transaction extends Resource
     ## Return:
         - enumerator of Transaction objects with updated attributes
      */
-    public function query($options = [], $user = null)
+    public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime($options["after"]);
-        $options["before"] = Checks::checkDateTime($options["before"]);
+        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
+        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
         return Rest::getList($user, Transaction::resource(), $options);
     }
 
-    private function resource()
+    private static function resource()
     {
         $transaction = function ($array) {
             return new Transaction($array);

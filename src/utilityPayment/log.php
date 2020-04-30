@@ -26,16 +26,12 @@ class Log extends Resource
      */
     function __construct(array $params)
     {
-        parent::__construct($params["id"]);
-        unset($params["id"]);
-        $this->created = Checks::checkDateTime($params["created"]);
-        unset($params["created"]);
-        $this->type = $params["type"];
-        unset($params["type"]);
-        $this->errors = $params["errors"];
-        unset($params["errors"]);
-        $this->payment = $params["payment"];
-        unset($params["payment"]);
+        parent::__construct($params);
+
+        $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
+        $this->type = Checks::checkParam($params, "type");
+        $this->errors = Checks::checkParam($params, "errors");
+        $this->payment = Checks::checkParam($params, "payment");
 
         Checks::checkParams($params);
     }
@@ -54,7 +50,7 @@ class Log extends Resource
     ## Return:
         - Log object with updated attributes
      */
-    public function get($id, $user = null)
+    public static function get($id, $user = null)
     {
         return Rest::getId($user, Log::resource(), $id);
     }
@@ -75,14 +71,14 @@ class Log extends Resource
     ## Return:
         - enumerator of Log objects with updated attributes
      */
-    public function query($options = [], $user = null)
+    public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime($options["after"]);
-        $options["before"] = Checks::checkDateTime($options["before"]);
+        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
+        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
         return Rest::getList($user, Log::resource(), $options);
     }
 
-    private function resource()
+    private static function resource()
     {
         $paymentLog = function ($array) {
             $payment = function ($array) {

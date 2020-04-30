@@ -7,12 +7,12 @@ class Cache
 {
     static private $starkBankPublicKey;
 
-    function getStarkBankPublicKey()
+    static function getStarkBankPublicKey()
     {
         return self::$starkBankPublicKey;
     }
     
-    function setStarkBankPublicKey($publicKey)
+    static function setStarkBankPublicKey($publicKey)
     {
         self::$starkBankPublicKey = $publicKey;
     }

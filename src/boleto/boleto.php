@@ -45,50 +45,29 @@ class Boleto extends Resource
      */
     function __construct(array $params)
     {
-        parent::__construct($params["id"]);
-        unset($params["id"]);
-        $this->amount = $params["amount"];
-        unset($params["amount"]);
-        $this->name = $params["name"];
-        unset($params["name"]);
-        $this->taxId = $params["taxId"];
-        unset($params["taxId"]);
-        $this->streetLine1 = $params["streetLine1"];
-        unset($params["streetLine1"]);
-        $this->streetLine2 = $params["streetLine2"];
-        unset($params["streetLine2"]);
-        $this->district = $params["district"];
-        unset($params["district"]);
-        $this->city = $params["city"];
-        unset($params["city"]);
-        $this->stateCode = $params["stateCode"];
-        unset($params["stateCode"]);
-        $this->zipCode = $params["zipCode"];
-        unset($params["zipCode"]);
-        $this->due = Checks::checkDateTime($params["due"]);
-        unset($params["due"]);
-        $this->fine = $params["fine"];
-        unset($params["fine"]);
-        $this->interest = $params["interest"];
-        unset($params["interest"]);
-        $this->overdueLimit = $params["overdueLimit"];
-        unset($params["overdueLimit"]);
-        $this->tags = $params["tags"];
-        unset($params["tags"]);
-        $this->descriptions = $params["descriptions"];
-        unset($params["descriptions"]);
-        $this->discounts = $params["discounts"];
-        unset($params["discounts"]);
-        $this->fee = $params["fee"];
-        unset($params["fee"]);
-        $this->line = $params["line"];
-        unset($params["line"]);
-        $this->barCode = $params["barCode"];
-        unset($params["barCode"]);
-        $this->status = $params["status"];
-        unset($params["status"]);
-        $this->created = Checks::checkDateTime($params["created"]);
-        unset($params["created"]);
+        parent::__construct($params);
+        
+        $this->amount = Checks::checkParam($params, "amount");
+        $this->name = Checks::checkParam($params, "name");
+        $this->taxId = Checks::checkParam($params, "taxId");
+        $this->streetLine1 = Checks::checkParam($params, "streetLine1");
+        $this->streetLine2 = Checks::checkParam($params, "streetLine2");
+        $this->district = Checks::checkParam($params, "district");
+        $this->city = Checks::checkParam($params, "city");
+        $this->stateCode = Checks::checkParam($params, "stateCode");
+        $this->zipCode = Checks::checkParam($params, "zipCode");
+        $this->due = Checks::checkDateTime(Checks::checkParam($params, "due"));
+        $this->fine = Checks::checkParam($params, "fine");
+        $this->interest = Checks::checkParam($params, "interest");
+        $this->overdueLimit = Checks::checkParam($params, "overdueLimit");
+        $this->tags = Checks::checkParam($params, "tags");
+        $this->descriptions = Checks::checkParam($params, "descriptions");
+        $this->discounts = Checks::checkParam($params, "discounts");
+        $this->fee = Checks::checkParam($params, "fee");
+        $this->line = Checks::checkParam($params, "line");
+        $this->barCode = Checks::checkParam($params, "barCode");
+        $this->status = Checks::checkParam($params, "status");
+        $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
 
         Checks::checkParams($params);
     }
@@ -107,7 +86,7 @@ class Boleto extends Resource
     ## Return:
         - list of Boleto objects with updated attributes
      */
-    public function create($boletos, $user = null)
+    public static function create($boletos, $user = null)
     {
         return Rest::post($user, Boleto::resource(), $boletos);
     }
@@ -126,7 +105,7 @@ class Boleto extends Resource
     ## Return:
         - Boleto object with updated attributes
      */
-    public function get($id, $user = null)
+    public static function get($id, $user = null)
     {
         return Rest::getId($user, Boleto::resource(), $id);
     }
@@ -145,7 +124,7 @@ class Boleto extends Resource
     ## Return:
         - Boleto pdf file
      */
-    public function pdf($id, $user = null)
+    public static function pdf($id, $user = null)
     {
         return Rest::getPdf($user, Boleto::resource(), $id);
     }
@@ -167,10 +146,10 @@ class Boleto extends Resource
     ## Return:
         - enumerator of Boleto objects with updated attributes
      */
-    public function query($options = [], $user = null)
+    public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime($options["after"]);
-        $options["before"] = Checks::checkDateTime($options["before"]);
+        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
+        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
         return Rest::getList($user, Boleto::resource(), $options);
     }
 
@@ -188,12 +167,12 @@ class Boleto extends Resource
     ## Return:
         - deleted Boleto with updated attributes
      */
-    public function delete($id, $user = null)
+    public static function delete($id, $user = null)
     {
         return Rest::deleteId($user, Boleto::resource(), $id);
     }
 
-    private function resource()
+    private static function resource()
     {
         $boleto = function ($array) {
             return new Boleto($array);
