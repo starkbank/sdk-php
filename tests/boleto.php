@@ -64,8 +64,32 @@ class Test
             "city" => "São Paulo",
             "stateCode" => "SP",
             "zipCode" => "55555-555",
-            "due" => (new DateTime("now"))->add(new DateInterval("P1D")),
+            "due" => (new DateTime("now"))->add(new DateInterval("P5D")),
             "tags" => ["going", "to", "delete"],
+            "descriptions" => [
+                [
+                    "text" => "product A",
+                    "amount" => 123
+                ],
+                [
+                    "text" => "product B",
+                    "amount" => 456
+                ],
+                [
+                    "text" => "product C",
+                    "amount" => 789
+                ]
+            ],
+            "discounts" => [
+                [
+                    "percentage" => 5,
+                    "date" => (new DateTime("now"))->add(new DateInterval("P1D"))
+                ],
+                [
+                    "percentage" => 3,
+                    "date" => (new DateTime("now"))->add(new DateInterval("P2D"))
+                ]
+            ]
         ]);
     }
 }

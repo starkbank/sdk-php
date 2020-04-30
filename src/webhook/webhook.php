@@ -25,12 +25,10 @@ class Webhook extends Resource
      */
     function __construct(array $params)
     {
-        parent::__construct($params["id"]);
-        unset($params["id"]);
-        $this->url = $params["url"];
-        unset($params["url"]);
-        $this->subscriptions = $params["subscriptions"];
-        unset($params["subscriptions"]);
+        parent::__construct($params);
+
+        $this->url = Checks::checkParam($params, "url");
+        $this->subscriptions = Checks::checkParam($params, "subscriptions");
 
         Checks::checkParams($params);
     }
@@ -50,7 +48,7 @@ class Webhook extends Resource
     ## Return:
         - Webhook object with updated attributes
      */
-    public function create(array $params, $user = null)
+    public static function create(array $params, $user = null)
     {
         return Rest::postSingle($user, Webhook::resource(), new Webhook($params));
     }
@@ -69,7 +67,7 @@ class Webhook extends Resource
     ## Return:
         - Webhook object with updated attributes
      */
-    public function get($id, $user = null)
+    public static function get($id, $user = null)
     {
         return Rest::getId($user, Webhook::resource(), $id);
     }
@@ -86,7 +84,7 @@ class Webhook extends Resource
     ## Return:
         - enumerator of Webhook objects with updated attributes
      */
-    public function query($options = [], $user = null)
+    public static function query($options = [], $user = null)
     {
         return Rest::getList($user, Webhook::resource(), $options);
     }
@@ -105,12 +103,12 @@ class Webhook extends Resource
     ## Return:
         - deleted Webhook with updated attributes
      */
-    public function delete($id, $user = null)
+    public static function delete($id, $user = null)
     {
         return Rest::deleteId($user, Webhook::resource(), $id);
     }
 
-    private function resource()
+    private static function resource()
     {
         $webhook = function ($array) {
             return new Webhook($array);

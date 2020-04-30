@@ -33,16 +33,12 @@ class Event extends Resource
      */
     function __construct(array $params)
     {
-        parent::__construct($params["id"]);
-        unset($params["id"]);
-        $this->isDelivered = $params["isDelivered"];
-        unset($params["isDelivered"]);
-        $this->subscription = $params["subscription"];
-        unset($params["subscription"]);
-        $this->created = Checks::checkDateTime($params["created"]);
-        unset($params["created"]);
-        $this->log = Event::buildLog($this->subscription, $params["log"]);
-        unset($params["log"]);
+        parent::__construct($params);
+        
+        $this->isDelivered = Checks::checkParam($params, "isDelivered");
+        $this->subscription = Checks::checkParam($params, "subscription");
+        $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
+        $this->log = Event::buildLog($this->subscription, Checks::checkParam($params, "log"));
 
         Checks::checkParams($params);
     }
@@ -128,8 +124,8 @@ class Event extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime, default null]: date filter for objects created only after specified date.
-        - before [DateTime, default null]: date filter for objects only before specified date.
+        - after [DateTime or string, default null]: date filter for objects created only after specified date.
+        - before [DateTime or string, default null]: date filter for objects created only before specified date.
         - isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
@@ -138,8 +134,8 @@ class Event extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime($options["after"]);
-        $options["before"] = Checks::checkDateTime($options["before"]);
+        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
+        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
         return Rest::getList($user, Event::resource(), $options);
     }
 
@@ -236,7 +232,7 @@ class Event extends Resource
         return Request::fetch($user, "GET", "/public-key", null, ["limit" => 1])->json()["publicKeys"][0]["content"];
     }
 
-    private function resource()
+    private static function resource()
     {
         $event = function ($array) {
             return new Event($array);

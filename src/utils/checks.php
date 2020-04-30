@@ -8,6 +8,16 @@ use \DateTime;
 
 class Checks
 {
+    public static function checkParam(&$params, $key)
+    {
+        $var = null;
+        if (isset($params[$key])) {
+            $var = $params[$key];
+            unset($params[$key]);
+        }
+        return $var;
+    }
+
     public static function checkParams($params) {
         $checkParams = true;
         if (array_key_exists("checkParams", $params)) {

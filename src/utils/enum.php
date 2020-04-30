@@ -6,13 +6,13 @@ use \ReflectionClass;
 
 class Enum
 {
-    public function values()
+    public static function values()
     {
         $reflection = new ReflectionClass(get_called_class());
         return $reflection->getConstants();
     }
 
-    public function isValid($item)
+    public static function isValid($item)
     {
         return in_array($item, get_called_class()::values());
     }

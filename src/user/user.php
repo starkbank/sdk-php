@@ -10,16 +10,18 @@ class User extends Resource
 {
     private static $defaultUser;
     
-    function __construct($id = null, $privateKey = null, $environment = null)
+    function __construct(&$params)
     {
-        parent::__construct($id);
-        $this->pem = Checks::checkPrivateKey($privateKey);
-        $this->environment = Checks::checkEnvironment($environment);
+        parent::__construct($params);
+
+        $this->pem = Checks::checkPrivateKey(Checks::checkParam($params, "privateKey"));
+        $this->environment = Checks::checkEnvironment(Checks::checkParam($params, "environment"));
     }
 
     public function accessId()
     {
-        return end(explode("\\", strtolower(get_called_class()))) . "/" . strval($this->id);
+        $parts = explode("\\", strtolower(get_called_class()));
+        return end($parts) . "/" . strval($this->id);
     }
 
     public function privateKey()

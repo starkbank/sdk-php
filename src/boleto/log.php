@@ -27,16 +27,12 @@ class Log extends Resource
      */
     function __construct(array $params)
     {
-        parent::__construct($params["id"]);
-        unset($params["id"]);
-        $this->created = Checks::checkDateTime($params["created"]);
-        unset($params["created"]);
-        $this->type = $params["type"];
-        unset($params["type"]);
-        $this->errors = $params["errors"];
-        unset($params["errors"]);
-        $this->boleto = $params["boleto"];
-        unset($params["boleto"]);
+        parent::__construct($params);
+        
+        $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
+        $this->type = Checks::checkParam($params, "type");
+        $this->errors = Checks::checkParam($params, "errors");
+        $this->boleto = Checks::checkParam($params, "boleto");
 
         Checks::checkParams($params);
     }
@@ -55,7 +51,7 @@ class Log extends Resource
     ## Return:
         - Log object with updated attributes
      */
-    public function get($id, $user = null)
+    public static function get($id, $user = null)
     {
         return Rest::getId($user, Log::resource(), $id);
     }
@@ -67,8 +63,8 @@ class Log extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime, default null] date filter for objects created only after specified date.
-        - before [DateTime, default null] date filter for objects only before specified date.
+        - after [DateTime or string, default null] date filter for objects created only after specified date.
+        - before [DateTime or string, default null] date filter for objects created only before specified date.
         - types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
         - boletoIds [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
@@ -76,14 +72,14 @@ class Log extends Resource
     ## Return:
         - enumerator of Log objects with updated attributes
      */
-    public function query($options = [], $user = null)
+    public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime($options["after"]);
-        $options["before"] = Checks::checkDateTime($options["before"]);
+        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
+        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
         return Rest::getList($user, Log::resource(), $options);
     }
 
-    private function resource()
+    private static function resource()
     {
         $boletoLog = function ($array) {
             $boleto = function ($array) {

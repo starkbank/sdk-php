@@ -24,14 +24,11 @@ class Balance extends Resource
      */
     function __construct(array $params)
     {
-        parent::__construct($params["id"]);
-        unset($params["id"]);
-        $this->amount = $params["amount"];
-        unset($params["amount"]);
-        $this->currency = $params["currency"];
-        unset($params["currency"]);
-        $this->updated = Checks::checkDateTime($params["updated"]);
-        unset($params["updated"]);
+        parent::__construct($params);
+        
+        $this->amount = Checks::checkParam($params, "amount");
+        $this->currency = Checks::checkParam($params, "currency");
+        $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
 
         Checks::checkParams($params);
     }
@@ -47,12 +44,12 @@ class Balance extends Resource
     ## Return:
         - Balance object with updated attributes
      */
-    public function get($user = null)
+    public static function get($user = null)
     {
         return Rest::getList($user, Balance::resource())->current();
     }
 
-    private function resource()
+    private static function resource()
     {
         $balance = function ($array) {
             return new Balance($array);
