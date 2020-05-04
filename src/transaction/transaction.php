@@ -34,6 +34,7 @@ class Transaction extends Resource
         - source [string, default null]: locator of the entity that generated the transaction. ex: "charge/1827351876292", "transfer/92873912873/chargeback"
         - id [string, default null]: unique id returned when Transaction is created. ex: "7656565656565656"
         - fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
+        - balance [integer, default null]: account balance after transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
         - created [DateTime, default null]: creation datetime for the boleto.
      */
     function __construct(array $params)
@@ -47,8 +48,9 @@ class Transaction extends Resource
         $this->senderId = Checks::checkParam($params, "senderId");
         $this->tags = Checks::checkParam($params, "tags");
         $this->fee = Checks::checkParam($params, "fee");
-        $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
         $this->source = Checks::checkParam($params, "source");
+        $this->balance = Checks::checkParam($params, "balance");
+        $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
 
         Checks::checkParams($params);
     }
