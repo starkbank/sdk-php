@@ -9,7 +9,10 @@ class API
 {
     public static function apiJson($entity)
     {
-        return API::castJsonToApiFormat(get_object_vars($entity));
+        if (!is_array($entity)) {
+            $entity = get_object_vars($entity);
+        }
+        return API::castJsonToApiFormat($entity);
     }
 
     public static function castJsonToApiFormat($json)

@@ -217,6 +217,8 @@ foreach($boletos as $boleto){
 }
 ```
 
+**Note**: Instead of using Boleto objects, you can also pass each boleto element
+directly in array format , without using the constructor
 ### Get boleto
 
 After its creation, information on a boleto may be retrieved by passing its id. 
@@ -337,6 +339,8 @@ foreach($transfers as $transfer){
 }
 ```
 
+**Note**: Instead of using Transfer objects, you can also pass each transfer element
+directly in array format , without using the constructor
 ### Query transfers
 
 You can query multiple transfers according to filters.
@@ -440,6 +444,8 @@ foreach($payments as $payment){
 }
 ```
 
+**Note**: Instead of using BoletoPayment objects, you can also pass each payment element
+directly in array format , without using the constructor
 ### Get boleto payment
 
 To get a single boleto payment by its id, run:
@@ -555,6 +561,8 @@ foreach($payments as $payment){
 }
 ```
 
+**Note**: Instead of using UtilityPayment objects, you can also pass each payment element directly in
+array format , without using the constructor
 ### Query utility payments
 
 To search for utility payments using filters, run:
@@ -671,6 +679,9 @@ foreach($transactions as $transaction){
     print_r($transaction);
 }
 ```
+
+**Note**: Instead of using Transaction objects, you can also pass each transaction element
+directly in array format, without using the constructor
 
 ### Query transactions
 
