@@ -19,7 +19,7 @@ class Transfer extends Resource
         - amount [integer]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
         - name [string]: receiver full name. ex: "Anthony Edward Stark"
         - taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-        - bankCode [string]: receiver 1 to 3 digits of the bank institution in Brazil. ex: "200" or "341"
+        - bankCode [string]: 1 to 3 digits of the receiver bank institution in Brazil. ex: "200" or "341"
         - branchCode [string]: receiver bank account branch. Use '-' in case there is a verifier digit. ex: "1357-9"
         - accountNumber [string]: Receiver Bank Account number. Use '-' before the verifier digit. ex: "876543-2"
 
@@ -29,7 +29,7 @@ class Transfer extends Resource
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
         - fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
-        - status [string, default null]: current transfer status. ex: "registered" or "paid"
+        - status [string, default null]: current transfer status. ex: "success" or "failed"
         - transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
         - created [DateTime, default null]: creation datetime for the transfer.
         - updated [DateTime, default null]: latest update datetime for the transfer.
@@ -119,8 +119,8 @@ class Transfer extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime or string, default null]: date filter for objects created or updated only after specified date.
-        - before [DateTime or string, default null]: date filter for objects created or updated only before specified date.
+        - after [DateTime or string, default null]: date filter for objects created or updated only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null]: date filter for objects created or updated only before specified date. ex: "2020-04-03"
         - transactionIds [list of strings, default null]: list of transaction IDs linked to the desired transfers. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
         - sort [string, default "-created"]: sort order considered in response. Valid options are 'created', '-created', 'updated' or '-updated'.

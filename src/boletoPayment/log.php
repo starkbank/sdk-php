@@ -22,8 +22,8 @@ class Log extends Resource
         - id [string]: unique id returned when the log is created. ex: "5656565656565656"
         - payment [BoletoPayment]: BoletoPayment entity to which the log refers to.
         - errors [list of strings]: list of errors linked to this BoletoPayment event.
-        - type [string]: type of the BoletoPayment event which triggered the log creation. ex: "registered" or "paid"
-        - created [DateTime]: creation datetime for the payment.
+        - type [string]: type of the BoletoPayment event which triggered the log creation. ex: "processing" or "success"
+        - created [DateTime]: creation datetime for the log.
      */
     function __construct(array $params)
     {
@@ -63,8 +63,8 @@ class Log extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime or string, default null] date filter for objects created only after specified date.
-        - before [DateTime or string, default null] date filter for objects created only before specified date.
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - types [list of strings, default null]: filter retrieved objects by event types. ex: "paid" or "registered"
         - paymentIds [list of strings, default null]: list of BoletoPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call

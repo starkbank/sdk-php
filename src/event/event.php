@@ -25,7 +25,7 @@ class Event extends Resource
     list all generated updates on entities.
 
     ## Attributes:
-        - id [string]: unique id returned when the log is created. ex: "5656565656565656"
+        - id [string]: unique id returned when the event is created. ex: "5656565656565656"
         - log [Log]: a Log object from one the subscription services (Transfer\Log, Boleto\Log, BoletoPayment\log or UtilityPayment\Log)
         - created [DateTime]: creation datetime for the notification event.
         - isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
@@ -124,8 +124,8 @@ class Event extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime or string, default null]: date filter for objects created only after specified date.
-        - before [DateTime or string, default null]: date filter for objects created only before specified date.
+        - after [DateTime or string, default null]: date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null]: date filter for objects created only before specified date. ex: "2020-04-03"
         - isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 

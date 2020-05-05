@@ -29,9 +29,9 @@ class BoletoPayment extends Resource
 
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-        - status [string, default null]: current payment status. ex: "registered" or "paid"
+        - status [string, default null]: current payment status. ex: "success" or "failed"
         - amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-        - fee [integer, default null]: fee charged when boleto payment is created. ex: 200 (= R$ 2.00)
+        - fee [integer, default null]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
         - created [DateTime, default null]: creation datetime for the payment.
      */
     function __construct(array $params)
@@ -117,11 +117,11 @@ class BoletoPayment extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime or string, default null] date filter for objects created only after specified date.
-        - before [DateTime or string, default null] date filter for objects created only before specified date.
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - status [string, default null]: filter for status of retrieved objects. ex: "paid"
+        - status [string, default null]: filter for status of retrieved objects. ex: "success"
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
