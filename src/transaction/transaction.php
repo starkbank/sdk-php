@@ -33,9 +33,9 @@ class Transaction extends Resource
         - senderId [string]: unique id of the sending workspace. ex: "5656565656565656"
         - source [string, default null]: locator of the entity that generated the transaction. ex: "charge/1827351876292", "transfer/92873912873/chargeback"
         - id [string, default null]: unique id returned when Transaction is created. ex: "7656565656565656"
-        - fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
+        - fee [integer, default null]: fee charged when the transaction was created. ex: 200 (= R$ 2.00)
         - balance [integer, default null]: account balance after transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
-        - created [DateTime, default null]: creation datetime for the boleto.
+        - created [DateTime, default null]: creation datetime for the transaction.
      */
     function __construct(array $params)
     {
@@ -100,8 +100,8 @@ class Transaction extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime or string, default null] date filter for objects created only after specified date.
-        - before [DateTime or string, default null] date filter for objects created only before specified date.
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - externalIds [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 

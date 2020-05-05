@@ -30,7 +30,7 @@ class Boleto extends Resource
         - due [DateTime or string, default today + 2 days]: Boleto due date in ISO format. ex: "2020-04-30"
         - fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
         - interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
-        - overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
+        - overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
         - descriptions [list of dictionaries, default null]: list of dictionaries with "text":string and (optional) "amount":int pairs
         - discounts [list of dictionaries, default null]: list of dictionaries with "percentage":float and "date":DateTime or string pairs
         - tags [list of strings]: list of strings for tagging
@@ -136,8 +136,8 @@ class Boleto extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime or string, default null] date filter for objects created only after specified date.
-        - before [DateTime or string, default null] date filter for objects created only before specified date.
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]

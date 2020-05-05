@@ -21,7 +21,7 @@ class Webhook extends Resource
         - subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
 
     ## Attributes:
-        - id [string, default null]: unique id returned when the log is created. ex: "5656565656565656"
+        - id [string, default null]: unique id returned when the webhook is created. ex: "5656565656565656"
      */
     function __construct(array $params)
     {
