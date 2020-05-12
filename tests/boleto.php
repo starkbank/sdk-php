@@ -64,6 +64,8 @@ class Test
             "city" => "São Paulo",
             "stateCode" => "SP",
             "zipCode" => "55555-555",
+            "receiverName" => "Mr Meeseks Receiver",
+            "receiverTaxId" => "123.456.789-09",
             "due" => (new DateTime("now"))->add(new DateInterval("P5D")),
             "tags" => ["going", "to", "delete"],
             "descriptions" => [

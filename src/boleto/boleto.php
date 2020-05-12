@@ -31,6 +31,8 @@ class Boleto extends Resource
         - fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
         - interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
         - overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
+        - receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
+        - receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
         - descriptions [list of dictionaries, default null]: list of dictionaries with "text":string and (optional) "amount":int pairs
         - discounts [list of dictionaries, default null]: list of dictionaries with "percentage":float and "date":DateTime or string pairs
         - tags [list of strings]: list of strings for tagging
@@ -60,6 +62,8 @@ class Boleto extends Resource
         $this->fine = Checks::checkParam($params, "fine");
         $this->interest = Checks::checkParam($params, "interest");
         $this->overdueLimit = Checks::checkParam($params, "overdueLimit");
+        $this->receiverName = Checks::checkParam($params, "receiverName");
+        $this->receiverTaxId = Checks::checkParam($params, "receiverTaxId");
         $this->tags = Checks::checkParam($params, "tags");
         $this->descriptions = Checks::checkParam($params, "descriptions");
         $this->discounts = Checks::checkParam($params, "discounts");
