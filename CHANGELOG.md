@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
@@ -10,6 +11,37 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - MINOR version when **breaking changes** are introduced OR **new functionalities** are added in a backwards compatible manner;
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
+
 ## [Unreleased]
+
+## [0.4.0] - 2020-05-12
+### Added
+- "receiver_name" & "receiver_tax_id" properties to Boleto entities
+
+## [0.3.1] - 2020-05-04
+### Fixed
+- Docstrings
+
+## [0.3.0] - 2020-05-04
+### Added
+- Support for direct arrays in create methods
+- "balance" property to Transaction entities
+
+## [0.2.0] - 2020-04-29
+### Added
+- "discounts" property to Boleto entities
+- Support for PHP 7.2
+### Changed
+- Internal folder structure
+- Constructor internal pattern
+### Fixed
+- Docstrings
+- Boleto payment test case
+
+## [0.1.1] - 2020-04-18
+### Changed
+- Internal file names
+
+## [0.1.0] - 2020-04-17
 ### Added
 - Full Stark Bank API v2 compatibility
