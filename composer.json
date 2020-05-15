@@ -14,8 +14,8 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
-    "starkbank/ecdsa": "^0.0.3"
+    "php": ">=7.0",
+    "starkbank/ecdsa": "^0.0.4"
   },
   "keywords": [
     "starkbank",
