@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- Support for PHP 7.0 & 7.1
 
 ## [0.4.0] - 2020-05-12
 ### Added
