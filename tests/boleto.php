@@ -45,14 +45,14 @@ class Test
             throw new Exception("failed");
         }
 
-        $pdf = Boleto::pdf($boletos[0]->id);
+        $pdf = Boleto::pdf($boletos[0]->id, ["layout" => "default"]);
 
         $fp = fopen('boleto.pdf', 'w');
         fwrite($fp, $pdf);
         fclose($fp);
     }
 
-    private function example()
+    private static function example()
     {
         return new Boleto([
             "amount" => 100000,

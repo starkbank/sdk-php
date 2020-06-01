@@ -240,7 +240,7 @@ After its creation, a boleto PDF may be retrieved by passing its id.
 ```php
 use StarkBank\Boleto;
 
-$pdf = Boleto::pdf("5155165527080960");
+$pdf = Boleto::pdf("5155165527080960", ["layout" => "default"]);
 
 $fp = fopen('boleto.pdf', 'w');
 fwrite($fp, $pdf);
