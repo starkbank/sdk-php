@@ -4,7 +4,7 @@ namespace StarkBank\Utils;
 
 use \Exception;
 use EllipticCurve\Ecdsa;
-use StarkBank\User;
+use StarkBank\Settings;
 use StarkBank\Utils\URL;
 use StarkBank\Error\InputErrors;
 use StarkBank\Error\InternalServerError;
@@ -31,7 +31,7 @@ class Request
     public static function fetch($user, $method, $path, $payload = null, $query = null, $version = "v2")
     {
         if (is_null($user)) {
-            $user = User::getDefault();
+            $user = Settings::getUser();
         }
         if (is_null($user)) {
             throw new Exception("A user is required to access our API. Check our README: https://github.com/starkbank/sdk-php/");
@@ -60,7 +60,8 @@ class Request
             "Access-Id" => $user->accessId(),
             "Access-Signature" => $signature,
             "User-Agent" => "PHP-" . phpversion() . "-SDK-0.4.1",
-            "Content-Type" => "application/json"
+            "Content-Type" => "application/json",
+            "Accept-Language" => Settings::getLanguage()
         ];
 
         $response = Request::makeRequest($method, $headers, $url, $body);

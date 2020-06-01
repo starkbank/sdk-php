@@ -146,16 +146,29 @@ $balance = Balance::get($project);
 4.2 Set it as a default user in the SDK:
 
 ```php
-use StarkBank\User;
+use StarkBank\Settings;
 use StarkBank\Balance;
 
-User::setDefault($project);
+Settings::setUser($project);
 
 $balance = Balance::get();
 ```
 
 Just select the way of passing the project user that is more convenient to you.
 On all following examples we will assume a default user has been set.
+
+### 5. Setting up the error language
+
+The error language can also be set in the same way as the default user:
+
+```php
+use StarkBank\Settings;
+
+Settings::setLanguage("en-US");
+```
+
+Language options are "en-US" for english and "pt-BR" for brazilian portuguese. English is default.
+
 
 ## Testing in Sandbox
 

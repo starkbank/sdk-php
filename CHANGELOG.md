@@ -16,6 +16,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Added
 - Travis CI integration
 - Boleto PDF layout option
+- Global error language setting
+### Changed
+- StarkBank\User::setDefault() to StarkBank\Settings::setUser()
 ### Removed
 - PHP 7.0 compatibility
 
