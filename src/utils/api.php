@@ -18,6 +18,9 @@ class API
     public static function castJsonToApiFormat($json)
     {
         $clean = [];
+        if (is_null($json)) {
+            return $clean;
+        }
         foreach ($json as $key => $value) {
             if (is_null($value)) {
                 continue;

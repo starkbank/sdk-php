@@ -123,6 +123,7 @@ class Transfer extends Resource
         - before [DateTime or string, default null]: date filter for objects created or updated only before specified date. ex: "2020-04-03"
         - transactionIds [list of strings, default null]: list of transaction IDs linked to the desired transfers. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+        - taxId [string, default null]: filter for transfers sent to the specified tax ID. ex: "012.345.678-90"
         - sort [string, default "-created"]: sort order considered in response. Valid options are 'created', '-created', 'updated' or '-updated'.
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
