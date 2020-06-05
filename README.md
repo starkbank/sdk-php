@@ -12,6 +12,7 @@ is as easy as sending a text message to your client!
 
 This library supports the following PHP versions:
 
+* PHP 7.1
 * PHP 7.2
 * PHP 7.3
 * PHP 7.4

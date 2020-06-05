@@ -4,16 +4,17 @@ namespace Test;
 require_once("vendor/autoload.php");
 require_once("src/init.php");
 
+$projectId = $_SERVER["SANDBOX_ID"]; # "9999999999999999",
+$privateKey = $_SERVER["SANDBOX_PRIVATE_KEY"]; # "-----BEGIN EC PRIVATE KEY-----\nMHQCAQEEIBEcEJZLk/DyuXVsEjz0w4vrE7plPXhQxODvcG1Jc0WToAcGBSuBBAAK\noUQDQgAE6t4OGx1XYktOzH/7HV6FBukxq0Xs2As6oeN6re1Ttso2fwrh5BJXDq75\nmSYHeclthCRgU8zl6H1lFQ4BKZ5RCQ==\n-----END EC PRIVATE KEY-----"
+
+if (is_null($projectId) || is_null($privateKey)) {
+    throw new \Exception("missing test credentials");
+}
+
 $project = new \StarkBank\Project([
     "environment" => "sandbox",
-    "id" => "9999999999999999",
-    "privateKey" => "
-    -----BEGIN EC PRIVATE KEY-----
-    MHQCAQEEIBEcEJZLk/DyuXVsEjz0w4vrE7plPXhQxODvcG1Jc0WToAcGBSuBBAAK
-    oUQDQgAE6t4OGx1XYktOzH/7HV6FBukxq0Xs2As6oeN6re1Ttso2fwrh5BJXDq75
-    mSYHeclthCRgU8zl6H1lFQ4BKZ5RCQ==
-    -----END EC PRIVATE KEY-----
-    "
+    "id" => $projectId,
+    "privateKey" => $privateKey
 ]);
 \StarkBank\User::setDefault($project);
 
