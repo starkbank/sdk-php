@@ -52,7 +52,7 @@ class Test
         fclose($fp);
     }
 
-    private function example()
+    private static function example()
     {
         return new UtilityPayment([
             "barCode" => "83660000001084301380074119002551100010601813",

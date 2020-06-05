@@ -15,6 +15,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Added
 - Travis CI integration
+- Boleto PDF layout option
 ### Removed
 - PHP 7.0 compatibility
 

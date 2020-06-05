@@ -52,7 +52,7 @@ class Test
         fclose($fp);
     }
 
-    private function example()
+    private static function example()
     {
         return new BoletoPayment([
             "line" => join("", ["34191.09008 61713.957308 71444.640008 2 834300", sprintf("%08d", random_int(0, 100000000))]),

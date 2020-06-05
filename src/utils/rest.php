@@ -41,10 +41,11 @@ class Rest
         return API::fromApiJson($resource["maker"], $entity);
     }
 
-    public static function getPdf($user, $resource, $id)
+    public static function getPdf($user, $resource, $id, $options = null)
     {
         $id = Checks::checkId($id);
-        return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/pdf")->content;
+        $options = API::castJsonToApiFormat($options);
+        return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/pdf", null, $options)->content;
     }
 
     public static function post($user, $resource, $entities)

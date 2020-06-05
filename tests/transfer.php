@@ -46,7 +46,7 @@ class Test
         fclose($fp);
     }
 
-    private function example()
+    private static function example()
     {
         return new Transfer([
             "amount" => 10,

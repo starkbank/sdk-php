@@ -123,14 +123,16 @@ class Boleto extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
+        - layout [string]: Layout specification. Available options are "default" and "booklet"
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Boleto pdf file
      */
-    public static function pdf($id, $user = null)
+    public static function pdf($id, $options = [], $user = null)
     {
-        return Rest::getPdf($user, Boleto::resource(), $id);
+        $options["layout"] = Checks::checkParam($options, "layout");
+        return Rest::getPdf($user, Boleto::resource(), $id, $options);
     }
 
     /**
