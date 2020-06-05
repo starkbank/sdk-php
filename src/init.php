@@ -1,5 +1,6 @@
 <?php
 
+require_once("setting.php");
 require_once("error.php");
 require_once("key.php");
 require_once("utils/api.php");

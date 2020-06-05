@@ -7,9 +7,7 @@ use EllipticCurve\PrivateKey;
 
 
 class User extends Resource
-{
-    private static $defaultUser;
-    
+{   
     function __construct(&$params)
     {
         parent::__construct($params);
@@ -27,16 +25,6 @@ class User extends Resource
     public function privateKey()
     {
         return PrivateKey::fromPem($this->pem);
-    }
-
-    public static function getDefault()
-    {
-        return self::$defaultUser;
-    }
-
-    public static function setDefault($user)
-    {
-        self::$defaultUser = $user;
     }
 }
 

@@ -16,7 +16,7 @@ $project = new \StarkBank\Project([
     "id" => $projectId,
     "privateKey" => $privateKey
 ]);
-\StarkBank\User::setDefault($project);
+\StarkBank\Settings::setUser($project);
 
 echo "\n\nStarting tests\n";
 
