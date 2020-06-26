@@ -665,6 +665,240 @@ $log = UtilityPayment\Log::get("1902837198237992");
 print_r($log);
 ```
 
+### Create DAS payment
+
+It's also simple to pay DAS taxes in the SDK.
+
+```php
+use StarkBank\DasPayment;
+
+$payments = DasPayment::create([
+    new DasPayment([
+        "line" => "83680000001 7 08430138003 0 71070987611 8 00041351685 7",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P2D")),
+        "description" => "take my money",
+        "tags" => ["take", "my", "money"],
+    ]),
+    new DasPayment([
+        "barCode" => "83600000001522801380037107172881100021296561",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
+        "description" => "take my money one more time",
+        "tags" => ["again"],
+    ]),
+]);
+
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+**Note**: Instead of using DasPayment objects, you can also pass each payment element directly in
+array format , without using the constructor
+### Query DAS payments
+
+To search for DAS payments using filters, run:
+
+```php
+use StarkBank\DasPayment;
+
+$payments = DasPayment::query([
+    "tags" => ["tax", "state"]
+]);
+
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+### Get DAS payment
+
+You can get a specific tax by its id:
+
+```php
+use StarkBank\DasPayment;
+
+$payment = DasPayment::get("5155165527080960");
+
+print_r($payment);
+```
+
+### Get DAS payment PDF
+
+After its creation, a DAS payment PDF may also be retrieved by passing its id. 
+
+```php
+use StarkBank\DasPayment;
+
+$pdf = DasPayment::pdf("5155165527080960");
+
+$fp = fopen('das.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Delete DAS payment
+
+You can also cancel a DAS payment by its id.
+Note that this is not possible if it has been processed already.
+
+```php
+use StarkBank\DasPayment;
+
+$payment = DasPayment::delete("5155165527080960");
+
+print_r($payment);
+```
+
+### Query DAS tax payment logs
+
+You can search for payments by specifying filters. Use this to understand the
+taxes life cycles.
+
+```php
+use StarkBank\DasPayment;
+
+$logs = DasPayment\Log::query([
+    "paymentIds" => ["102893710982379182", "92837912873981273"],
+]);
+
+foreach($logs as $log){
+    print_r($log);
+}
+```
+
+### Get DAS tax payment log
+
+If you want to get a specific payment log by its id, just run:
+
+```php
+use StarkBank\DasPayment;
+
+$log = DasPayment\Log::get("1902837198237992");
+
+print_r($log);
+```
+
+### Create ISS payment
+
+It's also simple to pay ISS taxes in the SDK.
+
+```php
+use StarkBank\IssPayment;
+
+$payments = IssPayment::create([
+    new IssPayment([
+        "line" => "83680000001 7 08430138003 0 71070987611 8 00041351685 7",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P2D")),
+        "description" => "take my money",
+        "tags" => ["take", "my", "money"],
+    ]),
+    new IssPayment([
+        "barCode" => "83600000001522801380037107172881100021296561",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
+        "description" => "take my money one more time",
+        "tags" => ["again"],
+    ]),
+]);
+
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+**Note**: Instead of using IssPayment objects, you can also pass each payment element directly in
+array format , without using the constructor
+### Query ISS payments
+
+To search for ISS payments using filters, run:
+
+```php
+use StarkBank\IssPayment;
+
+$payments = IssPayment::query([
+    "tags" => ["tax", "state"]
+]);
+
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+### Get ISS payment
+
+You can get a specific tax by its id:
+
+```php
+use StarkBank\IssPayment;
+
+$payment = IssPayment::get("5155165527080960");
+
+print_r($payment);
+```
+
+### Get ISS payment PDF
+
+After its creation, a ISS payment PDF may also be retrieved by passing its id. 
+
+```php
+use StarkBank\IssPayment;
+
+$pdf = IssPayment::pdf("5155165527080960");
+
+$fp = fopen('iss.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Delete ISS payment
+
+You can also cancel a ISS payment by its id.
+Note that this is not possible if it has been processed already.
+
+```php
+use StarkBank\IssPayment;
+
+$payment = IssPayment::delete("5155165527080960");
+
+print_r($payment);
+```
+
+### Query ISS tax payment logs
+
+You can search for payments by specifying filters. Use this to understand the
+taxes life cycles.
+
+```php
+use StarkBank\IssPayment;
+
+$logs = IssPayment\Log::query([
+    "paymentIds" => ["102893710982379182", "92837912873981273"],
+]);
+
+foreach($logs as $log){
+    print_r($log);
+}
+```
+
+### Get ISS tax payment log
+
+If you want to get a specific payment log by its id, just run:
+
+```php
+use StarkBank\IssPayment;
+
+$log = IssPayment\Log::get("1902837198237992");
+
+print_r($log);
+```
+
 ### Create transactions
 
 To send money between Stark Bank accounts, you can create transactions:

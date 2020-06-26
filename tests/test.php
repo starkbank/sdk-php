@@ -31,6 +31,10 @@ include_once("boletoPayment.php");
 include_once("boletoPaymentLog.php");
 include_once("utilityPayment.php");
 include_once("utilityPaymentLog.php");
+include_once("dasPayment.php");
+include_once("dasPaymentLog.php");
+include_once("issPayment.php");
+include_once("issPaymentLog.php");
 include_once("webhook.php");
 include_once("event.php");
 
