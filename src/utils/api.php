@@ -25,10 +25,17 @@ class API
             if (is_null($value)) {
                 continue;
             }
+            if (is_string($value)) {
+                $clean[$key] = utf8_encode($value);
+                continue;
+            }
             if ($value instanceof DateTime) {
-                $value = $value->format("Y-m-d");
-            } elseif (is_array($value)) {
-                $value = API::castJsonToApiFormat($value);
+                $clean[$key] = $value->format("Y-m-d");
+                continue;
+            }
+            if (is_array($value)) {
+                $clean[$key] = API::castJsonToApiFormat($value);
+                continue;
             }
             $clean[$key] = $value;
         }

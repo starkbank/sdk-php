@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Fixed
+- HTTP 411 response on PHP Ubuntu
 
 ## [0.5.0] - 2020-06-05
 ### Added
@@ -22,7 +24,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - Transfer query taxId parameter
 ### Changed
 - StarkBank\User::setDefault() to StarkBank\Settings::setUser()
-### FIxed
+### Fixed
 - Null JSON warning
 ### Removed
 - PHP 7.0 compatibility
