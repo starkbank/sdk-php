@@ -18,8 +18,12 @@ class Test
     {
         $events = iterator_to_array(Event::query(["limit" => 10, "isDelivered" => true]));
 
-        if (count($events) != 10) {
+        if (count($events) > 10) {
             throw new Exception("failed");
+        }
+
+        if (count($events) == 0) {
+            return;
         }
 
         foreach($events as $event) {
