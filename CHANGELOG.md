@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [0.5.1] - 2020-07-07
 ### Fixed
 - HTTP 411 response on PHP Ubuntu
 
