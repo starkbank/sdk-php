@@ -101,7 +101,7 @@ class Webhook extends Resource
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
-        - deleted Webhook with updated attributes
+        - deleted Webhook object
      */
     public static function delete($id, $user = null)
     {

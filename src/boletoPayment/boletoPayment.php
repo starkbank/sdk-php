@@ -146,7 +146,7 @@ class BoletoPayment extends Resource
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
-        - deleted BoletoPayment with updated attributes
+        - deleted BoletoPayment object
      */
     public static function delete($id, $user = null)
     {
