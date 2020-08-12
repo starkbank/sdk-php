@@ -25,6 +25,7 @@ class Transfer extends Resource
 
     ## Parameters (optional):
         - tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+        - scheduled [string, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary.
 
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
@@ -44,6 +45,7 @@ class Transfer extends Resource
         $this->bankCode = Checks::checkParam($params, "bankCode");
         $this->branchCode = Checks::checkParam($params, "branchCode");
         $this->accountNumber = Checks::checkParam($params, "accountNumber");
+        $this->scheduled = Checks::checkDateTime(Checks::checkParam($params, "scheduled"));
         $this->tags = Checks::checkParam($params, "tags");
         $this->fee = Checks::checkParam($params, "fee");
         $this->status = Checks::checkParam($params, "status");
@@ -90,6 +92,25 @@ class Transfer extends Resource
     public static function get($id, $user = null)
     {
         return Rest::getId($user, Transfer::resource(), $id);
+    }
+
+    /**
+    # Delete a Transfer entity
+
+    Delete a Transfer entity previously created in the Stark Bank API
+
+    ## Parameters (required):
+        - id [string]: Transfer unique id. ex: "5656565656565656"
+    
+    ## Parameters (optional):
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+    
+    ## Return:
+        - deleted Transfer object
+     */
+    public static function delete($id, $user = null)
+    {
+        return Rest::deleteId($user, Transfer::resource(), $id);
     }
 
     /**

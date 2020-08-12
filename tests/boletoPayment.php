@@ -55,7 +55,7 @@ class Test
     private static function example()
     {
         return new BoletoPayment([
-            "line" => join("", ["34191.09008 61713.957308 71444.640008 2 834300", sprintf("%08d", random_int(0, 100000000))]),
+            "line" => join("", ["34191.09008 61713.957308 71444.640008 2 934300", sprintf("%08d", random_int(0, 100000000))]),
             "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
             "description" => "loading a random account",
             "taxId" => "20.018.183/0001-80",

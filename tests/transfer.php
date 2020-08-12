@@ -1,6 +1,8 @@
 <?php
 
 namespace Test\Transfer;
+use DateInterval;
+use DateTime;
 use \Exception;
 use StarkBank\Transfer;
 
@@ -12,6 +14,18 @@ class Test
         $transfer = Transfer::create([Test::example()])[0];
 
         if (is_null($transfer->id)) {
+            throw new Exception("failed");
+        }
+    }
+
+    public function createAndDelete()
+    {
+        $transfer = Transfer::create([Test::example(true)])[0];
+        $deletedTransfer = Transfer::delete($transfer->id);
+        if ($transfer->id != $deletedTransfer->id) {
+            throw new Exception("failed");
+        }
+        if ($deletedTransfer->status != "canceled") {
             throw new Exception("failed");
         }
     }
@@ -46,16 +60,20 @@ class Test
         fclose($fp);
     }
 
-    private static function example()
+    private static function example($schedule=false)
     {
-        return new Transfer([
+        $params = [
             "amount" => 10,
             "name" => "João da Silva",
             "taxId" => "012.345.678-90",
             "bankCode" => "01",
             "branchCode" => "0001",
-            "accountNumber" => "10000-0",
-        ]);
+            "accountNumber" => "10000-0"
+        ];
+        if ($schedule) {
+            $params["scheduled"] = (new DateTime("now"))->add(new DateInterval("P1D"));
+        };
+        return new Transfer($params);
     }
 }
 
@@ -65,6 +83,10 @@ $test = new Test();
 
 echo "\n\t- create";
 $test->create();
+echo " - OK";
+
+echo "\n\t- create and delete";
+$test->createAndDelete();
 echo " - OK";
 
 echo "\n\t- query and get";
