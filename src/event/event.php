@@ -45,13 +45,18 @@ class Event extends Resource
 
     private static function buildLog($subscription, $log)
     {
-        $maker = [
+        $makerOptions = [
             "transfer" => Event::transferLogResource(),
             "boleto" => Event::boletoLogResource(),
             "boleto-payment" => Event::boletoPaymentLogResource(),
             "utility-payment" => Event::utilityPaymentLogResource()
-        ][$subscription];
-        return $maker($log);
+        ];
+
+        if (!isset($makerOptions[$subscription])) {
+            return $log;
+        }
+
+        return $makerOptions[$subscription]($log);
     }
 
     private static function transferLogResource()
