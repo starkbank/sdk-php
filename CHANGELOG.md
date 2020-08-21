@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [0.6.0] - 2020-08-20
 ### Added
 - transfer->scheduled parameter to allow Transfer scheduling
 - StarkBank\Transfer::delete to cancel scheduled Transfers
