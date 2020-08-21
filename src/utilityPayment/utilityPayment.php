@@ -144,7 +144,7 @@ class UtilityPayment extends Resource
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
-        - deleted UtilityPayment with updated attributes
+        - deleted UtilityPayment object
      */
     public static function delete($id, $user = null)
     {

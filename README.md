@@ -344,6 +344,7 @@ $transfers = Transfer::create([
         "accountNumber" => "123456-7",
         "taxId" => "012.345.678-90",
         "name" => "Jon Snow",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
         "tags" => []
     ])
 ]);
@@ -380,6 +381,18 @@ To get a single transfer by its id, run:
 use StarkBank\Transfer;
 
 $transfer = Transfer::get("5155165527080960");
+
+print_r($transfer);
+```
+
+### Cancel a scheduled transfer
+
+To cancel a single scheduled transfer by its id, run:
+
+```php
+use StarkBank\Transfer;
+
+$transfer = Transfer::delete("5155165527080960");
 
 print_r($transfer);
 ```
