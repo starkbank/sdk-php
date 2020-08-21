@@ -68,7 +68,7 @@ class Test
             "taxId" => "012.345.678-90",
             "bankCode" => "01",
             "branchCode" => "0001",
-            "accountNumber" => "10000-0"
+            "accountNumber" => "10000-0",
         ];
         if ($schedule) {
             $params["scheduled"] = (new DateTime("now"))->add(new DateInterval("P1D"));

@@ -25,7 +25,7 @@ class Transfer extends Resource
 
     ## Parameters (optional):
         - tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
-        - scheduled [string, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary.
+        - scheduled [DateTime, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary.
 
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
