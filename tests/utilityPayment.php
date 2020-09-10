@@ -55,7 +55,7 @@ class Test
     private static function example()
     {
         return new UtilityPayment([
-            "barCode" => "83660000001084301380074119002551100010601813",
+            "barCode" => "8366".sprintf("%011d", random_int(100, 100000000))."01380074119002551100010601813",
             "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
             "description" => "paying the bills",
         ]);
