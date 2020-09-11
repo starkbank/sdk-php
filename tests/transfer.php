@@ -45,6 +45,28 @@ class Test
         }
     }
 
+    public function queryIds()
+    {
+        $transfers = iterator_to_array(Transfer::query(["limit" => 10]));
+        $transfersIdsExpected = array();
+        for ($i=0; $i<sizeof($transfers); $i++){
+            array_push($transfersIdsExpected, $transfers[$i]->id);
+        }
+
+        $transfersResult = iterator_to_array(Transfer::query((["ids" => $transfersIdsExpected])));
+        $transfersIdsResult = array();
+        for ($i=0; $i<sizeof($transfersResult); $i++){
+            array_push($transfersIdsResult, $transfersResult[$i]->id);
+        }
+
+        sort($transfersIdsExpected);
+        sort($transfersIdsResult);
+
+        if ($transfersIdsExpected != $transfersIdsResult) {
+            throw new Exception("failed");
+        }
+    }
+
     public function queryAndGetPdf()
     {
         $transfers = iterator_to_array(Transfer::query(["limit" => 10, "status" => "success"]));
@@ -91,6 +113,10 @@ echo " - OK";
 
 echo "\n\t- query and get";
 $test->queryAndGet();
+echo " - OK";
+
+echo "\n\t- query";
+$test->queryIds();
 echo " - OK";
 
 echo "\n\t- query and get PDF";

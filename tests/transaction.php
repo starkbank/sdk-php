@@ -48,6 +48,30 @@ class Test
             throw new Exception("failed");
         }
     }
+
+    public function queryIds()
+    {
+
+        $transactions = iterator_to_array(Transaction::query(["limit" => 10]));
+        $transactionsIdsExpected = array();
+        for ($i=0; $i<sizeof($transactions); $i++){
+            array_push($transactionsIdsExpected, $transactions[$i]->id);
+        }
+
+        $transactionsResult = iterator_to_array(Transaction::query((["ids" => $transactionsIdsExpected])));
+        $transactionsIdsResult = array();
+        for ($i=0; $i<sizeof($transactionsResult); $i++){
+            array_push($transactionsIdsResult, $transactionsResult[$i]->id);
+        }
+
+        sort($transactionsIdsExpected);
+        sort($transactionsIdsResult);
+
+        if ($transactionsIdsExpected != $transactionsIdsResult) {
+            throw new Exception("failed");
+        }
+    }
+
 }
 
 echo "\n\nTransaction:";
@@ -60,4 +84,8 @@ echo " - OK";
 
 echo "\n\t- query and get";
 $test->queryAndGet();
+echo " - OK";
+
+echo "\n\t- query";
+$test->queryIds();
 echo " - OK";
