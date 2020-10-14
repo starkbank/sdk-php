@@ -39,6 +39,7 @@ require_once("utilityPayment/utilityPayment.php");
 require_once("utilityPayment/log.php");
 require_once("paymentRequest/paymentRequest.php");
 require_once("webhook/webhook.php");
+require_once("workspace/workspace.php");
 require_once("event/event.php");
 
 ?>
