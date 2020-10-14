@@ -42,6 +42,7 @@ include_once("boletoPaymentLog.php");
 include_once("utilityPayment.php");
 include_once("utilityPaymentLog.php");
 include_once("webhook.php");
+include_once("workspace.php");
 include_once("event.php");
 include_once("paymentRequest.php");
 
