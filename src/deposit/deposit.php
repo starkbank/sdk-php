@@ -83,7 +83,7 @@ class Deposit extends Resource
         - sort [string, default "-created"]: sort order considered in response. Valid options are "created" or "-created".
         - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - enumerator of Deposit objects with updated attributes

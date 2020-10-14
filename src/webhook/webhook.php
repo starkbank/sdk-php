@@ -43,7 +43,7 @@ class Webhook extends Resource
         - subscriptions [array of strings]: array of any non-empty combination of the available services. ex: ["transfer", "deposit"]
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Webhook object with updated attributes
@@ -62,7 +62,7 @@ class Webhook extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Webhook object with updated attributes
@@ -79,7 +79,7 @@ class Webhook extends Resource
 
     ## Parameters (optional):
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - enumerator of Webhook objects with updated attributes
@@ -98,7 +98,7 @@ class Webhook extends Resource
         - id [string]: Webhook unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - deleted Webhook object

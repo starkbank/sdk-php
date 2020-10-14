@@ -81,7 +81,7 @@ class DictKey extends Resource
         - before [datetime.date or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default None]: filter for status of retrieved objects. ex: "success"
-        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - enumerator of DictKey objects with updated attributes

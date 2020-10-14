@@ -16,6 +16,7 @@ require_once("utils/rest.php");
 require_once("utils/url.php");
 require_once("user/user.php");
 require_once("user/project.php");
+require_once("user/organization.php");
 require_once("balance/balance.php");
 require_once("transaction/transaction.php");
 require_once("boleto/boleto.php");

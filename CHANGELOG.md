@@ -13,6 +13,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- Organization user
+
 ## [2.2.1] - 2020-12-07
 ### Fixed
 - UTF8 encoding issues

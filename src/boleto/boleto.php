@@ -111,7 +111,7 @@ class Boleto extends Resource
         - boletos [array of Boleto objects]: array of Boleto objects to be created in the API
     
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
     
     ## Return:
         - array of Boleto objects with updated attributes
@@ -130,7 +130,7 @@ class Boleto extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Boleto object with updated attributes
@@ -150,7 +150,7 @@ class Boleto extends Resource
 
     ## Parameters (optional):
         - layout [string]: Layout specification. Available options are "default" and "booklet"
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - Boleto pdf file
@@ -173,7 +173,7 @@ class Boleto extends Resource
         - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
         - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
         - enumerator of Boleto objects with updated attributes
@@ -194,7 +194,7 @@ class Boleto extends Resource
         - id [string]: Boleto unique id. ex: "5656565656565656"
     
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
     
     ## Return:
         - deleted Boleto object
