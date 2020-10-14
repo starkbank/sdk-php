@@ -82,19 +82,27 @@ keys inside the infrastructure that will use it, in order to avoid risky interne
 transmissions of your **private-key**. Then you can export the **public-key** alone to the
 computer where it will be used in the new Project creation.
 
-### 3. Create a Project
+### 3. Register your user credentials
 
-You need a project for direct API integrations. To create one in Sandbox:
+You can interact directly with our API using two types of users: Projects and Organizations.
 
-3.1. Log into [Starkbank Sandbox](https://sandbox.web.starkbank.com)
+- **Projects** are workspace-specific users, that is, they are bound to the workspaces they are created in.
+One workspace can have multiple Projects.
+- **Organizations** are general users that control your entire organization.
+They can control all your Workspaces and even create new ones. The Organization is bound to your company's tax-ID only.
+Since this user is unique in your entire organization, only one credential can be linked to it.
 
-3.2. Go to Menu > Usuários (Users) > Projetos (Projects)
+3.1 To create a Project in Sandbox:
 
-3.3. Create a Project: Give it a name and upload the public key you created in section 2.
+3.1.1. Log into [Starkbank Sandbox](https://sandbox.web.starkbank.com)
 
-3.4. After creating the Project, get its Project ID
+3.1.2. Go to Menu > Projects
 
-3.5. Use the Project ID and private key to create the object below:
+3.1.3. Create a Project: Give it a name and upload the public key you created in section 2.
+
+3.1.4. After creating the Project, get its Project ID
+
+3.1.5. Use the Project ID and private key to create the object below:
 
 ```php
 use StarkBank\Project;
@@ -119,11 +127,41 @@ $project = new Project([
 ]);
 ```
 
+3.2 While this feature is in beta, to register your Organization's public key, a legal representative of your organization must send an e-mail with the desired public key to developers@starkbank.com. Don`t worry, this flow will soon be integrated with our website. Here is an example on how to handle your Organization in the SDK:
+
+```php
+use StarkBank\Organization;
+
+// Get your private key from an environment variable or an encrypted database.
+// This is only an example of a private key content. You should use your own key.
+privateKeyContent = "
+-----BEGIN EC PARAMETERS-----
+BgUrgQQACg==
+-----END EC PARAMETERS-----
+-----BEGIN EC PRIVATE KEY-----
+MHQCAQEEIMCwW74H6egQkTiz87WDvLNm7fK/cA+ctA2vg/bbHx3woAcGBSuBBAAK
+oUQDQgAE0iaeEHEgr3oTbCfh8U2L+r7zoaeOX964xaAnND5jATGpD/tHec6Oe9U1
+IF16ZoTVt1FzZ8WkYQ3XomRD4HS13A==
+-----END EC PRIVATE KEY-----
+";
+
+$organization = new Organization([
+    "environment" => "sandbox",
+    "id" => "5656565656565656",
+    "privateKey" => $privateKeyContent,
+    "workspaceId" => null // You only need to set the workspaceId when you are operating a specific workspaceId
+]);
+
+// To dynamically use your organization credentials in a specific workspaceId,
+// you can use the Organization::withWorkspace() method:
+$balance = Balance::get(organization.withWorkspace("4848484848484848"));
+```
+
 NOTE 1: Never hard-code your private key. Get it from an environment variable or an encrypted database.
 
 NOTE 2: We support `'sandbox'` and `'production'` as environments.
 
-NOTE 3: The project you created in `sandbox` does not exist in `production` and vice versa.
+NOTE 3: The credentials you registered in `sandbox` do not exist in `production` and 
 
 
 ### 4. Setting up the user
@@ -1233,7 +1271,7 @@ foreach($webhooks as $webhook){
 }
 ```
 
-### Get webhook
+### Get a webhook
 
 You can get a specific webhook by its id.
 
@@ -1364,6 +1402,55 @@ foreach($dictKeys as $dictKey) {
     print_r($dictKey);
 }
 ```
+
+### Create new Workspaces
+
+The Organization user allows you to create new Workspaces (bank accounts) under your organization.
+Workspaces have independent balances, statements, operations and users.
+The only link between your Workspaces is the Organization that controls them.
+
+**Note**: This route will only work if the Organization user is used with `workspaceId=null`.
+
+```php
+use StarkBank\Workspace;
+
+$workspace = Workspace::create([
+    "username" => "iron-bank-workspace-1",
+    "name" => "Iron Bank Workspace 1"
+    ],
+    $user = organization
+);
+
+print_r($workspace)
+```
+
+### List your Workspaces
+
+This route lists Workspaces. If no parameter is passed, all the workspaces the user has access to will be listed, but
+you can also find other Workspaces by searching for their usernames or IDs directly.
+
+```php
+use StarkBank\Workspace;
+
+$workspaces = Workspace::query(["limit" => 30]);
+
+foreach($workspaces as $workspace){
+    print_r($workspace);
+}
+```
+
+### Get a Workspace
+
+You can get a specific Workspace by its id.
+
+```php
+use StarkBank\Workspace;
+
+$workspace = Workspace::get("10827361982368179");
+
+print_r($workspace);
+```
+
 
 ## Handling errors
 
