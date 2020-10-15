@@ -18,7 +18,7 @@ class Webhook extends Resource
 
     ## Parameters (required):
         - url [string]: Url that will be notified when an event occurs.
-        - subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
+        - subscriptions [array of strings]: array of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
 
     ## Attributes:
         - id [string, default null]: unique id returned when the webhook is created. ex: "5656565656565656"
@@ -40,7 +40,7 @@ class Webhook extends Resource
 
     ## Parameters (required):
         - url [string]: url to which notification events will be sent to. ex: "https://webhook.site/60e9c18e-4b5c-4369-bda1-ab5fcd8e1b29"
-        - subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
+        - subscriptions [array of strings]: array of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
 
     ## Parameters (optional):
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call

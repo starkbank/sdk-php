@@ -24,14 +24,14 @@ class Transfer extends Resource
         - accountNumber [string]: Receiver Bank Account number. Use '-' before the verifier digit. ex: "876543-2"
 
     ## Parameters (optional):
-        - tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+        - tags [array of strings]: array of strings for reference when searching for transfers. ex: ["employees", "monthly"]
         - scheduled [DateTime, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary.
 
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
         - fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
         - status [string, default null]: current transfer status. ex: "success" or "failed"
-        - transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
+        - transactionIds [array of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
         - created [DateTime, default null]: creation datetime for the transfer.
         - updated [DateTime, default null]: latest update datetime for the transfer.
      */
@@ -59,10 +59,10 @@ class Transfer extends Resource
     /**
     # Create Transfers
 
-    Send a list of Transfer objects for creation in the Stark Bank API
+    Send an array of Transfer objects for creation in the Stark Bank API
 
     ## Parameters (required):
-        - transfers [list of Transfer objects]: list of Transfer objects to be created in the API
+        - transfers [array of Transfer objects]: array of Transfer objects to be created in the API
 
     ## Parameters (optional):
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
@@ -142,12 +142,12 @@ class Transfer extends Resource
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
         - after [DateTime or string, default null]: date filter for objects created or updated only after specified date. ex: "2020-04-03"
         - before [DateTime or string, default null]: date filter for objects created or updated only before specified date. ex: "2020-04-03"
-        - transactionIds [list of strings, default null]: list of transaction IDs linked to the desired transfers. ex: ["5656565656565656", "4545454545454545"]
+        - transactionIds [array of strings, default null]: array of transaction IDs linked to the desired transfers. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
         - taxId [string, default null]: filter for transfers sent to the specified tax ID. ex: "012.345.678-90"
         - sort [string, default "-created"]: sort order considered in response. Valid options are 'created', '-created', 'updated' or '-updated'.
-        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:

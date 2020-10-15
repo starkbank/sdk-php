@@ -33,9 +33,9 @@ class Boleto extends Resource
         - overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
         - receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
         - receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-        - descriptions [list of dictionaries, default null]: list of dictionaries with "text":string and (optional) "amount":int pairs
-        - discounts [list of dictionaries, default null]: list of dictionaries with "percentage":float and "date":DateTime or string pairs
-        - tags [list of strings]: list of strings for tagging
+        - descriptions [array of dictionaries, default null]: array of dictionaries with "text":string and (optional) "amount":int pairs
+        - discounts [array of dictionaries, default null]: array of dictionaries with "percentage":float and "date":DateTime or string pairs
+        - tags [array of strings]: array of strings for tagging
     
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
@@ -79,10 +79,10 @@ class Boleto extends Resource
     /**
     # Create Boletos
 
-    Send a list of Boleto objects for creation in the Stark Bank API
+    Send an array of Boleto objects for creation in the Stark Bank API
 
     ## Parameters (required):
-        - boletos [list of Boleto objects]: list of Boleto objects to be created in the API
+        - boletos [array of Boleto objects]: array of Boleto objects to be created in the API
     
     ## Parameters (optional):
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
@@ -145,8 +145,8 @@ class Boleto extends Resource
         - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
-        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
