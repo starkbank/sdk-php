@@ -7,11 +7,11 @@ use \DateTime;
 use \DateInterval;
 
 
-class Test
+class TestBoletoPayment
 {
     public function createAndDelete()
     {
-        $payments = [Test::example()];
+        $payments = [self::example()];
 
         $payment = BoletoPayment::create($payments)[0];
 
@@ -52,20 +52,23 @@ class Test
         fclose($fp);
     }
 
-    private static function example()
+    public static function example($schedule = true)
     {
-        return new BoletoPayment([
+        $params = [
             "line" => join("", ["34191.09008 61713.957308 71444.640008 2 934300", sprintf("%08d", random_int(0, 100000000))]),
-            "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
             "description" => "loading a random account",
             "taxId" => "20.018.183/0001-80",
-        ]);
+        ];
+        if($schedule)
+            $params["scheduled"] = (new DateTime("now"))->add(new DateInterval("P1D"));
+
+        return new BoletoPayment($params);
     }
 }
 
 echo "\n\nBoletoPayment:";
 
-$test = new Test();
+$test = new TestBoletoPayment();
 
 echo "\n\t- create and delete";
 $test->createAndDelete();

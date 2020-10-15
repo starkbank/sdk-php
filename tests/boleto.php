@@ -7,11 +7,11 @@ use \DateTime;
 use \DateInterval;
 
 
-class Test
+class TestBoleto
 {
     public function createAndDelete()
     {
-        $boletos = [Test::example()];
+        $boletos = [self::example()];
 
         $boleto = Boleto::create($boletos)[0];
 
@@ -98,7 +98,7 @@ class Test
 
 echo "\n\nBoleto:";
 
-$test = new Test();
+$test = new TestBoleto();
 
 echo "\n\t- create and delete";
 $test->createAndDelete();

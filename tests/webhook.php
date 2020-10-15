@@ -6,11 +6,11 @@ use \Exception;
 use StarkBank\Webhook;
 
 
-class Test
+class TestWebhook
 {
     public function createAndDelete()
     {
-        $webhook = Test::example();
+        $webhook = self::example();
 
         $webhook = Webhook::create(["url" => $webhook->url, "subscriptions" => $webhook->subscriptions]);
 
@@ -47,7 +47,7 @@ class Test
 
 echo "\n\nWebhook:";
 
-$test = new Test();
+$test = new TestWebhook();
 
 echo "\n\t- create and delete";
 $test->createAndDelete();

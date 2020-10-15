@@ -4,7 +4,7 @@ namespace Test\Key;
 use StarkBank\Key;
 
 
-class Test
+class TestKey
 {
   public function create()
   {
@@ -15,7 +15,7 @@ class Test
 
 echo "\n\nKey:";
 
-$test = new Test();
+$test = new TestKey();
 
 echo "\n\t- create";
 $test->create();

@@ -7,19 +7,18 @@ use \DateTime;
 use \DateInterval;
 
 
-class Test
+class TestUtilityPayment
 {
     public function createAndDelete()
     {
-        $payments = [Test::example()];
+        $payments = [TestUtilityPayment::example()];
 
         $payment = UtilityPayment::create($payments)[0];
 
         $deleted = UtilityPayment::delete($payment->id);
 
-        if (is_null($payment->id) | $payment->id != $deleted->id) {
+        if (is_null($payment->id) | $payment->id != $deleted->id)
             throw new Exception("failed");
-        }
     }
 
     public function queryAndGet()
@@ -52,19 +51,23 @@ class Test
         fclose($fp);
     }
 
-    private static function example()
+    public static function example($schedule = true)
     {
-        return new UtilityPayment([
+        $params = [
             "barCode" => "8366".sprintf("%011d", random_int(100, 100000000))."01380074119002551100010601813",
-            "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
             "description" => "paying the bills",
-        ]);
+        ];
+
+        if($schedule)
+            $params["scheduled"] = (new DateTime("now"))->add(new DateInterval("P1D"));
+
+        return new UtilityPayment($params);
     }
 }
 
 echo "\n\nUtilityPayment:";
 
-$test = new Test();
+$test = new TestUtilityPayment();
 
 echo "\n\t- create and delete";
 $test->createAndDelete();

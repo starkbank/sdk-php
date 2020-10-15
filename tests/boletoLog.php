@@ -5,7 +5,7 @@ use \Exception;
 use StarkBank\Boleto\Log;
 
 
-class Test
+class TestBoletoLog
 {
     public function queryAndGet()
     {
@@ -31,7 +31,7 @@ class Test
 
 echo "\n\nBoletoLog:";
 
-$test = new Test();
+$test = new TestBoletoLog();
 
 echo "\n\t- query and get";
 $test->queryAndGet();

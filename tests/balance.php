@@ -5,7 +5,7 @@ use \Exception;
 use StarkBank\Balance;
 
 
-class Test
+class TestBalance
 {
   public function get()
   {
@@ -18,7 +18,7 @@ class Test
 
 echo "\n\nBalance:";
 
-$test = new Test();
+$test = new TestBalance();
 
 echo "\n\t- get";
 $test->get();
