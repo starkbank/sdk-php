@@ -16,6 +16,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Added
 - ids parameter to transaction.query
 - ids parameter to transfer.query
+- PaymentRequest resource to pass payments through manual approval flow
 
 ### Fixed
 - UtilityPayment test case

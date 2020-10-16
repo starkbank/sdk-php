@@ -25,6 +25,7 @@ require_once("boletoPayment/boletoPayment.php");
 require_once("boletoPayment/log.php");
 require_once("utilityPayment/utilityPayment.php");
 require_once("utilityPayment/log.php");
+require_once("paymentRequest/paymentRequest.php");
 require_once("webhook/webhook.php");
 require_once("event/event.php");
 
