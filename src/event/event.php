@@ -49,7 +49,8 @@ class Event extends Resource
             "transfer" => Event::transferLogResource(),
             "boleto" => Event::boletoLogResource(),
             "boleto-payment" => Event::boletoPaymentLogResource(),
-            "utility-payment" => Event::utilityPaymentLogResource()
+            "utility-payment" => Event::utilityPaymentLogResource(),
+            "boleto-holmes" => Event::boletoHolmesLogResource()
         ];
 
         if (!isset($makerOptions[$subscription])) {
@@ -103,6 +104,18 @@ class Event extends Resource
         };
     }
 
+    private static function boletoHolmesLogResource()
+    {
+        return function ($array) {
+            $holmes = function ($array) {
+                return new BoletoHolmes($array);
+            };
+            $array["holmes"] = API::fromApiJson($holmes, $array["holmes"]);
+            return new BoletoHolmes\Log($array);
+        };
+    }
+
+
     /**
     # Retrieve a specific notification Event
 
@@ -147,7 +160,7 @@ class Event extends Resource
     /**
     # Delete notification Events
 
-    Delete a list of notification Event entities previously created in the Stark Bank API
+    Delete a array of notification Event entities previously created in the Stark Bank API
 
     ## Parameters (required):
         - id [string]: Event unique id. ex: "5656565656565656"
