@@ -7,11 +7,11 @@ use \Exception;
 use StarkBank\Transfer;
 
 
-class Test
+class TestTransfer
 {
     public function create()
     {
-        $transfer = Transfer::create([Test::example()])[0];
+        $transfer = Transfer::create([TestTransfer::example()])[0];
 
         if (is_null($transfer->id)) {
             throw new Exception("failed");
@@ -20,7 +20,7 @@ class Test
 
     public function createAndDelete()
     {
-        $transfer = Transfer::create([Test::example(true)])[0];
+        $transfer = Transfer::create([TestTransfer::example(true)])[0];
         $deletedTransfer = Transfer::delete($transfer->id);
         if ($transfer->id != $deletedTransfer->id) {
             throw new Exception("failed");
@@ -82,7 +82,7 @@ class Test
         fclose($fp);
     }
 
-    private static function example($schedule=false)
+    public static function example($schedule=false)
     {
         $params = [
             "amount" => 10,
@@ -101,7 +101,7 @@ class Test
 
 echo "\n\nTransfer:";
 
-$test = new Test();
+$test = new TestTransfer();
 
 echo "\n\t- create";
 $test->create();

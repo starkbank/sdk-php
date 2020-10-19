@@ -5,7 +5,7 @@ use \Exception;
 use StarkBank\UtilityPayment\Log;
 
 
-class Test
+class TestUtilityPaymentLog
 {
     public function queryAndGet()
     {
@@ -31,7 +31,7 @@ class Test
 
 echo "\n\nUtilityPaymentLog:";
 
-$test = new Test();
+$test = new TestUtilityPaymentLog();
 
 echo "\n\t- query and get";
 $test->queryAndGet();

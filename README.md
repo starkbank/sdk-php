@@ -232,7 +232,7 @@ foreach($boletos as $boleto){
 ```
 
 **Note**: Instead of using Boleto objects, you can also pass each boleto element
-directly in array format , without using the constructor
+directly in array format, without using the constructor
 ### Get boleto
 
 After its creation, information on a boleto may be retrieved by passing its id. 
@@ -355,7 +355,7 @@ foreach($transfers as $transfer){
 ```
 
 **Note**: Instead of using Transfer objects, you can also pass each transfer element
-directly in array format , without using the constructor
+directly in array format, without using the constructor
 ### Query transfers
 
 You can query multiple transfers according to filters.
@@ -472,7 +472,7 @@ foreach($payments as $payment){
 ```
 
 **Note**: Instead of using BoletoPayment objects, you can also pass each payment element
-directly in array format , without using the constructor
+directly in array format, without using the constructor
 ### Get boleto payment
 
 To get a single boleto payment by its id, run:
@@ -589,7 +589,7 @@ foreach($payments as $payment){
 ```
 
 **Note**: Instead of using UtilityPayment objects, you can also pass each payment element directly in
-array format , without using the constructor
+array format, without using the constructor
 ### Query utility payments
 
 To search for utility payments using filters, run:
@@ -740,6 +740,62 @@ $transaction = Transaction::get("5155165527080960");
 
 print_r($transaction);
 ```
+
+
+### Create payment requests to be approved by authorized people in a cost center
+
+You can also request payments that must pass through a specific cost center approval flow to be executed.
+In certain structures, this allows double checks for cash-outs and also gives time to load your account
+with the required amount before the payments take place.
+The approvals can be granted at our website and must be performed according to the rules
+specified in the cost center.
+
+**Note**: The value of the centerId parameter can be consulted by logging into our website and going
+to the desired cost center page.
+
+```php
+use StarkBank\PaymentRequest;
+
+
+$requests = PaymentRequest::create([
+    new PaymentRequest([
+        "centerId" => "5967314465849344",
+        "payment" => new Transfer([
+            "amount" => 100,
+            "bankCode" => "033",
+            "branchCode" => "0001",
+            "accountNumber" => "10000-0",
+            "taxId" => "012.345.678-90",
+            "name" => "Tony Stark",
+            "tags" => ["iron", "suit"]
+        ]),
+        "due" => (new DateTime("now"))->add(new DateInterval("P30D"))
+    ])
+]);
+
+foreach($requests as $request){
+    print_r($request);
+}
+```
+
+**Note**: Instead of using PaymentRequest objects, you can also pass each request element
+directly in array format, without using the constructor
+
+
+### Query payment requests
+
+To search for payment requests, run:
+
+```php
+use StarkBank\PaymentRequest;
+
+$requests = PaymentRequest::query(["centerId" => "5967314465849344", "limit" => 10]);
+
+foreach($requests as $request){
+    print_r($request);
+}
+```
+
 
 ### Create webhook subscription
 

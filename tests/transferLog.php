@@ -5,7 +5,7 @@ use \Exception;
 use StarkBank\Transfer\Log;
 
 
-class Test
+class TestTransferLog
 {
     public function queryAndGet()
     {
@@ -31,7 +31,7 @@ class Test
 
 echo "\n\nTransferLog:";
 
-$test = new Test();
+$test = new TestTransferLog();
 
 echo "\n\t- query and get";
 $test->queryAndGet();

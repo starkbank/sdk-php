@@ -5,17 +5,12 @@ use \Exception;
 use StarkBank\Transaction;
 
 
-class Test
+class TestTransaction
 {
     public function createAndQuery()
     {
         $externalId = uniqid();
-        $transactions = [new Transaction([
-            "amount" => 1,
-            "description" => "transaction to random workspace",
-            "externalId" => $externalId,
-            "receiverId" => "5768064935133184",
-        ])];
+        $transactions = [self::example($externalId)];
 
         $transactions = Transaction::create($transactions);
 
@@ -72,11 +67,21 @@ class Test
         }
     }
 
+    public static function example($externalId)
+    {
+        return new Transaction([
+            "amount" => 1,
+            "description" => "transaction to random workspace",
+            "externalId" => $externalId,
+            "receiverId" => "5768064935133184",
+        ]);
+    }
+
 }
 
 echo "\n\nTransaction:";
 
-$test = new Test();
+$test = new TestTransaction();
 
 echo "\n\t- create and query";
 $test->createAndQuery();

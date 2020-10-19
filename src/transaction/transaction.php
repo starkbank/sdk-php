@@ -27,7 +27,7 @@ class Transaction extends Resource
         - receiverId [string]: unique id of the receiving workspace. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - tags [list of strings]: list of strings for reference when searching transactions (may be empty). ex: ["abc", "test"]
+        - tags [array of strings]: array of strings for reference when searching transactions (may be empty). ex: ["abc", "test"]
 
     ## Attributes (return-only):
         - senderId [string]: unique id of the sending workspace. ex: "5656565656565656"
@@ -58,10 +58,10 @@ class Transaction extends Resource
     /**
     # Create Transactions
 
-    Send a list of Transaction objects for creation in the Stark Bank API
+    Send an array of Transaction objects for creation in the Stark Bank API
 
     ## Parameters (required):
-        - transactions [list of Transaction objects]: list of Transaction objects to be created in the API
+        - transactions [array of Transaction objects]: array of Transaction objects to be created in the API
 
     ## Parameters (optional):
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
@@ -102,9 +102,9 @@ class Transaction extends Resource
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
         - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-        - externalIds [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - externalIds [array of strings, default null]: array of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:

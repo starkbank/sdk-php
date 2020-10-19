@@ -25,7 +25,7 @@ class BoletoPayment extends Resource
 
     ## Parameters (optional):
         - scheduled [DateTime or string, default today]: payment scheduled date.
-        - tags [list of strings]: list of strings for tagging
+        - tags [array of strings]: array of strings for tagging
 
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
@@ -55,10 +55,10 @@ class BoletoPayment extends Resource
     /**
     # Create BoletoPayments
 
-    Send a list of BoletoPayment objects for creation in the Stark Bank API
+    Send an array of BoletoPayment objects for creation in the Stark Bank API
 
     ## Parameters (required):
-        - payments [list of BoletoPayment objects]: list of BoletoPayment objects to be created in the API
+        - payments [array of BoletoPayment objects]: array of BoletoPayment objects to be created in the API
 
     ## Parameters (optional):
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
@@ -119,8 +119,8 @@ class BoletoPayment extends Resource
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
         - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default null]: filter for status of retrieved objects. ex: "success"
         - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
