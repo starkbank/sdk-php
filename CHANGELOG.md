@@ -13,13 +13,12 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.0.0] - 2020-10-19
 ### Added
 - ids parameter to transaction.query
 - ids parameter to transfer.query
 - PaymentRequest resource to pass payments through manual approval flow
-
-### Fixed
-- UtilityPayment test case
 
 ## [0.6.0] - 2020-08-20
 ### Added
