@@ -1,4 +1,4 @@
-# Stark Bank PHP SDK Beta
+# Stark Bank PHP SDK
 
 Welcome to the Stark Bank PHP SDK! This tool is made for PHP 
 developers who want to easily integrate with our API.
