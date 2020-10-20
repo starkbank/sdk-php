@@ -27,14 +27,13 @@ class PaymentRequest extends Resource
     
     ## Parameters (optional):
         - due [DateTime or string, default today]: Payment target date in ISO format. ex: 2020-04-30
-        - description [string, default depends on payment type]: request description %. ex: "Iron Bank invoice #123456"
         - tags [array of strings]: array of strings for tagging
 
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
         - amount [integer, default null]: PaymentRequest amount. ex: 100000 = R$1.000,00
         - status [string, default null]: current PaymentRequest status. ex: "pending" or "approved"
-        - actions [array of dictionaries, default null]: array of actions that are affecting this PaymentRequest. ex: [{"type": "member", "id": "56565656565656, "action": "requested"}]
+        - actions [array of dictionaries, default null]: array of actions that are affecting this PaymentRequest. ex: [["type" => "member", "id" => "56565656565656", "action" => "requested"]]
         - updated [DateTime, default null]: latest update datetime for the PaymentRequest.
         - created [DateTime, default null]: creation datetime for the PaymentRequest.
      */
