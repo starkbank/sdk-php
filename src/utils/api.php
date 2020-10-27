@@ -7,15 +7,15 @@ use \DateTime;
 
 class API
 {
-    public static function apiJson($entity)
+    public static function apiJson($entity, $resourceName = null)
     {
         if (!is_array($entity)) {
             $entity = get_object_vars($entity);
         }
-        return API::castJsonToApiFormat($entity);
+        return API::castJsonToApiFormat($entity, $resourceName);
     }
 
-    public static function castJsonToApiFormat($json)
+    public static function castJsonToApiFormat($json, $resourceName = null)
     {
         $clean = [];
         if (is_null($json)) {
@@ -29,16 +29,20 @@ class API
                 $clean[$key] = utf8_encode($value);
                 continue;
             }
+            if ($key == "due" && $resourceName == "Invoice" && $value instanceof DateTime) {
+                $clean[$key] = $value->format("Y-m-d\TH:i:s.uP");
+                continue;
+            }
             if ($value instanceof DateTime) {
                 $clean[$key] = $value->format("Y-m-d");
                 continue;
             }
             if (is_array($value)) {
-                $clean[$key] = API::castJsonToApiFormat($value);
+                $clean[$key] = API::castJsonToApiFormat($value, $resourceName);
                 continue;
             }
             if($value instanceof Resource) {
-                $clean[$key] = API::castJsonToApiFormat(get_object_vars($value));
+                $clean[$key] = API::castJsonToApiFormat(get_object_vars($value), $resourceName);
                 continue;
             }
             $clean[$key] = $value;

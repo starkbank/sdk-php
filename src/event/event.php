@@ -34,7 +34,7 @@ class Event extends Resource
     function __construct(array $params)
     {
         parent::__construct($params);
-        
+
         $this->isDelivered = Checks::checkParam($params, "isDelivered");
         $this->subscription = Checks::checkParam($params, "subscription");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
@@ -50,7 +50,8 @@ class Event extends Resource
             "boleto" => Event::boletoLogResource(),
             "boleto-payment" => Event::boletoPaymentLogResource(),
             "utility-payment" => Event::utilityPaymentLogResource(),
-            "boleto-holmes" => Event::boletoHolmesLogResource()
+            "boleto-holmes" => Event::boletoHolmesLogResource(),
+            "invoice" => Event::invoiceLogResource()
         ];
 
         if (!isset($makerOptions[$subscription])) {
@@ -112,6 +113,17 @@ class Event extends Resource
             };
             $array["holmes"] = API::fromApiJson($holmes, $array["holmes"]);
             return new BoletoHolmes\Log($array);
+        };
+    }
+
+    private static function invoiceLogResource()
+    {
+        return function ($array) {
+            $invoice = function ($array) {
+                return new Invoice($array);
+            };
+            $array["invoice"] = API::fromApiJson($invoice, $array["invoice"]);
+            return new Invoice\Log($array);
         };
     }
 

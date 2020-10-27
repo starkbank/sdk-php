@@ -52,7 +52,7 @@ class Rest
     {
         $entitiesJson = [];
         foreach($entities as $entity){
-            $entitiesJson[] = API::apiJson($entity);
+            $entitiesJson[] = API::apiJson($entity, $resource["name"]);
         }
         $payload = [
             API::lastNamePlural($resource["name"]) => $entitiesJson
@@ -87,7 +87,7 @@ class Rest
     public static function patchId($user, $resource, $id, $payload = [])
     {
         $id = Checks::checkId($id);
-        $json = Request::fetch($user, "PATCH", API::endpoint($resource["name"]) . "/" . $id, API::castJsonToApiFormat($payload))->json();
+        $json = Request::fetch($user, "PATCH", API::endpoint($resource["name"]) . "/" . $id, API::castJsonToApiFormat($payload, $resource["name"]))->json();
         $entity = $json[API::lastName($resource["name"])];
         return API::fromApiJson($resource["maker"], $entity);
     }

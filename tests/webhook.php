@@ -64,7 +64,7 @@ class TestWebhook
 
         return new Webhook([
             "url" => "https://webhook.site/" . $uuid,
-            "subscriptions" => ["transfer", "boleto", "boleto-payment", "boleto-holmes"],
+            "subscriptions" => ["transfer", "boleto", "boleto-payment", "boleto-holmes", "invoice"],
         ]);
     }
 }

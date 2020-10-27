@@ -1,11 +1,11 @@
 # Stark Bank PHP SDK
 
-Welcome to the Stark Bank PHP SDK! This tool is made for PHP 
+Welcome to the Stark Bank PHP SDK! This tool is made for PHP
 developers who want to easily integrate with our API.
 This SDK version is compatible with the Stark Bank API v2.
 
-If you have no idea what Stark Bank is, check out our [website](https://www.starkbank.com/) 
-and discover a world where receiving or making payments 
+If you have no idea what Stark Bank is, check out our [website](https://www.starkbank.com/)
+and discover a world where receiving or making payments
 is as easy as sending a text message to your client!
 
 ## Supported PHP Versions
@@ -134,7 +134,7 @@ There are two kinds of users that can access our API: **Project** and **Member**
 - `Project` is designed for integrations and is the one meant for our SDK.
 
 There are two ways to inform the user to the SDK:
- 
+
 4.1 Passing the user as argument in all functions:
 
 ```php
@@ -173,7 +173,7 @@ Language options are "en-US" for english and "pt-BR" for brazilian portuguese. E
 ## Testing in Sandbox
 
 Your initial balance is zero. For many operations in Stark Bank, you'll need funds
-in your account, which can be added to your balance by creating a Boleto. 
+in your account, which can be added to your balance by creating a Boleto.
 
 In the Sandbox environment, 90% of the created Boletos will be automatically paid,
 so there's nothing else you need to do to add funds to your account. Just create
@@ -200,6 +200,177 @@ $balance = Balance::get();
 print_r($balance);
 ```
 
+### Create invoices
+
+You can create dynamic QR Code invoices to charge customers or to receive money from accounts you have in other banks.
+
+```php
+use StarkBank\Invoice;
+
+$invoices = [
+    new Invoice([
+        "amount" => 400000,
+        "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D"))),
+        "taxId" => "012.345.678-90",
+        "name" => "Mr Meeseks",
+
+        "expiration" => 123456789,
+        "fine" => 2.5,
+        "interest" => 1.3,
+        "discounts" => [
+            [
+                "percentage" => 5,
+                "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P1D")))
+            ],
+            [
+                "percentage" => 3,
+                "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P2D")))
+            ]
+        ],
+        "tags" => [
+            'War supply',
+            'Invoice #1234'
+        ],
+        "descriptions" => [
+            [
+                "key" => "product A",
+                "value" => "big"
+            ],
+            [
+                "key" => "product B",
+                "value" => "medium"
+            ],
+            [
+                "key" => "product C",
+                "value" => "small"
+            ]
+        ],
+    ])
+];
+
+$invoice = Invoice::create($invoices)[0];
+
+print_r($invoice);
+```
+**Note**: Instead of using Invoice objects, you can also pass each invoice element in dictionary format
+
+### Get an invoice
+
+After its creation, information on an invoice may be retrieved by its id.
+Its status indicates whether it's been paid.
+
+```php
+use StarkBank\Invoice;
+
+$invoice = Invoice::get("5656565656565656");
+
+print_r($invoice);
+```
+
+### Get an invoice PDF (COMING SOON)
+
+After its creation, an invoice PDF may be retrieved by its id.
+
+```php
+use StarkBank\Invoice;
+
+$invoices = iterator_to_array(Invoice::query(["limit" => 10]));
+
+if (count($invoices) != 10) {
+    throw new Exception("failed");
+}
+
+$pdf = Invoice::pdf($invoices[0]->id, ["layout" => "default"]);
+
+$fp = fopen('invoice.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Cancel an invoice
+
+You can also cancel an invoice by its id.
+Note that this is not possible if it has been paid already.
+
+```php
+use StarkBank\Invoice;
+
+$invoices = iterator_to_array(Invoice::query(["limit" => 1, "status" => "created"]));
+
+foreach ($invoices as $invoice) {
+    $updateInvoice = Invoice::update($invoice->id, ["status" => "canceled"]);
+
+    print_r($updateInvoice);
+}
+```
+
+### Update an invoice
+
+You can update an invoice's amount, due date and expiration by its id.
+Note that this is not possible if it has been paid already.
+
+```php
+use StarkBank\Invoice;
+
+$invoices = iterator_to_array(Invoice::query(["limit" => 1, "status" => "created"]));
+
+foreach ($invoices as $invoice) {
+    $updateInvoice = Invoice::update(
+        $invoice->id,
+        [
+            "amount" => 4321,
+            "due" => (new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D"))
+            "expiration" => 123456789
+        ]
+    );
+
+    print_r($updateInvoice);
+}
+```
+
+### Query invoices
+
+You can get a list of created invoices given some filters.
+
+```php
+use StarkBank\Invoice;
+
+$invoices = iterator_to_array(Invoice::query(["limit" => 10, "before" => new DateTime("now")]));
+
+foreach ($invoices as $invoice) {
+    print_r($invoice);
+}
+```
+
+### Query invoice logs
+
+Logs are pretty important to understand the life cycle of an invoice.
+
+```php
+use StarkBank\Invoice;
+
+$invoiceLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created"]]));
+
+foreach($invoiceLogs as $log) {
+    print_r($log);
+}
+```
+
+### Get an invoice log
+
+You can get a single log by its id.
+
+```php
+use StarkBank\Invoice;
+
+$invoiceLog = Log::get("5656565656565656");
+
+print_r($invoice);
+```
+
 ### Create boletos
 
 You can create boletos to charge customers or to receive money from accounts
@@ -211,12 +382,12 @@ use StarkBank\Boleto;
 
 $boletos = Boleto::create([
     new Boleto([
-        "amount" => 23571,  # R$ 235,71 
+        "amount" => 23571,  # R$ 235,71
         "name" => "Buzz Aldrin",
-        "taxId" => "012.345.678-90", 
-        "streetLine1" => "Av. Paulista, 200", 
+        "taxId" => "012.345.678-90",
+        "streetLine1" => "Av. Paulista, 200",
         "streetLine2" => "10 andar",
-        "district" => "Bela Vista", 
+        "district" => "Bela Vista",
         "city" => "São Paulo",
         "stateCode" => "SP",
         "zipCode" => "01310-000",
@@ -235,7 +406,7 @@ foreach($boletos as $boleto){
 directly in array format, without using the constructor
 ### Get boleto
 
-After its creation, information on a boleto may be retrieved by passing its id. 
+After its creation, information on a boleto may be retrieved by passing its id.
 Its status indicates whether it's been paid.
 
 ```php
@@ -248,7 +419,7 @@ print_r($boleto);
 
 ### Get boleto PDF
 
-After its creation, a boleto PDF may be retrieved by passing its id. 
+After its creation, a boleto PDF may be retrieved by passing its id.
 
 ```php
 use StarkBank\Boleto;
@@ -400,7 +571,7 @@ print_r($transfer);
 ### Get transfer PDF
 
 A transfer PDF may also be retrieved by passing its id.
-This operation is only valid if the transfer status is "processing" or "success". 
+This operation is only valid if the transfer status is "processing" or "success".
 
 ```php
 use StarkBank\Transfer;
@@ -487,7 +658,7 @@ print_r($payment);
 
 ### Get boleto payment PDF
 
-After its creation, a boleto payment PDF may be retrieved by passing its id. 
+After its creation, a boleto payment PDF may be retrieved by passing its id.
 
 ```php
 use StarkBank\BoletoPayment;
@@ -518,7 +689,7 @@ print_r($payment);
 
 ### Query boleto payments
 
-You can search for boleto payments using filters. 
+You can search for boleto payments using filters.
 
 ```php
 use StarkBank\BoletoPayment;
@@ -692,7 +863,7 @@ print_r($payment);
 
 ### Get utility payment PDF
 
-After its creation, a utility payment PDF may also be retrieved by passing its id. 
+After its creation, a utility payment PDF may also be retrieved by passing its id.
 
 ```php
 use StarkBank\UtilityPayment;

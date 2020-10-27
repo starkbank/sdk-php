@@ -33,7 +33,7 @@ class Project extends User
 
         $this->name = Checks::checkParam($params, "name");
         $this->allowedIps = Checks::checkParam($params, "allowedIps");
-        
+
         Checks::checkParams($params);
     }
 }
