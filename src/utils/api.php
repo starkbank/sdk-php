@@ -29,7 +29,11 @@ class API
                 $clean[$key] = utf8_encode($value);
                 continue;
             }
-            if ($value instanceof DateTime) {
+            if ($key == "due" && $value instanceof DateTime) {
+                $clean[$key] = $value->format("Y-m-d\TH:i:s.uP");
+                continue;
+            }
+            if (($key == "created" || $key == "updated" || $key == "after" || $key == "before") && $value instanceof DateTime) {
                 $clean[$key] = $value->format("Y-m-d");
                 continue;
             }
