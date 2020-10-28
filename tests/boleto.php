@@ -52,7 +52,7 @@ class TestBoleto
         fclose($fp);
     }
 
-    private static function example()
+    public static function example()
     {
         return new Boleto([
             "amount" => 100000,

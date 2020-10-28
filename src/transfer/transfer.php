@@ -13,7 +13,7 @@ class Transfer extends Resource
 
     When you initialize a Transfer, the entity will not be automatically
     created in the Stark Bank API. The 'create' function sends the objects
-    to the Stark Bank API and returns the list of created objects.
+    to the Stark Bank API and returns the array of created objects.
 
     ## Parameters (required):
         - amount [integer]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
@@ -68,7 +68,7 @@ class Transfer extends Resource
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
 
     ## Return:
-        - list of Transfer objects with updated attributes
+        - array of Transfer objects with updated attributes
      */
     public static function create($transfers, $user = null)
     {

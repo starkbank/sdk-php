@@ -13,7 +13,7 @@ class UtilityPayment extends Resource
 
     When you initialize a UtilityPayment, the entity will not be automatically
     created in the Stark Bank API. The 'create' function sends the objects
-    to the Stark Bank API and returns the list of created objects.
+    to the Stark Bank API and returns the array of created objects.
 
     ## Parameters (conditionally required):
         - line [string, default null]: Number sequence that describes the payment. Either 'line' or 'barCode' parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
@@ -62,7 +62,7 @@ class UtilityPayment extends Resource
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
     
     ## Return:
-        - list of UtilityPayment objects with updated attributes
+        - array of UtilityPayment objects with updated attributes
      */
     public static function create($payments, $user = null)
     {

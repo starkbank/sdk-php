@@ -13,7 +13,7 @@ class Boleto extends Resource
 
     When you initialize a Boleto, the entity will not be automatically
     sent to the Stark Bank API. The 'create' function sends the objects
-    to the Stark Bank API and returns the list of created objects.
+    to the Stark Bank API and returns the array of created objects.
 
     ## Parameters (required):
         - amount [integer]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
@@ -88,7 +88,7 @@ class Boleto extends Resource
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
     
     ## Return:
-        - list of Boleto objects with updated attributes
+        - array of Boleto objects with updated attributes
      */
     public static function create($boletos, $user = null)
     {
