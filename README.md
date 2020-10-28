@@ -279,7 +279,7 @@ print_r($boleto);
 
 ### Query boletos
 
-You can get a list of created boletos given some filters.
+You can get an array of created boletos given some filters.
 
 ```php
 use StarkBank\Boleto;
@@ -560,6 +560,78 @@ $log = BoletoPayment\Log::get("5155165527080960");
 
 print_r($log);
 ```
+
+### Investigate a boleto
+
+You can discover if a StarkBank boleto has been recently paid before we receive the response on the next day.
+This can be done by creating a BoletoHolmes object, which fetches the updated status of the corresponding
+Boleto object according to CIP to check, for example, whether it is still payable or not. The investigation
+happens asynchronously and the most common way to retrieve the results is to register a "boleto-holmes" webhook
+subscription, although polling is also possible. 
+
+```php
+use StarkBank\BoletoHolmes;
+
+$holmes = [new BoletoHolmes([
+    "boletoId" => "5976467733217280"
+])];
+
+$sherlock = BoletoHolmes::create($holmes)[0];
+
+foreach($holmes as $sherlock){
+    print_r($sherlock);
+}
+```
+
+**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in dictionary format
+
+### Get boleto holmes
+
+To get a single Holmes by its id, run:
+
+```php
+use StarkBank\BoletoHolmes;
+$sherlock = Boleto::get("5976467733217280");
+print_r($sherlock)
+```
+
+### Query boleto holmes
+
+You can search for boleto Holmes using filters. 
+
+```php
+use StarkBank\BoletoHolmes;
+$holmes = iterator_to_array(Boleto::query(["limit" => 10, "before" => new DateTime("now")]));
+
+foreach($holmes as $sherlock){
+    print_r($sherlock);
+}
+```
+
+### Query boleto holmes logs
+
+Searches are also possible with boleto holmes logs:
+
+```php
+use StarkBank\BoletoHolmes\Log;
+$logs = iterator_to_array(Log::query(["limit" => 10, "types" => ["solving"]]));
+
+foreach($logs as $log){
+    print_r($log);
+}
+```
+
+
+### Get boleto holmes log
+
+You can also get a boleto holmes log by specifying its id.
+
+```php
+use StarkBank\BoletoHolmes\Log;
+$log = Log::get("5976467733217280");
+print_r($log)
+```
+
 
 ### Create utility payment
 

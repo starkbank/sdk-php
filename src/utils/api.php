@@ -63,7 +63,11 @@ class API
     }
 
     public static function lastNamePlural($resourceName)
-    {
+    {   
+        if ($resourceName[strlen($resourceName)-1] == 's')
+            return API::lastName($resourceName);
+        if ($resourceName[strlen($resourceName)-1] == 'y')
+            return API::lastName(substr($resourceName, 0, -1)) . "ies";
         return API::lastName($resourceName) . "s";
     }
 }
