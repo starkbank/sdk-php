@@ -59,7 +59,7 @@ class Request
             "Access-Time" => $accessTime,
             "Access-Id" => $user->accessId(),
             "Access-Signature" => $signature,
-            "User-Agent" => "PHP-" . phpversion() . "-SDK-2.0.0",
+            "User-Agent" => "PHP-" . phpversion() . "-SDK-2.1.0",
             "Content-Type" => "application/json",
             "Accept-Language" => Settings::getLanguage()
         ];
