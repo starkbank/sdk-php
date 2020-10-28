@@ -276,10 +276,6 @@ use StarkBank\Invoice;
 
 $invoices = iterator_to_array(Invoice::query(["limit" => 10]));
 
-if (count($invoices) != 10) {
-    throw new Exception("failed");
-}
-
 $pdf = Invoice::pdf($invoices[0]->id, ["layout" => "default"]);
 
 $fp = fopen('invoice.pdf', 'w');
@@ -301,9 +297,9 @@ use StarkBank\Invoice;
 $invoices = iterator_to_array(Invoice::query(["limit" => 1, "status" => "created"]));
 
 foreach ($invoices as $invoice) {
-    $updateInvoice = Invoice::update($invoice->id, ["status" => "canceled"]);
+    $updatedInvoice = Invoice::update($invoice->id, ["status" => "canceled"]);
 
-    print_r($updateInvoice);
+    print_r($updatedInvoice);
 }
 ```
 
@@ -318,16 +314,16 @@ use StarkBank\Invoice;
 $invoices = iterator_to_array(Invoice::query(["limit" => 1, "status" => "created"]));
 
 foreach ($invoices as $invoice) {
-    $updateInvoice = Invoice::update(
+    $updatedInvoice = Invoice::update(
         $invoice->id,
         [
             "amount" => 4321,
-            "due" => (new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D"))
+            "due" => (new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D")),
             "expiration" => 123456789
         ]
     );
 
-    print_r($updateInvoice);
+    print_r($updatedInvoice);
 }
 ```
 
@@ -350,7 +346,7 @@ foreach ($invoices as $invoice) {
 Logs are pretty important to understand the life cycle of an invoice.
 
 ```php
-use StarkBank\Invoice;
+use StarkBank\Invoice\Log;
 
 $invoiceLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created"]]));
 
@@ -364,7 +360,7 @@ foreach($invoiceLogs as $log) {
 You can get a single log by its id.
 
 ```php
-use StarkBank\Invoice;
+use StarkBank\Invoice\Log;
 
 $invoiceLog = Log::get("5656565656565656");
 
