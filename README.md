@@ -200,6 +200,18 @@ $balance = Balance::get();
 print_r($balance);
 ```
 
+### Get dict key
+
+You can get PIX key's parameters by its id.
+
+```php
+use StarkBank\DictKey;
+
+$dictKey = DictKey::get();
+
+print_r($dictKey);
+```
+
 ### Create invoices
 
 You can create dynamic QR Code invoices to charge customers or to receive money from accounts you have in other banks.

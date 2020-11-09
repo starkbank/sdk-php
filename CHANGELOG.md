@@ -15,6 +15,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Added
 - Invoice resource to load your account with dynamic QR Codes
+- Dict resource to get PIX key's parameters
 
 ## [2.1.0] - 2020-10-28
 ### Added

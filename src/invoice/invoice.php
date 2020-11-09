@@ -17,11 +17,11 @@ class Invoice extends Resource
 
     ## Parameters (required):
         - amount [integer]: Invoice value in cents. Minimum = 0 (R$0,00). ex: 1234 (= R$ 12.34)
-        - due [DateTime or string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
         - taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
         - name [string]: payer name. ex: "Iron Bank S.A."
 
     ## Parameters (optional):
+        - due [DateTime or string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
         - expiration [integer, default null]: time interval in seconds between due date and expiration date. ex 123456789
         - fine [float, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
         - interest [float, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2

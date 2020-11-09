@@ -23,6 +23,7 @@ require_once("boletoHolmes/boletoHolmes.php");
 require_once("boletoHolmes/log.php");
 require_once("invoice/invoice.php");
 require_once("invoice/log.php");
+require_once("dictKey/dictKey.php");
 require_once("transfer/transfer.php");
 require_once("transfer/log.php");
 require_once("boletoPayment/boletoPayment.php");
