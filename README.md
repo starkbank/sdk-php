@@ -379,6 +379,58 @@ $invoiceLog = Log::get("5656565656565656");
 print_r($invoice);
 ```
 
+### Query deposits
+
+You can get a list of created deposits given some filters.
+
+```php
+use StarkBank\Deposit;
+
+$deposits = iterator_to_array(Deposit::query(["limit" => 10, "before" => new DateTime("now")]));
+
+foreach ($deposits as $deposit) {
+    print_r($deposit);
+}
+```
+
+### Get a deposit
+
+After its creation, information on a deposit may be retrieved by its id. 
+
+```php
+use StarkBank\Deposit;
+
+$deposit = Deposit::get("5656565656565656");
+
+print_r($deposit);
+```
+
+### Query deposit logs
+
+Logs are pretty important to understand the life cycle of a deposit.
+
+```php
+use StarkBank\Deposit\Log;
+
+$depositLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created"]]));
+
+foreach($depositLogs as $log) {
+    print_r($log);
+}
+```
+
+### Get a deposit log
+
+You can get a single log by its id.
+
+```php
+use StarkBank\Deposit\Log;
+
+$depositLog = Log::get("5656565656565656");
+
+print_r($deposit);
+```
+
 ### Create boletos
 
 You can create boletos to charge customers or to receive money from accounts

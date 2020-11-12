@@ -24,6 +24,8 @@ require_once("boletoHolmes/log.php");
 require_once("invoice/invoice.php");
 require_once("invoice/log.php");
 require_once("dictKey/dictKey.php");
+require_once("deposit/deposit.php");
+require_once("deposit/log.php");
 require_once("transfer/transfer.php");
 require_once("transfer/log.php");
 require_once("boletoPayment/boletoPayment.php");

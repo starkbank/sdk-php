@@ -51,7 +51,8 @@ class Event extends Resource
             "boleto-payment" => Event::boletoPaymentLogResource(),
             "utility-payment" => Event::utilityPaymentLogResource(),
             "boleto-holmes" => Event::boletoHolmesLogResource(),
-            "invoice" => Event::invoiceLogResource()
+            "invoice" => Event::invoiceLogResource(),
+            "deposit" => Event::depositLogResource()
         ];
 
         if (!isset($makerOptions[$subscription])) {
@@ -124,6 +125,16 @@ class Event extends Resource
             };
             $array["invoice"] = API::fromApiJson($invoice, $array["invoice"]);
             return new Invoice\Log($array);
+        };
+    }
+    private static function depositLogResource()
+    {
+        return function ($array) {
+            $deposit = function ($array) {
+                return new Deposit($array);
+            };
+            $array["deposit"] = API::fromApiJson($deposit, $array["deposit"]);
+            return new Deposit\Log($array);
         };
     }
 

@@ -30,6 +30,8 @@ include_once("boletoHolmesLog.php");
 include_once("invoice.php");
 include_once("invoiceLog.php");
 include_once("dictKey.php");
+include_once("deposit.php");
+include_once("depositLog.php");
 include_once("transfer.php");
 include_once("transferLog.php");
 include_once("boletoPayment.php");
