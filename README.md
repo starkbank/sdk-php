@@ -673,6 +673,106 @@ $log = Transfer\Log::get("5155165527080960");
 print_r($log);
 ```
 
+### Pay a BR Code
+
+Paying a BR Code is also simple.
+
+```php
+use StarkBank\BrcodePayment;
+
+$payments = BrcodePayment::create([
+    new BrcodePayment([
+        "brcode" => "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A",
+        "taxId" => "20.018.183/0001-80",
+        "description" => "Tony Stark's Suit",
+        "amount" => 7654321,
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P5D")),
+        "tags" => ["Stark", "Suit"]
+    ])
+]);
+
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+**Note**: Instead of using BrcodePayment objects, you can also pass each payment element in dictionary format
+
+### Get BR Code payment
+
+To get a single BR Code payment by its id, run:
+
+```php
+use StarkBank\BrcodePayment;
+
+$payment = BrcodePayment::get("19278361897236187236");
+
+print_r($payment);
+```
+
+### Get BR Code payment PDF (COMMING SOON)
+
+After its creation, a BR Code payment PDF may be retrieved by its id. 
+
+```php
+use StarkBank\BrcodePayment;
+
+$pdf = BrcodePayment::pdf("5155165527080960");
+
+$fp = fopen('brcodePayment.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Query BR Code payments
+
+You can search for BR Code payments using filters. 
+
+```php
+use StarkBank\BrcodePayment;
+
+$payments = BrcodePayment::query([
+    "tags" => ["company_1", "company_2"]
+]);
+
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+### Query BR Code payment logs
+
+Searches are also possible with BR Code payment logs:
+
+```php
+use StarkBank\BrcodePayment;
+
+$logs = BrcodePayment\Log::query([
+    "paymentIds" => ["5155165527080960", "76551659167801921"],
+]);
+
+foreach($logs as $log){
+    print_r($log);
+}
+```
+
+### Get BR Code payment log
+
+You can also get a BR Code payment log by specifying its id.
+
+```php
+use StarkBank\BrcodePayment;
+
+$log = BrcodePayment\Log::get("5155165527080960");
+
+print_r($log);
+```
+
+
 ### Pay a boleto
 
 Paying a boleto is also simple.

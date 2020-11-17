@@ -13,8 +13,8 @@ class Webhook extends Resource
     # Webhook subscription object
 
     A Webhook is used to subscribe to notification events on a user-selected endpoint.
-    Currently available services for subscription are transfer, boleto, boleto-payment,
-    and utility-payment
+    Currently available services for subscription are transfer, boleto, boleto-holmes,
+    boleto-payment, utility-payment, invoice, deposit and brcode-payment.
 
     ## Parameters (required):
         - url [string]: Url that will be notified when an event occurs.

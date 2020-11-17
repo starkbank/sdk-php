@@ -18,6 +18,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - DictKey resource to get PIX key's parameters
 - Deposit resource to receive transfers passively
 - PIX support in Transfer resource
+- BrcodePayment support to pay static and dynamic PIX QR Codes
 
 ## [2.1.0] - 2020-10-28
 ### Added

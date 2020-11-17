@@ -32,6 +32,8 @@ include_once("invoiceLog.php");
 include_once("dictKey.php");
 include_once("deposit.php");
 include_once("depositLog.php");
+include_once("brcodePayment.php");
+include_once("brcodePaymentLog.php");
 include_once("transfer.php");
 include_once("transferLog.php");
 include_once("boletoPayment.php");
