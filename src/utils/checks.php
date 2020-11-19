@@ -4,6 +4,7 @@ namespace StarkBank\Utils;
 use EllipticCurve\PrivateKey;
 use \Exception;
 use \DateTime;
+use \DateInterval;
 
 
 class Checks
@@ -32,17 +33,15 @@ class Checks
 
     public static function checkId($id) {
         $id = strval($id);
-        if (strlen($id) == 0) {
+        if (strlen($id) == 0)
             throw new \Exception("invalid id: " . $id);
-        }
         return $id;
     }
 
     public static function checkEnvironment($environment)
     {
-        if (!Environment::isValid($environment)) {
+        if (!Environment::isValid($environment))
             throw new Exception("Select a valid environment:  " . join(", ", (Environment::values())));
-        }
         return $environment;
     }
 
@@ -58,14 +57,21 @@ class Checks
 
     public static function checkDateTime($data)
     {
-        if (is_null($data)){
+        if (is_null($data))
             return $data;
-        }
-
-        if ($data instanceof DateTime) {
+        if ($data instanceof DateTime)
             return $data;
-        }
-
         return new DateTime(strval($data));
+    }
+
+    public static function checkDateInterval($data)
+    {
+        if (is_null($data))
+            return $data;
+        if ($data instanceof DateInterval)
+            return $data;
+        if (is_int($data))
+            return new DateInterval('PT0H0M' . $data . "S");
+        return new DateInterval($data);
     }
 }

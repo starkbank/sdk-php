@@ -4,6 +4,7 @@ namespace StarkBank;
 use StarkBank\Utils\Resource;
 use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
+use StarkBank\Utils\StarkBankDate;
 
 
 class BoletoPayment extends Resource
@@ -50,6 +51,13 @@ class BoletoPayment extends Resource
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
 
         Checks::checkParams($params);
+    }
+
+    function __toArray()
+    {
+        $array = get_object_vars($this);
+        $array["scheduled"] = new StarkBankDate($array["scheduled"]);
+        return $array;
     }
 
     /**
@@ -129,8 +137,8 @@ class BoletoPayment extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
-        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
+        $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
+        $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, BoletoPayment::resource(), $options);
     }
 

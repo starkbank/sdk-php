@@ -5,7 +5,7 @@ use StarkBank\Utils\Resource;
 use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
 use StarkBank\Utils\API;
-
+use StarkBank\Utils\StarkBankDate;
 
 class PaymentRequest extends Resource
 {
@@ -58,6 +58,13 @@ class PaymentRequest extends Resource
         list($this->payment, $this->type) = self::parsePayment($this->payment, $this->type);
     }
 
+    function __toArray()
+    {
+        $array = get_object_vars($this);
+        $array["due"] = new StarkBankDate($array["due"]);
+        return $array;
+    }
+
     /**
     # Create PaymentRequests
 
@@ -101,8 +108,8 @@ class PaymentRequest extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
-        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
+        $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
+        $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, PaymentRequest::resource(), $options);
     }
 

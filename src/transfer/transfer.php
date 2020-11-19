@@ -4,6 +4,7 @@ namespace StarkBank;
 use StarkBank\Utils\Resource;
 use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
+use StarkBank\Utils\StarkBankDate;
 
 
 class Transfer extends Resource
@@ -19,13 +20,13 @@ class Transfer extends Resource
         - amount [integer]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
         - name [string]: receiver full name. ex: "Anthony Edward Stark"
         - taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-        - bankCode [string]: 1 to 3 digits of the receiver bank institution in Brazil. ex: "200" or "341"
+        - bankCode [string]: code of the receiver bank institution in Brazil. If an ISPB (8 digits) is informed, a PIX transfer will be created, else a TED will be issued. ex: "20018183" or "341"
         - branchCode [string]: receiver bank account branch. Use '-' in case there is a verifier digit. ex: "1357-9"
         - accountNumber [string]: Receiver Bank Account number. Use '-' before the verifier digit. ex: "876543-2"
 
     ## Parameters (optional):
         - tags [array of strings]: array of strings for reference when searching for transfers. ex: ["employees", "monthly"]
-        - scheduled [DateTime, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary.
+        - scheduled [DateTime or date, default now]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-11-30"
 
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
@@ -155,8 +156,8 @@ class Transfer extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
-        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
+        $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
+        $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, Transfer::resource(), $options);
     }
 

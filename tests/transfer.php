@@ -93,7 +93,10 @@ class TestTransfer
             "accountNumber" => "10000-0",
         ];
         if ($schedule) {
-            $params["scheduled"] = (new DateTime("now"))->add(new DateInterval("P1D"));
+            $datetime = (new DateTime("now"))->add(new DateInterval("P1D"));
+            $date = date('Y-m-d', strtotime(date("Y-m-d"). ' + 3 days'));
+            $dateTypes = array($datetime, $date);
+            $params["scheduled"] = $dateTypes[array_rand($dateTypes)];
         };
         return new Transfer($params);
     }

@@ -27,7 +27,7 @@ class Rest
 
             $cursor = $json["cursor"];
             $query["cursor"] = $cursor;
-            if (is_null($cursor) | (!is_null($limit) & $limit <= 0)) {
+            if (empty($cursor) | is_null($cursor) | (!is_null($limit) & $limit <= 0)) {
                 break;
             }
         }
@@ -48,11 +48,18 @@ class Rest
         return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/pdf", null, $options)->content;
     }
 
+    public static function getQrcode($user, $resource, $id, $options = null)
+    {
+        $id = Checks::checkId($id);
+        $options = API::castJsonToApiFormat($options);
+        return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/qrcode", null, $options)->content;
+    }
+
     public static function post($user, $resource, $entities)
     {
         $entitiesJson = [];
         foreach($entities as $entity){
-            $entitiesJson[] = API::apiJson($entity);
+            $entitiesJson[] = API::apiJson($entity, $resource["name"]);
         }
         $payload = [
             API::lastNamePlural($resource["name"]) => $entitiesJson
@@ -87,7 +94,7 @@ class Rest
     public static function patchId($user, $resource, $id, $payload = [])
     {
         $id = Checks::checkId($id);
-        $json = Request::fetch($user, "PATCH", API::endpoint($resource["name"]) . "/" . $id, API::castJsonToApiFormat($payload))->json();
+        $json = Request::fetch($user, "PATCH", API::endpoint($resource["name"]) . "/" . $id, API::castJsonToApiFormat($payload, $resource["name"]))->json();
         $entity = $json[API::lastName($resource["name"])];
         return API::fromApiJson($resource["maker"], $entity);
     }

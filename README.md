@@ -1,11 +1,11 @@
 # Stark Bank PHP SDK
 
-Welcome to the Stark Bank PHP SDK! This tool is made for PHP 
+Welcome to the Stark Bank PHP SDK! This tool is made for PHP
 developers who want to easily integrate with our API.
 This SDK version is compatible with the Stark Bank API v2.
 
-If you have no idea what Stark Bank is, check out our [website](https://www.starkbank.com/) 
-and discover a world where receiving or making payments 
+If you have no idea what Stark Bank is, check out our [website](https://www.starkbank.com/)
+and discover a world where receiving or making payments
 is as easy as sending a text message to your client!
 
 ## Supported PHP Versions
@@ -134,7 +134,7 @@ There are two kinds of users that can access our API: **Project** and **Member**
 - `Project` is designed for integrations and is the one meant for our SDK.
 
 There are two ways to inform the user to the SDK:
- 
+
 4.1 Passing the user as argument in all functions:
 
 ```php
@@ -173,7 +173,7 @@ Language options are "en-US" for english and "pt-BR" for brazilian portuguese. E
 ## Testing in Sandbox
 
 Your initial balance is zero. For many operations in Stark Bank, you'll need funds
-in your account, which can be added to your balance by creating a Boleto. 
+in your account, which can be added to your balance by creating a Boleto.
 
 In the Sandbox environment, 90% of the created Boletos will be automatically paid,
 so there's nothing else you need to do to add funds to your account. Just create
@@ -200,6 +200,258 @@ $balance = Balance::get();
 print_r($balance);
 ```
 
+### Get dict key
+
+You can get PIX key's parameters by its id.
+
+```php
+use StarkBank\DictKey;
+
+$dictKey = DictKey::get();
+
+print_r($dictKey);
+```
+
+### Query your DICT keys
+
+To take a look at the PIX keys linked to your workspace, just run the following:
+
+```php
+use StarkBank\DictKey;
+
+$dictKeys = iterator_to_array(DictKey::query(["limit" => 1, "type" => "evp", "status" => "registered"]));
+
+foreach($dictKeys as $dictKey) {
+    print_r($dictKey);
+}
+```
+
+### Create invoices
+
+You can create dynamic QR Code invoices to charge customers or to receive money from accounts you have in other banks.
+
+```php
+use StarkBank\Invoice;
+
+$invoices = [
+    new Invoice([
+        "amount" => 400000,
+        "due" => ((new DateTime("now"))->add(new DateInterval("P5D"))),
+        "taxId" => "012.345.678-90",
+        "name" => "Mr Meeseks",
+        "expiration" => new DateInterval("P2D"),
+        "fine" => 2.5,
+        "interest" => 1.3,
+        "discounts" => [
+            [
+                "percentage" => 5,
+                "due" => ((new DateTime("now"))->add(new DateInterval("P1D")))
+            ],
+            [
+                "percentage" => 3,
+                "due" => ((new DateTime("now"))->add(new DateInterval("P2D")))
+            ]
+        ],
+        "tags" => [
+            'War supply',
+            'Invoice #1234'
+        ],
+        "descriptions" => [
+            [
+                "key" => "product A",
+                "value" => "big"
+            ],
+            [
+                "key" => "product B",
+                "value" => "medium"
+            ],
+            [
+                "key" => "product C",
+                "value" => "small"
+            ]
+        ],
+    ])
+];
+
+$invoice = Invoice::create($invoices)[0];
+
+print_r($invoice);
+```
+**Note**: Instead of using Invoice objects, you can also pass each invoice element directly in array format, without using the constructor
+
+### Get an invoice
+
+After its creation, information on an invoice may be retrieved by its id.
+Its status indicates whether it's been paid.
+
+```php
+use StarkBank\Invoice;
+
+$invoice = Invoice::get("5656565656565656");
+
+print_r($invoice);
+```
+
+### Get an invoice QR Code 
+
+After its creation, an Invoice QR Code may be retrieved by its id. 
+
+```php
+use StarkBank\Invoice;
+
+$png = Invoice::qrcode("5881614903017472");
+
+$fp = fopen('qrcode.png', 'w');
+fwrite($fp, $png);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw png content,
+as it may corrupt the file.
+
+### Get an invoice PDF
+
+After its creation, an invoice PDF may be retrieved by its id.
+
+```php
+use StarkBank\Invoice;
+
+$pdf = Invoice::pdf("5656565656565656");
+
+$fp = fopen('invoice.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Cancel an invoice
+
+You can also cancel an invoice by its id.
+Note that this is not possible if it has been paid already.
+
+```php
+use StarkBank\Invoice;
+
+$invoice = Invoice::update("5656565656565656", ["status" => "canceled"]);
+
+print_r($invoice);
+```
+
+### Update an invoice
+
+You can update an invoice's amount, due date and expiration by its id.
+Note that this is not possible if it has been paid already.
+
+```php
+use StarkBank\Invoice;
+
+$updatedInvoice = Invoice::update(
+    "5656565656565656",
+    [
+        "amount" => 4321,
+        "due" => (new DateTime("now"))->add(new DateInterval("P5D")),
+        "expiration" => 123456789
+    ]
+);
+
+print_r($updatedInvoice);
+```
+
+### Query invoices
+
+You can get a list of created invoices given some filters.
+
+```php
+use StarkBank\Invoice;
+
+$invoices = iterator_to_array(Invoice::query(["limit" => 10, "before" => new DateTime("now")]));
+
+foreach($invoices as $invoice) {
+    print_r($invoice);
+}
+```
+
+### Query invoice logs
+
+Logs are pretty important to understand the life cycle of an invoice.
+
+```php
+use StarkBank\Invoice\Log;
+
+$invoiceLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created"]]));
+
+foreach($invoiceLogs as $log) {
+    print_r($log);
+}
+```
+
+### Get an invoice log
+
+You can get a single log by its id.
+
+```php
+use StarkBank\Invoice\Log;
+
+$invoiceLog = Log::get("5656565656565656");
+
+print_r($invoice);
+```
+
+### Query deposits
+
+You can get a list of created deposits given some filters.
+
+```php
+use StarkBank\Deposit;
+
+$deposits = iterator_to_array(Deposit::query(["limit" => 10, "before" => new DateTime("now")]));
+
+foreach($deposits as $deposit) {
+    print_r($deposit);
+}
+```
+
+### Get a deposit
+
+After its creation, information on a deposit may be retrieved by its id. 
+
+```php
+use StarkBank\Deposit;
+
+$deposit = Deposit::get("5656565656565656");
+
+print_r($deposit);
+```
+
+### Query deposit logs
+
+Logs are pretty important to understand the life cycle of a deposit.
+
+```php
+use StarkBank\Deposit\Log;
+
+$depositLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created"]]));
+
+foreach($depositLogs as $log) {
+    print_r($log);
+}
+```
+
+### Get a deposit log
+
+You can get a single log by its id.
+
+```php
+use StarkBank\Deposit\Log;
+
+$depositLog = Log::get("5656565656565656");
+
+print_r($deposit);
+```
+
 ### Create boletos
 
 You can create boletos to charge customers or to receive money from accounts
@@ -211,12 +463,12 @@ use StarkBank\Boleto;
 
 $boletos = Boleto::create([
     new Boleto([
-        "amount" => 23571,  # R$ 235,71 
+        "amount" => 23571,  # R$ 235,71
         "name" => "Buzz Aldrin",
-        "taxId" => "012.345.678-90", 
-        "streetLine1" => "Av. Paulista, 200", 
+        "taxId" => "012.345.678-90",
+        "streetLine1" => "Av. Paulista, 200",
         "streetLine2" => "10 andar",
-        "district" => "Bela Vista", 
+        "district" => "Bela Vista",
         "city" => "São Paulo",
         "stateCode" => "SP",
         "zipCode" => "01310-000",
@@ -231,11 +483,12 @@ foreach($boletos as $boleto){
 }
 ```
 
-**Note**: Instead of using Boleto objects, you can also pass each boleto element
-directly in array format, without using the constructor
+**Note**: Instead of using Boleto objects, you can also pass each boleto element directly in array format, without using the constructor
+
+
 ### Get boleto
 
-After its creation, information on a boleto may be retrieved by passing its id. 
+After its creation, information on a boleto may be retrieved by passing its id.
 Its status indicates whether it's been paid.
 
 ```php
@@ -248,7 +501,7 @@ print_r($boleto);
 
 ### Get boleto PDF
 
-After its creation, a boleto PDF may be retrieved by passing its id. 
+After its creation, a boleto PDF may be retrieved by passing its id.
 
 ```php
 use StarkBank\Boleto;
@@ -322,7 +575,7 @@ print_r($log);
 
 ### Create transfers
 
-You can also create transfers in the SDK (TED/DOC).
+You can also create transfers in the SDK (TED/PIX).
 
 ```php
 use StarkBank\Transfer;
@@ -330,7 +583,7 @@ use StarkBank\Transfer;
 $transfers = Transfer::create([
     new Transfer([
         "amount" => 100,
-        "bankCode" => "033",
+        "bankCode" => "033",  # TED
         "branchCode" => "0001",
         "accountNumber" => "10000-0",
         "taxId" => "012.345.678-90",
@@ -339,7 +592,7 @@ $transfers = Transfer::create([
     ]),
     new Transfer([
         "amount" => 200,
-        "bankCode" => "341",
+        "bankCode" => "20018183",  # PIX
         "branchCode" => "1234",
         "accountNumber" => "123456-7",
         "taxId" => "012.345.678-90",
@@ -354,8 +607,8 @@ foreach($transfers as $transfer){
 }
 ```
 
-**Note**: Instead of using Transfer objects, you can also pass each transfer element
-directly in array format, without using the constructor
+**Note**: Instead of using Transfer objects, you can also pass each transfer element directly in array format, without using the constructor
+
 ### Query transfers
 
 You can query multiple transfers according to filters.
@@ -400,7 +653,7 @@ print_r($transfer);
 ### Get transfer PDF
 
 A transfer PDF may also be retrieved by passing its id.
-This operation is only valid if the transfer status is "processing" or "success". 
+This operation is only valid if the transfer status is "processing" or "success".
 
 ```php
 use StarkBank\Transfer;
@@ -442,6 +695,121 @@ $log = Transfer\Log::get("5155165527080960");
 print_r($log);
 ```
 
+### Pay a BR Code
+
+Paying a BR Code is also simple.
+
+```php
+use StarkBank\BrcodePayment;
+
+$payments = BrcodePayment::create([
+    new BrcodePayment([
+        "brcode" => "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A",
+        "taxId" => "20.018.183/0001-80",
+        "description" => "Tony Stark's Suit",
+        "amount" => 7654321,
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P5D")),
+        "tags" => ["Stark", "Suit"]
+    ])
+]);
+
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+**Note**: Instead of using BrcodePayment objects, you can also pass each payment element directly in array format, without using the constructor
+
+### Get BR Code payment
+
+To get a single BR Code payment by its id, run:
+
+```php
+use StarkBank\BrcodePayment;
+
+$payment = BrcodePayment::get("19278361897236187236");
+
+print_r($payment);
+```
+
+### Get BR Code payment PDF
+
+After its creation, a BR Code payment PDF may be retrieved by its id. 
+
+```php
+use StarkBank\BrcodePayment;
+
+$pdf = BrcodePayment::pdf("5155165527080960");
+
+$fp = fopen('brcodePayment.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Query BR Code payments
+
+You can search for BR Code payments using filters. 
+
+```php
+use StarkBank\BrcodePayment;
+
+$payments = BrcodePayment::query([
+    "tags" => ["company_1", "company_2"]
+]);
+
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+### Query BR Code payment logs
+
+Searches are also possible with BR Code payment logs:
+
+```php
+use StarkBank\BrcodePayment;
+
+$logs = BrcodePayment\Log::query([
+    "paymentIds" => ["5155165527080960", "76551659167801921"],
+]);
+
+foreach($logs as $log){
+    print_r($log);
+}
+```
+
+### Get BR Code payment log
+
+You can also get a BR Code payment log by specifying its id.
+
+```php
+use StarkBank\BrcodePayment;
+
+$log = BrcodePayment\Log::get("5155165527080960");
+
+print_r($log);
+```
+
+### Preview a BR Code payment
+
+You can confirm the information on the BR Code payment before creating it with this preview method:
+
+```php
+use StarkBank\BrcodePreview;
+
+$previews = BrcodePreview::query([
+    "brcodes" => ["00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"],
+]);
+
+foreach($previews as $preview){
+    print_r($preview);
+}
+```
+
 ### Pay a boleto
 
 Paying a boleto is also simple.
@@ -471,8 +839,8 @@ foreach($payments as $payment){
 }
 ```
 
-**Note**: Instead of using BoletoPayment objects, you can also pass each payment element
-directly in array format, without using the constructor
+**Note**: Instead of using BoletoPayment objects, you can also pass each payment element directly in array format, without using the constructor
+
 ### Get boleto payment
 
 To get a single boleto payment by its id, run:
@@ -487,7 +855,7 @@ print_r($payment);
 
 ### Get boleto payment PDF
 
-After its creation, a boleto payment PDF may be retrieved by passing its id. 
+After its creation, a boleto payment PDF may be retrieved by passing its id.
 
 ```php
 use StarkBank\BoletoPayment;
@@ -518,7 +886,7 @@ print_r($payment);
 
 ### Query boleto payments
 
-You can search for boleto payments using filters. 
+You can search for boleto payments using filters.
 
 ```php
 use StarkBank\BoletoPayment;
@@ -547,7 +915,6 @@ foreach($logs as $log){
     print_r($log);
 }
 ```
-
 
 ### Get boleto payment log
 
@@ -583,7 +950,7 @@ foreach($holmes as $sherlock){
 }
 ```
 
-**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in dictionary format
+**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element directly in array format, without using the constructor
 
 ### Get boleto holmes
 
@@ -660,8 +1027,8 @@ foreach($payments as $payment){
 }
 ```
 
-**Note**: Instead of using UtilityPayment objects, you can also pass each payment element directly in
-array format, without using the constructor
+**Note**: Instead of using UtilityPayment objects, you can also pass each payment element directly in array format, without using the constructor
+
 ### Query utility payments
 
 To search for utility payments using filters, run:
@@ -692,7 +1059,7 @@ print_r($payment);
 
 ### Get utility payment PDF
 
-After its creation, a utility payment PDF may also be retrieved by passing its id. 
+After its creation, a utility payment PDF may also be retrieved by passing its id.
 
 ```php
 use StarkBank\UtilityPayment;
@@ -779,8 +1146,7 @@ foreach($transactions as $transaction){
 }
 ```
 
-**Note**: Instead of using Transaction objects, you can also pass each transaction element
-directly in array format, without using the constructor
+**Note**: Instead of using Transaction objects, you can also pass each transaction element directly in array format, without using the constructor
 
 ### Query transactions
 
@@ -850,8 +1216,7 @@ foreach($requests as $request){
 }
 ```
 
-**Note**: Instead of using PaymentRequest objects, you can also pass each request element
-directly in array format, without using the constructor
+**Note**: Instead of using PaymentRequest objects, you can also pass each request element directly in array format, without using the constructor
 
 
 ### Query payment requests
@@ -867,7 +1232,6 @@ foreach($requests as $request){
     print_r($request);
 }
 ```
-
 
 ### Create webhook subscription
 

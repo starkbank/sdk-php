@@ -13,6 +13,7 @@ use StarkBank\Utils\Rest;
 use StarkBank\Utils\API;
 use StarkBank\Utils\Request;
 use StarkBank\Utils\Cache;
+use StarkBank\Utils\StarkBankDate;
 
 
 class Event extends Resource
@@ -34,7 +35,7 @@ class Event extends Resource
     function __construct(array $params)
     {
         parent::__construct($params);
-        
+
         $this->isDelivered = Checks::checkParam($params, "isDelivered");
         $this->subscription = Checks::checkParam($params, "subscription");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
@@ -50,7 +51,10 @@ class Event extends Resource
             "boleto" => Event::boletoLogResource(),
             "boleto-payment" => Event::boletoPaymentLogResource(),
             "utility-payment" => Event::utilityPaymentLogResource(),
-            "boleto-holmes" => Event::boletoHolmesLogResource()
+            "brcode-payment" => Event::brcodePaymentLogResource(),
+            "boleto-holmes" => Event::boletoHolmesLogResource(),
+            "invoice" => Event::invoiceLogResource(),
+            "deposit" => Event::depositLogResource()
         ];
 
         if (!isset($makerOptions[$subscription])) {
@@ -67,7 +71,10 @@ class Event extends Resource
                 return new Transfer($array);
             };
             $array["transfer"] = API::fromApiJson($transfer, $array["transfer"]);
-            return new Transfer\Log($array);
+            $log = function ($array) {
+                return new Transfer\Log($array);
+            };
+            return API::fromApiJson($log, $array);
         };
     }
 
@@ -78,7 +85,10 @@ class Event extends Resource
                 return new Boleto($array);
             };
             $array["boleto"] = API::fromApiJson($boleto, $array["boleto"]);
-            return new Boleto\Log($array);
+            $log = function ($array) {
+                return new Boleto\Log($array);
+            };
+            return API::fromApiJson($log, $array);
         };
     }
 
@@ -89,7 +99,10 @@ class Event extends Resource
                 return new BoletoPayment($array);
             };
             $array["payment"] = API::fromApiJson($payment, $array["payment"]);
-            return new BoletoPayment\Log($array);
+            $log = function ($array) {
+                return new BoletoPayment\Log($array);
+            };
+            return API::fromApiJson($log, $array);
         };
     }
 
@@ -100,7 +113,10 @@ class Event extends Resource
                 return new UtilityPayment($array);
             };
             $array["payment"] = API::fromApiJson($payment, $array["payment"]);
-            return new UtilityPayment\Log($array);
+            $log = function ($array) {
+                return new UtilityPayment\Log($array);
+            };
+            return API::fromApiJson($log, $array);
         };
     }
 
@@ -111,7 +127,52 @@ class Event extends Resource
                 return new BoletoHolmes($array);
             };
             $array["holmes"] = API::fromApiJson($holmes, $array["holmes"]);
-            return new BoletoHolmes\Log($array);
+            $log = function ($array) {
+                return new BoletoHolmes\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
+
+    private static function invoiceLogResource()
+    {
+        return function ($array) {
+            $invoice = function ($array) {
+                return new Invoice($array);
+            };
+            $array["invoice"] = API::fromApiJson($invoice, $array["invoice"]);
+            $log = function ($array) {
+                return new Invoice\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
+
+    private static function depositLogResource()
+    {
+        return function ($array) {
+            $deposit = function ($array) {
+                return new Deposit($array);
+            };
+            $array["deposit"] = API::fromApiJson($deposit, $array["deposit"]);
+            $log = function ($array) {
+                return new Deposit\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
+
+    private static function brcodePaymentLogResource()
+    {
+        return function ($array) {
+            $payment = function ($array) {
+                return new BrcodePayment($array);
+            };
+            $array["payment"] = API::fromApiJson($payment, $array["payment"]);
+            $log = function ($array) {
+                return new BrcodePayment\Log($array);
+            };
+            return API::fromApiJson($log, $array);
         };
     }
 
@@ -152,8 +213,8 @@ class Event extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
-        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
+        $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
+        $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, Event::resource(), $options);
     }
 
