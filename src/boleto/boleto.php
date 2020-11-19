@@ -4,6 +4,7 @@ namespace StarkBank;
 use StarkBank\Utils\Resource;
 use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
+use StarkBank\Utils\StarkBankDate;
 
 
 class Boleto extends Resource
@@ -58,7 +59,7 @@ class Boleto extends Resource
         $this->city = Checks::checkParam($params, "city");
         $this->stateCode = Checks::checkParam($params, "stateCode");
         $this->zipCode = Checks::checkParam($params, "zipCode");
-        $this->due = Checks::checkDateTime(Checks::checkParam($params, "due"));
+        $this->due = Checks::checkDatetime(Checks::checkParam($params, "due"));
         $this->fine = Checks::checkParam($params, "fine");
         $this->interest = Checks::checkParam($params, "interest");
         $this->overdueLimit = Checks::checkParam($params, "overdueLimit");
@@ -66,14 +67,39 @@ class Boleto extends Resource
         $this->receiverTaxId = Checks::checkParam($params, "receiverTaxId");
         $this->tags = Checks::checkParam($params, "tags");
         $this->descriptions = Checks::checkParam($params, "descriptions");
-        $this->discounts = Checks::checkParam($params, "discounts");
         $this->fee = Checks::checkParam($params, "fee");
         $this->line = Checks::checkParam($params, "line");
         $this->barCode = Checks::checkParam($params, "barCode");
         $this->status = Checks::checkParam($params, "status");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
 
+        $discounts = Checks::checkParam($params, "discounts");
+        if (!is_null($discounts)) {
+            $checkedDiscounts = [];
+            foreach ($discounts as $discount) {
+                $discount["date"] = Checks::checkDateTime(Checks::checkParam($discount, "date"));
+                array_push($checkedDiscounts, $discount);
+            }
+            $discounts = $checkedDiscounts;
+        }
+        $this->discounts = $discounts;
+
         Checks::checkParams($params);
+    }
+
+    function __toArray()
+    {
+        $array = get_object_vars($this);
+        $array["due"] = new StarkBankDate($array["due"]);
+        if (!is_null($array["discounts"])) {
+            $checkedDiscounts = [];
+            foreach ($array["discounts"] as $discount) {
+                $discount["date"] = new StarkBankDate(Checks::checkParam($discount, "date"));
+                array_push($checkedDiscounts, $discount);
+            }
+            $array["discounts"] = $checkedDiscounts;
+        }
+        return $array;
     }
 
     /**
@@ -154,8 +180,8 @@ class Boleto extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
-        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
+        $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
+        $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, Boleto::resource(), $options);
     }
 

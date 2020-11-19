@@ -16,25 +16,19 @@ class TestEvent
 
     public function queryAndDelete()
     {
-        $events = iterator_to_array(Event::query(["limit" => 10, "isDelivered" => true]));
-
-        if (count($events) > 10) {
+        $events = iterator_to_array(Event::query(["limit" => 100, "isDelivered" => true]));
+        if (count($events) == 0)
             throw new Exception("failed");
-        }
+        if (count($events) > 100)
+            throw new Exception("failed");
+        $event = $events[array_rand($events, 1)];
 
-        if (count($events) == 0) {
-            return;
-        }
+        if ($event->isDelivered != true)
+            throw new Exception("failed");
 
-        foreach($events as $event) {
-            if ($event->isDelivered != true) {
-                throw new Exception("failed");
-            }
-        }
+        $deleted = Event::delete($event->id);
 
-        $deleted = Event::delete($events[0]->id);
-
-        if (is_null($events[0]->id) | $events[0]->id != $deleted->id) {
+        if (is_null($event->id) | $event->id != $deleted->id) {
             throw new Exception("failed");
         }
     }

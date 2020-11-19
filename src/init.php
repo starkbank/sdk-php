@@ -3,6 +3,7 @@
 require_once("setting.php");
 require_once("error.php");
 require_once("key.php");
+require_once("utils/datetime.php");
 require_once("utils/api.php");
 require_once("utils/cache.php");
 require_once("utils/case.php");
@@ -28,6 +29,7 @@ require_once("deposit/deposit.php");
 require_once("deposit/log.php");
 require_once("brcodePayment/brcodePayment.php");
 require_once("brcodePayment/log.php");
+require_once("brcodePreview/brcodePreview.php");
 require_once("transfer/transfer.php");
 require_once("transfer/log.php");
 require_once("boletoPayment/boletoPayment.php");

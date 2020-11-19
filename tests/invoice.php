@@ -10,7 +10,7 @@ use \DateInterval;
 
 class TestInvoice
 {
-    public function create()
+    public function createAndCancel()
     {
         $invoices = self::examples();
 
@@ -22,9 +22,14 @@ class TestInvoice
             }
         }
 
+        $invoice = $invoices[0];
+        $updateInvoice = Invoice::update($invoice->id, ["status" => "canceled"]);
+        if ($updateInvoice->status != "canceled") {
+            throw new Exception("failed");
+        }
     }
 
-    public function queryAndGet()
+    public function queryGetGetPdfAndGetQrcode()
     {
         $invoices = iterator_to_array(Invoice::query(["limit" => 10, "before" => new DateTime("now")]));
 
@@ -37,23 +42,18 @@ class TestInvoice
         if ($invoices[0]->id != $invoice->id) {
             throw new Exception("failed");
         }
-    }
 
-    public function updateStatus()
-    {
-        $invoices = iterator_to_array(Invoice::query(["limit" => 1, "status" => "created"]));
+        $pdf = Invoice::pdf($invoice->id);
 
-        if (count($invoices) != 1) {
-            throw new Exception("failed");
-        }
+        $fp = fopen('invoice.pdf', 'w');
+        fwrite($fp, $pdf);
+        fclose($fp);
 
-        foreach ($invoices as $invoice) {
-            $updateInvoice = Invoice::update($invoice->id, ["status" => "canceled"]);
+        $qrcode = Invoice::qrcode($invoice->id);
 
-            if ($updateInvoice->status != "canceled") {
-                throw new Exception("failed");
-            }
-        }
+        $fp = fopen('invoice-qrcode.png', 'w');
+        fwrite($fp, $qrcode);
+        fclose($fp);
     }
 
     public function updateAmount()
@@ -101,7 +101,7 @@ class TestInvoice
         foreach ($invoices as $invoice) {
             $updateInvoice = Invoice::update($invoice->id, ["expiration" => 123456789]);
 
-            if ($updateInvoice->expiration != 123456789) {
+            if ($updateInvoice->expiration->s != (new \DateInterval("PT0H0M123456789S"))->s) {
                 throw new Exception("failed");
             }
         }
@@ -153,8 +153,7 @@ class TestInvoice
                 "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D")))->format("Y-m-d\TH:i:s.uP"),
                 "taxId" => "012.345.678-90",
                 "name" => "Mr Meeseks",
-
-                "expiration" => 123456789,
+                "expiration" => new DateInterval("P0Y0M1DT1H0M10S"),
                 "fine" => 2.5,
                 "interest" => 1.3,
                 "discounts" => [
@@ -182,16 +181,12 @@ echo "\n\nInvoice:";
 
 $test = new TestInvoice();
 
-echo "\n\t- create";
-$test->create();
+echo "\n\t- create and cancel";
+$test->createAndCancel();
 echo " - OK";
 
 echo "\n\t- query and get";
-$test->queryAndGet();
-echo " - OK";
-
-echo "\n\t- update status";
-$test->updateStatus();
+$test->queryGetGetPdfAndGetQrcode();
 echo " - OK";
 
 echo "\n\t- update amount";

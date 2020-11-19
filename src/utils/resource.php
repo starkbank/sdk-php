@@ -13,6 +13,10 @@ class Resource
         }
         $this->id = $id;
     }
+
+    function __toArray() {
+        return get_object_vars($this);
+    }
 }
 
 ?>

@@ -27,7 +27,7 @@ class Rest
 
             $cursor = $json["cursor"];
             $query["cursor"] = $cursor;
-            if (is_null($cursor) | (!is_null($limit) & $limit <= 0)) {
+            if (empty($cursor) | is_null($cursor) | (!is_null($limit) & $limit <= 0)) {
                 break;
             }
         }
@@ -46,6 +46,13 @@ class Rest
         $id = Checks::checkId($id);
         $options = API::castJsonToApiFormat($options);
         return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/pdf", null, $options)->content;
+    }
+
+    public static function getQrcode($user, $resource, $id, $options = null)
+    {
+        $id = Checks::checkId($id);
+        $options = API::castJsonToApiFormat($options);
+        return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/qrcode", null, $options)->content;
     }
 
     public static function post($user, $resource, $entities)

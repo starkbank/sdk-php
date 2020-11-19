@@ -4,6 +4,7 @@ namespace StarkBank;
 use StarkBank\Utils\Resource;
 use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
+use StarkBank\Utils\StarkBankDate;
 
 
 class BrcodePayment extends Resource
@@ -52,6 +53,13 @@ class BrcodePayment extends Resource
         Checks::checkParams($params);
     }
 
+    function __toArray()
+    {
+        $array = get_object_vars($this);
+        $array["scheduled"] = new StarkBankDate($array["scheduled"]);
+        return $array;
+    }
+
     /**
     # Create BrcodePayments
 
@@ -91,6 +99,46 @@ class BrcodePayment extends Resource
     }
 
     /**
+    # Retrieve a specific BrcodePayment pdf file
+
+    Receive a single BrcodePayment pdf receipt file generated in the Stark Bank API by passing its id.
+
+    ## Parameters (required):
+        - id [string]: object unique id. ex: "5656565656565656"
+
+    ## Parameters (optional):
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+
+    ## Return:
+        - BrcodePayment pdf file
+     */
+    public static function pdf($id, $user = null)
+    {
+        return Rest::getPdf($user, BrcodePayment::resource(), $id);
+    }
+
+    /**
+    # Update notification BrcodePayment entity
+
+    Update notification BrcodePayment by passing id.
+
+    ## Parameters (required):
+        - id [array of strings]: BrcodePayment unique ids. ex: "5656565656565656"
+        - status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
+        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+
+    ## Parameters (optional):
+        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+
+    ## Return:
+        - target BrcodePayment with updated attributes
+     */
+    public static function update($id, $options = [], $user = null)
+    {
+        return Rest::patchId($user, BrcodePayment::resource(), $id, $options);
+    }
+
+    /**
     # Retrieve BrcodePayments
 
     Receive an enumerator of BrcodePayment objects previously created in the Stark Bank API
@@ -109,8 +157,8 @@ class BrcodePayment extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = Checks::checkDateTime(Checks::checkParam($options, "after"));
-        $options["before"] = Checks::checkDateTime(Checks::checkParam($options, "before"));
+        $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
+        $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, BrcodePayment::resource(), $options);
     }
 

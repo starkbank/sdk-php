@@ -15,6 +15,18 @@ class TestDictKey
       throw new Exception("failed");
     }    
   }
+
+  public function query()
+  {
+    $payments = iterator_to_array(DictKey::query(["limit" => 1, "type" => "evp", "status" => "registered"]));
+
+    if (count($payments) != 1) {
+      throw new Exception("failed");
+    }
+    if (is_null($payments[0]->id)) {
+      throw new Exception("failed");
+    }
+  }
 }
 
 echo "\n\nDictKey";

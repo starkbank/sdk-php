@@ -212,6 +212,20 @@ $dictKey = DictKey::get();
 print_r($dictKey);
 ```
 
+### Query your DICT keys
+
+To take a look at the PIX keys linked to your workspace, just run the following:
+
+```php
+use StarkBank\DictKey;
+
+$dictKeys = iterator_to_array(DictKey::query(["limit" => 1, "type" => "evp", "status" => "registered"]));
+
+foreach($dictKeys as $dictKey) {
+    print_r($dictKey);
+}
+```
+
 ### Create invoices
 
 You can create dynamic QR Code invoices to charge customers or to receive money from accounts you have in other banks.
@@ -222,21 +236,20 @@ use StarkBank\Invoice;
 $invoices = [
     new Invoice([
         "amount" => 400000,
-        "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D"))),
+        "due" => ((new DateTime("now"))->add(new DateInterval("P5D"))),
         "taxId" => "012.345.678-90",
         "name" => "Mr Meeseks",
-
-        "expiration" => 123456789,
+        "expiration" => new DateInterval("P2D"),
         "fine" => 2.5,
         "interest" => 1.3,
         "discounts" => [
             [
                 "percentage" => 5,
-                "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P1D")))
+                "due" => ((new DateTime("now"))->add(new DateInterval("P1D")))
             ],
             [
                 "percentage" => 3,
-                "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P2D")))
+                "due" => ((new DateTime("now"))->add(new DateInterval("P2D")))
             ]
         ],
         "tags" => [
@@ -264,7 +277,7 @@ $invoice = Invoice::create($invoices)[0];
 
 print_r($invoice);
 ```
-**Note**: Instead of using Invoice objects, you can also pass each invoice element in dictionary format
+**Note**: Instead of using Invoice objects, you can also pass each invoice element directly in array format, without using the constructor
 
 ### Get an invoice
 
@@ -279,21 +292,37 @@ $invoice = Invoice::get("5656565656565656");
 print_r($invoice);
 ```
 
-### Get an invoice PDF (COMING SOON)
+### Get an invoice QR Code 
+
+After its creation, an Invoice QR Code may be retrieved by its id. 
+
+```php
+use StarkBank\Invoice;
+
+$png = Invoice::qrcode("5881614903017472");
+
+$fp = fopen('qrcode.png', 'w');
+fwrite($fp, $png);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw png content,
+as it may corrupt the file.
+
+### Get an invoice PDF
 
 After its creation, an invoice PDF may be retrieved by its id.
 
 ```php
 use StarkBank\Invoice;
 
-$invoices = iterator_to_array(Invoice::query(["limit" => 10]));
-
-$pdf = Invoice::pdf($invoices[0]->id, ["layout" => "default"]);
+$pdf = Invoice::pdf("5656565656565656");
 
 $fp = fopen('invoice.pdf', 'w');
 fwrite($fp, $pdf);
 fclose($fp);
 ```
+
 Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
@@ -306,13 +335,9 @@ Note that this is not possible if it has been paid already.
 ```php
 use StarkBank\Invoice;
 
-$invoices = iterator_to_array(Invoice::query(["limit" => 1, "status" => "created"]));
+$invoice = Invoice::update("5656565656565656", ["status" => "canceled"]);
 
-foreach ($invoices as $invoice) {
-    $updatedInvoice = Invoice::update($invoice->id, ["status" => "canceled"]);
-
-    print_r($updatedInvoice);
-}
+print_r($invoice);
 ```
 
 ### Update an invoice
@@ -323,20 +348,16 @@ Note that this is not possible if it has been paid already.
 ```php
 use StarkBank\Invoice;
 
-$invoices = iterator_to_array(Invoice::query(["limit" => 1, "status" => "created"]));
+$updatedInvoice = Invoice::update(
+    "5656565656565656",
+    [
+        "amount" => 4321,
+        "due" => (new DateTime("now"))->add(new DateInterval("P5D")),
+        "expiration" => 123456789
+    ]
+);
 
-foreach ($invoices as $invoice) {
-    $updatedInvoice = Invoice::update(
-        $invoice->id,
-        [
-            "amount" => 4321,
-            "due" => (new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D")),
-            "expiration" => 123456789
-        ]
-    );
-
-    print_r($updatedInvoice);
-}
+print_r($updatedInvoice);
 ```
 
 ### Query invoices
@@ -348,7 +369,7 @@ use StarkBank\Invoice;
 
 $invoices = iterator_to_array(Invoice::query(["limit" => 10, "before" => new DateTime("now")]));
 
-foreach ($invoices as $invoice) {
+foreach($invoices as $invoice) {
     print_r($invoice);
 }
 ```
@@ -388,7 +409,7 @@ use StarkBank\Deposit;
 
 $deposits = iterator_to_array(Deposit::query(["limit" => 10, "before" => new DateTime("now")]));
 
-foreach ($deposits as $deposit) {
+foreach($deposits as $deposit) {
     print_r($deposit);
 }
 ```
@@ -462,8 +483,9 @@ foreach($boletos as $boleto){
 }
 ```
 
-**Note**: Instead of using Boleto objects, you can also pass each boleto element
-directly in array format, without using the constructor
+**Note**: Instead of using Boleto objects, you can also pass each boleto element directly in array format, without using the constructor
+
+
 ### Get boleto
 
 After its creation, information on a boleto may be retrieved by passing its id.
@@ -553,7 +575,7 @@ print_r($log);
 
 ### Create transfers
 
-You can also create transfers in the SDK (TED/DOC).
+You can also create transfers in the SDK (TED/PIX).
 
 ```php
 use StarkBank\Transfer;
@@ -561,7 +583,7 @@ use StarkBank\Transfer;
 $transfers = Transfer::create([
     new Transfer([
         "amount" => 100,
-        "bankCode" => "033",
+        "bankCode" => "033",  # TED
         "branchCode" => "0001",
         "accountNumber" => "10000-0",
         "taxId" => "012.345.678-90",
@@ -570,7 +592,7 @@ $transfers = Transfer::create([
     ]),
     new Transfer([
         "amount" => 200,
-        "bankCode" => "341",
+        "bankCode" => "20018183",  # PIX
         "branchCode" => "1234",
         "accountNumber" => "123456-7",
         "taxId" => "012.345.678-90",
@@ -585,8 +607,8 @@ foreach($transfers as $transfer){
 }
 ```
 
-**Note**: Instead of using Transfer objects, you can also pass each transfer element
-directly in array format, without using the constructor
+**Note**: Instead of using Transfer objects, you can also pass each transfer element directly in array format, without using the constructor
+
 ### Query transfers
 
 You can query multiple transfers according to filters.
@@ -696,7 +718,7 @@ foreach($payments as $payment){
 }
 ```
 
-**Note**: Instead of using BrcodePayment objects, you can also pass each payment element in dictionary format
+**Note**: Instead of using BrcodePayment objects, you can also pass each payment element directly in array format, without using the constructor
 
 ### Get BR Code payment
 
@@ -710,7 +732,7 @@ $payment = BrcodePayment::get("19278361897236187236");
 print_r($payment);
 ```
 
-### Get BR Code payment PDF (COMMING SOON)
+### Get BR Code payment PDF
 
 After its creation, a BR Code payment PDF may be retrieved by its id. 
 
@@ -772,6 +794,21 @@ $log = BrcodePayment\Log::get("5155165527080960");
 print_r($log);
 ```
 
+### Preview a BR Code payment
+
+You can confirm the information on the BR Code payment before creating it with this preview method:
+
+```php
+use StarkBank\BrcodePreview;
+
+$previews = BrcodePreview::query([
+    "brcodes" => ["00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"],
+]);
+
+foreach($previews as $preview){
+    print_r($preview);
+}
+```
 
 ### Pay a boleto
 
@@ -802,8 +839,8 @@ foreach($payments as $payment){
 }
 ```
 
-**Note**: Instead of using BoletoPayment objects, you can also pass each payment element
-directly in array format, without using the constructor
+**Note**: Instead of using BoletoPayment objects, you can also pass each payment element directly in array format, without using the constructor
+
 ### Get boleto payment
 
 To get a single boleto payment by its id, run:
@@ -879,7 +916,6 @@ foreach($logs as $log){
 }
 ```
 
-
 ### Get boleto payment log
 
 You can also get a boleto payment log by specifying its id.
@@ -914,7 +950,7 @@ foreach($holmes as $sherlock){
 }
 ```
 
-**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in dictionary format
+**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element directly in array format, without using the constructor
 
 ### Get boleto holmes
 
@@ -991,8 +1027,8 @@ foreach($payments as $payment){
 }
 ```
 
-**Note**: Instead of using UtilityPayment objects, you can also pass each payment element directly in
-array format, without using the constructor
+**Note**: Instead of using UtilityPayment objects, you can also pass each payment element directly in array format, without using the constructor
+
 ### Query utility payments
 
 To search for utility payments using filters, run:
@@ -1110,8 +1146,7 @@ foreach($transactions as $transaction){
 }
 ```
 
-**Note**: Instead of using Transaction objects, you can also pass each transaction element
-directly in array format, without using the constructor
+**Note**: Instead of using Transaction objects, you can also pass each transaction element directly in array format, without using the constructor
 
 ### Query transactions
 
@@ -1181,8 +1216,7 @@ foreach($requests as $request){
 }
 ```
 
-**Note**: Instead of using PaymentRequest objects, you can also pass each request element
-directly in array format, without using the constructor
+**Note**: Instead of using PaymentRequest objects, you can also pass each request element directly in array format, without using the constructor
 
 
 ### Query payment requests
@@ -1198,7 +1232,6 @@ foreach($requests as $request){
     print_r($request);
 }
 ```
-
 
 ### Create webhook subscription
 

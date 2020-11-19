@@ -11,7 +11,7 @@ class TestBrcodePayment
 {
     public function create()
     {
-        $payments = [self::example()];
+        $payments = [self::example(), self::example()];
 
         $payment = BrcodePayment::create($payments)[0];
 
@@ -31,6 +31,22 @@ class TestBrcodePayment
         $payment = BrcodePayment::get($payments[0]->id);
 
         if ($payments[0]->id != $payment->id) {
+            throw new Exception("failed");
+        }
+    }
+
+    public function cancel()
+    {
+        $payments = iterator_to_array(BrcodePayment::query(["limit" => 100, "status" => "created"]));
+        if (count($payments) == 0)
+            throw new Exception("failed");
+        if (count($payments) > 100)
+            throw new Exception("failed");
+        $payment = $payments[array_rand($payments, 1)];
+
+        $updateBrcodePayment = BrcodePayment::update($payment->id, ["status" => "canceled"]);
+
+        if ($updateBrcodePayment->status != "canceled") {
             throw new Exception("failed");
         }
     }
@@ -58,4 +74,8 @@ echo " - OK";
 
 echo "\n\t- query and get";
 $test->queryAndGet();
+echo " - OK";
+
+echo "\n\t- cancel";
+$test->cancel();
 echo " - OK";
