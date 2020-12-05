@@ -28,6 +28,7 @@ class API
                 continue;
             }
             if (is_string($value)) {
+                $value = utf8_decode($value);
                 $clean[$key] = utf8_encode($value);
                 continue;
             }
