@@ -114,8 +114,7 @@ class TestInvoice
                 "amount" => 400000,
                 "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D"))),
                 "taxId" => "012.345.678-90",
-                "name" => "Mr Meeseks",
-
+                "name" => "João Rosá",
                 "expiration" => 123456789,
                 "fine" => 2.5,
                 "interest" => 1.3,

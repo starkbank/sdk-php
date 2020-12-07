@@ -25,14 +25,12 @@ class TestWebhook
     {
         $webhooks = iterator_to_array(Webhook::query());
 
-        if (count($webhooks) == 0) {
-            throw new Exception("failed");
-        }
+        if (count($webhooks) > 1) {
+            $webhook = Webhook::get($webhooks[0]->id);
 
-        $webhook = Webhook::get($webhooks[0]->id);
-
-        if ($webhooks[0]->id != $webhook->id) {
-            throw new Exception("failed");
+            if ($webhooks[0]->id != $webhook->id) {
+                throw new Exception("failed");
+            }
         }
     }
 
