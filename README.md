@@ -188,6 +188,68 @@ for the value to be credited to your account.
 Here are a few examples on how to use the SDK. If you have any doubts, check out
 the function or class docstring to get more info or go straight to our [API docs].
 
+### Create transactions
+
+To send money between Stark Bank accounts, you can create transactions:
+
+```php
+use StarkBank\Transaction;
+
+$transactions = Transaction::create([
+    new Transaction([
+        "amount" => 100,  # (R$ 1.00)
+        "receiverId" => "1029378109327810",
+        "description" => "Transaction to dear provider",
+        "externalId" => "12345",  # so we can block anything you send twice by mistake
+        "tags" => ["provider"]
+    ]),
+    new Transaction([
+        "amount" => 234,  # (R$ 2.34)
+        "receiverId" => "2093029347820947",
+        "description" => "Transaction to the other provider",
+        "externalId" => "12346",  # so we can block anything you send twice by mistake
+        "tags" => ["provider"]
+    ]),
+]);
+
+foreach($transactions as $transaction){
+    print_r($transaction);
+}
+```
+
+**Note**: Instead of using Transaction objects, you can also pass each transaction element directly in array format, without using the constructor
+
+### Query transactions
+
+To understand your balance changes (bank statement), you can query
+transactions. Note that our system creates transactions for you when
+you receive boleto payments, pay a bill or make transfers, for example.
+
+```php
+use StarkBank\Transaction;
+
+$transactions = Transaction::query([
+    "after" => "2020-01-01",
+    "before" => "2020-03-01"
+]);
+
+foreach($transactions as $transaction){
+    print_r($transaction);
+}
+```
+
+### Get transaction
+
+You can get a specific transaction by its id:
+
+```php
+use StarkBank\Transaction;
+
+$transaction = Transaction::get("5155165527080960");
+
+print_r($transaction);
+```
+
 ### Get balance
 
 To know how much money you have in your workspace, run:
@@ -200,30 +262,126 @@ $balance = Balance::get();
 print_r($balance);
 ```
 
-### Get dict key
+### Create transfers
 
-You can get PIX key's parameters by its id.
+You can also create transfers in the SDK (TED/PIX).
 
 ```php
-use StarkBank\DictKey;
+use StarkBank\Transfer;
 
-$dictKey = DictKey::get();
+$transfers = Transfer::create([
+    new Transfer([
+        "amount" => 100,
+        "bankCode" => "033",  # TED
+        "branchCode" => "0001",
+        "accountNumber" => "10000-0",
+        "taxId" => "012.345.678-90",
+        "name" => "Tony Stark",
+        "tags" => ["iron", "suit"]
+    ]),
+    new Transfer([
+        "amount" => 200,
+        "bankCode" => "20018183",  # PIX
+        "branchCode" => "1234",
+        "accountNumber" => "123456-7",
+        "taxId" => "012.345.678-90",
+        "name" => "Jon Snow",
+        "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
+        "tags" => []
+    ])
+]);
 
-print_r($dictKey);
+foreach($transfers as $transfer){
+    print_r($transfer);
+}
 ```
 
-### Query your DICT keys
+**Note**: Instead of using Transfer objects, you can also pass each transfer element directly in array format, without using the constructor
 
-To take a look at the PIX keys linked to your workspace, just run the following:
+### Query transfers
+
+You can query multiple transfers according to filters.
 
 ```php
-use StarkBank\DictKey;
+use StarkBank\Transfer;
 
-$dictKeys = iterator_to_array(DictKey::query(["limit" => 1, "type" => "evp", "status" => "registered"]));
+$transfers = Transfer::query([
+    "after" => "2020-01-01",
+    "before" => "2020-04-01"
+]);
 
-foreach($dictKeys as $dictKey) {
-    print_r($dictKey);
+foreach($transfers as $transfer){
+    print_r($transfer->name);
 }
+```
+
+### Get transfer
+
+To get a single transfer by its id, run:
+
+```php
+use StarkBank\Transfer;
+
+$transfer = Transfer::get("5155165527080960");
+
+print_r($transfer);
+```
+
+### Cancel a scheduled transfer
+
+To cancel a single scheduled transfer by its id, run:
+
+```php
+use StarkBank\Transfer;
+
+$transfer = Transfer::delete("5155165527080960");
+
+print_r($transfer);
+```
+
+### Get transfer PDF
+
+A transfer PDF may also be retrieved by passing its id.
+This operation is only valid if the transfer status is "processing" or "success".
+
+```php
+use StarkBank\Transfer;
+
+$pdf = Transfer::pdf("5155165527080960");
+
+$fp = fopen('transfer.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Query transfer logs
+
+You can query transfer logs to better understand transfer life cycles.
+
+```php
+use StarkBank\Transfer;
+
+$logs = Transfer\Log::query(["limit" => 50]);
+
+foreach($logs as $log){
+    print_r($log->id);
+}
+```
+
+### Get a transfer log
+
+You can also get a specific log by its id.
+
+```php
+use StarkBank\Transfer;
+
+$log = Transfer\Log::get("5155165527080960");
+
+print_r($log);
 ```
 
 ### Create invoices
@@ -573,126 +731,90 @@ $log = Boleto\Log::get("5155165527080960");
 print_r($log);
 ```
 
-### Create transfers
+### Investigate a boleto
 
-You can also create transfers in the SDK (TED/PIX).
+You can discover if a StarkBank boleto has been recently paid before we receive the response on the next day.
+This can be done by creating a BoletoHolmes object, which fetches the updated status of the corresponding
+Boleto object according to CIP to check, for example, whether it is still payable or not. The investigation
+happens asynchronously and the most common way to retrieve the results is to register a "boleto-holmes" webhook
+subscription, although polling is also possible. 
 
 ```php
-use StarkBank\Transfer;
+use StarkBank\BoletoHolmes;
 
-$transfers = Transfer::create([
-    new Transfer([
-        "amount" => 100,
-        "bankCode" => "033",  # TED
-        "branchCode" => "0001",
-        "accountNumber" => "10000-0",
-        "taxId" => "012.345.678-90",
-        "name" => "Tony Stark",
-        "tags" => ["iron", "suit"]
-    ]),
-    new Transfer([
-        "amount" => 200,
-        "bankCode" => "20018183",  # PIX
-        "branchCode" => "1234",
-        "accountNumber" => "123456-7",
-        "taxId" => "012.345.678-90",
-        "name" => "Jon Snow",
-        "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
-        "tags" => []
-    ])
-]);
+$holmes = [new BoletoHolmes([
+    "boletoId" => "5976467733217280"
+])];
 
-foreach($transfers as $transfer){
-    print_r($transfer);
+$sherlock = BoletoHolmes::create($holmes)[0];
+
+foreach($holmes as $sherlock){
+    print_r($sherlock);
 }
 ```
 
-**Note**: Instead of using Transfer objects, you can also pass each transfer element directly in array format, without using the constructor
+**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element directly in array format, without using the constructor
 
-### Query transfers
+### Get boleto holmes
 
-You can query multiple transfers according to filters.
+To get a single Holmes by its id, run:
 
 ```php
-use StarkBank\Transfer;
+use StarkBank\BoletoHolmes;
+$sherlock = Boleto::get("5976467733217280");
+print_r($sherlock)
+```
 
-$transfers = Transfer::query([
-    "after" => "2020-01-01",
-    "before" => "2020-04-01"
-]);
+### Query boleto holmes
 
-foreach($transfers as $transfer){
-    print_r($transfer->name);
+You can search for boleto Holmes using filters. 
+
+```php
+use StarkBank\BoletoHolmes;
+$holmes = iterator_to_array(Boleto::query(["limit" => 10, "before" => new DateTime("now")]));
+
+foreach($holmes as $sherlock){
+    print_r($sherlock);
 }
 ```
 
-### Get transfer
+### Query boleto holmes logs
 
-To get a single transfer by its id, run:
-
-```php
-use StarkBank\Transfer;
-
-$transfer = Transfer::get("5155165527080960");
-
-print_r($transfer);
-```
-
-### Cancel a scheduled transfer
-
-To cancel a single scheduled transfer by its id, run:
+Searches are also possible with boleto holmes logs:
 
 ```php
-use StarkBank\Transfer;
-
-$transfer = Transfer::delete("5155165527080960");
-
-print_r($transfer);
-```
-
-### Get transfer PDF
-
-A transfer PDF may also be retrieved by passing its id.
-This operation is only valid if the transfer status is "processing" or "success".
-
-```php
-use StarkBank\Transfer;
-
-$pdf = Transfer::pdf("5155165527080960");
-
-$fp = fopen('transfer.pdf', 'w');
-fwrite($fp, $pdf);
-fclose($fp);
-```
-
-Be careful not to accidentally enforce any encoding on the raw pdf content,
-as it may yield abnormal results in the final file, such as missing images
-and strange characters.
-
-### Query transfer logs
-
-You can query transfer logs to better understand transfer life cycles.
-
-```php
-use StarkBank\Transfer;
-
-$logs = Transfer\Log::query(["limit" => 50]);
+use StarkBank\BoletoHolmes\Log;
+$logs = iterator_to_array(Log::query(["limit" => 10, "types" => ["solving"]]));
 
 foreach($logs as $log){
-    print_r($log->id);
+    print_r($log);
 }
 ```
 
-### Get a transfer log
+### Get boleto holmes log
 
-You can also get a specific log by its id.
+You can also get a boleto holmes log by specifying its id.
 
 ```php
-use StarkBank\Transfer;
+use StarkBank\BoletoHolmes\Log;
+$log = Log::get("5976467733217280");
+print_r($log)
+```
 
-$log = Transfer\Log::get("5155165527080960");
+### Preview a BR Code payment
 
-print_r($log);
+You can confirm the information on the BR Code payment before creating it with this preview method:
+
+```php
+use StarkBank\BrcodePreview;
+
+$previews = BrcodePreview::query([
+    "brcodes" => ["00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"],
+]);
+
+foreach($previews as $preview){
+    print_r($preview);
+}
 ```
 
 ### Pay a BR Code
@@ -792,22 +914,6 @@ use StarkBank\BrcodePayment;
 $log = BrcodePayment\Log::get("5155165527080960");
 
 print_r($log);
-```
-
-### Preview a BR Code payment
-
-You can confirm the information on the BR Code payment before creating it with this preview method:
-
-```php
-use StarkBank\BrcodePreview;
-
-$previews = BrcodePreview::query([
-    "brcodes" => ["00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"],
-]);
-
-foreach($previews as $preview){
-    print_r($preview);
-}
 ```
 
 ### Pay a boleto
@@ -928,78 +1034,6 @@ $log = BoletoPayment\Log::get("5155165527080960");
 print_r($log);
 ```
 
-### Investigate a boleto
-
-You can discover if a StarkBank boleto has been recently paid before we receive the response on the next day.
-This can be done by creating a BoletoHolmes object, which fetches the updated status of the corresponding
-Boleto object according to CIP to check, for example, whether it is still payable or not. The investigation
-happens asynchronously and the most common way to retrieve the results is to register a "boleto-holmes" webhook
-subscription, although polling is also possible. 
-
-```php
-use StarkBank\BoletoHolmes;
-
-$holmes = [new BoletoHolmes([
-    "boletoId" => "5976467733217280"
-])];
-
-$sherlock = BoletoHolmes::create($holmes)[0];
-
-foreach($holmes as $sherlock){
-    print_r($sherlock);
-}
-```
-
-**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element directly in array format, without using the constructor
-
-### Get boleto holmes
-
-To get a single Holmes by its id, run:
-
-```php
-use StarkBank\BoletoHolmes;
-$sherlock = Boleto::get("5976467733217280");
-print_r($sherlock)
-```
-
-### Query boleto holmes
-
-You can search for boleto Holmes using filters. 
-
-```php
-use StarkBank\BoletoHolmes;
-$holmes = iterator_to_array(Boleto::query(["limit" => 10, "before" => new DateTime("now")]));
-
-foreach($holmes as $sherlock){
-    print_r($sherlock);
-}
-```
-
-### Query boleto holmes logs
-
-Searches are also possible with boleto holmes logs:
-
-```php
-use StarkBank\BoletoHolmes\Log;
-$logs = iterator_to_array(Log::query(["limit" => 10, "types" => ["solving"]]));
-
-foreach($logs as $log){
-    print_r($log);
-}
-```
-
-
-### Get boleto holmes log
-
-You can also get a boleto holmes log by specifying its id.
-
-```php
-use StarkBank\BoletoHolmes\Log;
-$log = Log::get("5976467733217280");
-print_r($log)
-```
-
-
 ### Create utility payment
 
 It's also simple to pay utility bills (such as electricity and water bills) in the SDK.
@@ -1088,7 +1122,7 @@ $payment = UtilityPayment::delete("5155165527080960");
 print_r($payment);
 ```
 
-### Query utility bill payment logs
+### Query utility payment logs
 
 You can search for payments by specifying filters. Use this to understand the
 bills life cycles.
@@ -1105,7 +1139,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get utility bill payment log
+### Get utility payment log
 
 If you want to get a specific payment log by its id, just run:
 
@@ -1116,69 +1150,6 @@ $log = UtilityPayment\Log::get("1902837198237992");
 
 print_r($log);
 ```
-
-### Create transactions
-
-To send money between Stark Bank accounts, you can create transactions:
-
-```php
-use StarkBank\Transaction;
-
-$transactions = Transaction::create([
-    new Transaction([
-        "amount" => 100,  # (R$ 1.00)
-        "receiverId" => "1029378109327810",
-        "description" => "Transaction to dear provider",
-        "externalId" => "12345",  # so we can block anything you send twice by mistake
-        "tags" => ["provider"]
-    ]),
-    new Transaction([
-        "amount" => 234,  # (R$ 2.34)
-        "receiverId" => "2093029347820947",
-        "description" => "Transaction to the other provider",
-        "externalId" => "12346",  # so we can block anything you send twice by mistake
-        "tags" => ["provider"]
-    ]),
-]);
-
-foreach($transactions as $transaction){
-    print_r($transaction);
-}
-```
-
-**Note**: Instead of using Transaction objects, you can also pass each transaction element directly in array format, without using the constructor
-
-### Query transactions
-
-To understand your balance changes (bank statement), you can query
-transactions. Note that our system creates transactions for you when
-you receive boleto payments, pay a bill or make transfers, for example.
-
-```php
-use StarkBank\Transaction;
-
-$transactions = Transaction::query([
-    "after" => "2020-01-01",
-    "before" => "2020-03-01"
-]);
-
-foreach($transactions as $transaction){
-    print_r($transaction);
-}
-```
-
-### Get transaction
-
-You can get a specific transaction by its id:
-
-```php
-use StarkBank\Transaction;
-
-$transaction = Transaction::get("5155165527080960");
-
-print_r($transaction);
-```
-
 
 ### Create payment requests to be approved by authorized people in a cost center
 
@@ -1360,6 +1331,32 @@ use StarkBank\Event;
 $event = Event::update("129837198237192", ["isDelivered" => true]);
 
 print_r($event);
+```
+
+### Get DICT key
+
+You can get PIX key's parameters by its id.
+
+```php
+use StarkBank\DictKey;
+
+$dictKey = DictKey::get();
+
+print_r($dictKey);
+```
+
+### Query your DICT keys
+
+To take a look at the PIX keys linked to your workspace, just run the following:
+
+```php
+use StarkBank\DictKey;
+
+$dictKeys = iterator_to_array(DictKey::query(["limit" => 1, "type" => "evp", "status" => "registered"]));
+
+foreach($dictKeys as $dictKey) {
+    print_r($dictKey);
+}
 ```
 
 ## Handling errors
