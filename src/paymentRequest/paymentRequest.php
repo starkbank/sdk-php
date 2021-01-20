@@ -23,7 +23,7 @@ class PaymentRequest extends Resource
         - payment [Transfer, Transaction, BoletoPayment, UtilityPayment or dictionary]: payment entity that should be approved and executed.
 
     ## Parameters (conditionally required):
-        - type [string]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
+        - type [string]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "brcode-payment"
     
     ## Parameters (optional):
         - due [DateTime or string, default today]: Payment target date in ISO format. ex: 2020-04-30
@@ -98,7 +98,7 @@ class PaymentRequest extends Resource
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - sort [string, default "-created"]: sort order considered in response. Valid options are "-created" or "-due".
         - status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
-        - type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
+        - type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "brcode-payment"
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
@@ -119,6 +119,8 @@ class PaymentRequest extends Resource
             return [$payment, "transfer"];
         if($payment instanceof Transaction)
             return [$payment, "transaction"];
+        if($payment instanceof BrcodePayment)
+            return [$payment, "brcode-payment"];
         if($payment instanceof BoletoPayment)
             return [$payment, "boleto-payment"];
         if($payment instanceof UtilityPayment)
@@ -133,6 +135,9 @@ class PaymentRequest extends Resource
             },
             "transaction" => function ($array) {
                 return new Transaction($array);
+            },
+            "brcode-payment" => function ($array) {
+                return new BrcodePayment($array);
             },
             "boleto-payment" => function ($array) {
                 return new BoletoPayment($array);
