@@ -1213,7 +1213,7 @@ use StarkBank\Webhook;
 
 $webhook = Webhook::create([
     "url" => "https://webhook.site/dd784f26-1d6a-4ca6-81cb-fda0267761ec",
-    "subscriptions" => ["transfer", "boleto", "boleto-payment", "utility-payment"]
+    "subscriptions" => ["transfer", "invoice", "deposit", "brcode-payment", "boleto", "boleto-payment", "utility-payment"]
 ]);
 
 print_r($webhook);
@@ -1272,6 +1272,12 @@ $event = Event::parse($response->content, $response->headers["Digital-Signature"
 
 if ($event->subscription == "transfer"){
     print_r($event->log->transfer);
+} elseif ($event->subscription == "deposit"){
+    print_r($event->log->deposit);
+} elseif ($event->subscription == "invoice"){
+    print_r($event->log->invoice);
+} elseif ($event->subscription == "brcode-payment"){
+    print_r($event->log->payment);
 } elseif ($event->subscription == "boleto"){
     print_r($event->log->boleto);
 } elseif ($event->subscription == "boleto-payment"){
