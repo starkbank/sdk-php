@@ -65,7 +65,7 @@ class Transaction extends Resource
         - transactions [array of Transaction objects]: array of Transaction objects to be created in the API
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - array of Transaction objects with updated attributes
@@ -84,7 +84,7 @@ class Transaction extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
         - Transaction object with updated attributes
@@ -106,7 +106,7 @@ class Transaction extends Resource
         - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - externalIds [array of strings, default null]: array of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of Transaction objects with updated attributes

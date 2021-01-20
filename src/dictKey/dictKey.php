@@ -59,7 +59,7 @@ class DictKey extends Resource
         - id [string]: DictKey object unique id and PIX key itself. ex: 'tony@starkbank.com', '722.461.430-04', '20.018.183/0001-80', '+5511988887777', 'b6295ee1-f054-47d1-9e90-ee57b74f60d9'
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - DictKey object with updated attributes
@@ -81,7 +81,7 @@ class DictKey extends Resource
         - before [datetime.date or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default None]: filter for status of retrieved objects. ex: "success"
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of DictKey objects with updated attributes

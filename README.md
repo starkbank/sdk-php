@@ -89,7 +89,7 @@ You can interact directly with our API using two types of users: Projects and Or
 - **Projects** are workspace-specific users, that is, they are bound to the workspaces they are created in.
 One workspace can have multiple Projects.
 - **Organizations** are general users that control your entire organization.
-They can control all your Workspaces and even create new ones. The Organization is bound to your company's tax-ID only.
+They can control all your Workspaces and even create new ones. The Organization is bound to your company's tax ID only.
 Since this user is unique in your entire organization, only one credential can be linked to it.
 
 3.1 To create a Project in Sandbox:
@@ -127,7 +127,7 @@ $project = new Project([
 ]);
 ```
 
-3.2 While this feature is in beta, to register your Organization's public key, a legal representative of your organization must send an e-mail with the desired public key to developers@starkbank.com. Don`t worry, this flow will soon be integrated with our website. Here is an example on how to handle your Organization in the SDK:
+3.2 To register your Organization's public key, a legal representative of your organization must send an e-mail with the desired public key to developers@starkbank.com. This flow will soon be integrated with our website, where you'll be able to do the entire process quicker and independently. Here is an example on how to handle your Organization in the SDK:
 
 ```php
 use StarkBank\Organization;
@@ -153,23 +153,23 @@ $organization = new Organization([
 ]);
 
 // To dynamically use your organization credentials in a specific workspaceId,
-// you can use the Organization::withWorkspace() method:
-$balance = Balance::get(organization.withWorkspace("4848484848484848"));
+// you can use the Organization::replace() method:
+$balance = Balance::get(Organization::replace($organization, "4848484848484848"));
 ```
 
 NOTE 1: Never hard-code your private key. Get it from an environment variable or an encrypted database.
 
 NOTE 2: We support `'sandbox'` and `'production'` as environments.
 
-NOTE 3: The credentials you registered in `sandbox` do not exist in `production` and 
+NOTE 3: The credentials you registered in `sandbox` do not exist in `production` and vice versa.
 
 
 ### 4. Setting up the user
 
-There are two kinds of users that can access our API: **Project** and **Member**.
+There are three kinds of users that can access our API: **Organization**, **Project** and **Member**.
 
+- `Project` and `Organization` are designed for integrations and are the ones meant for our SDKs.
 - `Member` is the one you use when you log into our webpage with your e-mail.
-- `Project` is designed for integrations and is the one meant for our SDK.
 
 There are two ways to inform the user to the SDK:
 
@@ -178,7 +178,7 @@ There are two ways to inform the user to the SDK:
 ```php
 use StarkBank\Balance;
 
-$balance = Balance::get($project);
+$balance = Balance::get($project);  # or organization
 ```
 
 4.2 Set it as a default user in the SDK:
@@ -187,12 +187,12 @@ $balance = Balance::get($project);
 use StarkBank\Settings;
 use StarkBank\Balance;
 
-Settings::setUser($project);
+Settings::setUser($project);  # or organization
 
 $balance = Balance::get();
 ```
 
-Just select the way of passing the project user that is more convenient to you.
+Just select the way of passing the user that is more convenient to you.
 On all following examples we will assume a default user has been set.
 
 ### 5. Setting up the error language
@@ -211,13 +211,13 @@ Language options are "en-US" for english and "pt-BR" for brazilian portuguese. E
 ## Testing in Sandbox
 
 Your initial balance is zero. For many operations in Stark Bank, you'll need funds
-in your account, which can be added to your balance by creating a Boleto.
+in your account, which can be added to your balance by creating an Invoice or a Boleto. 
 
-In the Sandbox environment, 90% of the created Boletos will be automatically paid,
+In the Sandbox environment, most of the created Invoices and Boletos will be automatically paid,
 so there's nothing else you need to do to add funds to your account. Just create
-a few and wait around a bit.
+a few Invoices and wait around a bit.
 
-In Production, you (or one of your clients) will need to actually pay this Boleto
+In Production, you (or one of your clients) will need to actually pay this Invoice or Boleto
 for the value to be credited to your account.
 
 
@@ -276,7 +276,7 @@ foreach($transactions as $transaction){
 }
 ```
 
-### Get transaction
+### Get a transaction
 
 You can get a specific transaction by its id:
 
@@ -288,7 +288,7 @@ $transaction = Transaction::get("5155165527080960");
 print_r($transaction);
 ```
 
-### Get balance
+### Get your balance
 
 To know how much money you have in your workspace, run:
 
@@ -302,7 +302,7 @@ print_r($balance);
 
 ### Create transfers
 
-You can also create transfers in the SDK (TED/PIX).
+You can also create transfers in the SDK (TED/Pix).
 
 ```php
 use StarkBank\Transfer;
@@ -319,7 +319,7 @@ $transfers = Transfer::create([
     ]),
     new Transfer([
         "amount" => 200,
-        "bankCode" => "20018183",  # PIX
+        "bankCode" => "20018183",  # Pix
         "branchCode" => "1234",
         "accountNumber" => "123456-7",
         "taxId" => "012.345.678-90",
@@ -353,7 +353,7 @@ foreach($transfers as $transfer){
 }
 ```
 
-### Get transfer
+### Get a transfer
 
 To get a single transfer by its id, run:
 
@@ -377,7 +377,7 @@ $transfer = Transfer::delete("5155165527080960");
 print_r($transfer);
 ```
 
-### Get transfer PDF
+### Get a transfer PDF
 
 A transfer PDF may also be retrieved by passing its id.
 This operation is only valid if the transfer status is "processing" or "success".
@@ -682,7 +682,7 @@ foreach($boletos as $boleto){
 **Note**: Instead of using Boleto objects, you can also pass each boleto element directly in array format, without using the constructor
 
 
-### Get boleto
+### Get a boleto
 
 After its creation, information on a boleto may be retrieved by passing its id.
 Its status indicates whether it's been paid.
@@ -695,7 +695,7 @@ $boleto = Boleto::get("5155165527080960");
 print_r($boleto);
 ```
 
-### Get boleto PDF
+### Get a boleto PDF
 
 After its creation, a boleto PDF may be retrieved by passing its id.
 
@@ -713,7 +713,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete boleto
+### Delete a boleto
 
 You can also cancel a boleto by its id.
 Note that this is not possible if it has been processed already.
@@ -793,7 +793,7 @@ foreach($holmes as $sherlock){
 
 **Note**: Instead of using BoletoHolmes objects, you can also pass each payment element directly in array format, without using the constructor
 
-### Get boleto holmes
+### Get a boleto holmes
 
 To get a single Holmes by its id, run:
 
@@ -829,7 +829,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get boleto holmes log
+### Get a boleto holmes log
 
 You can also get a boleto holmes log by specifying its id.
 
@@ -880,7 +880,7 @@ foreach($payments as $payment){
 
 **Note**: Instead of using BrcodePayment objects, you can also pass each payment element directly in array format, without using the constructor
 
-### Get BR Code payment
+### Get a BR Code payment
 
 To get a single BR Code payment by its id, run:
 
@@ -892,7 +892,7 @@ $payment = BrcodePayment::get("19278361897236187236");
 print_r($payment);
 ```
 
-### Get BR Code payment PDF
+### Get a BR Code payment PDF
 
 After its creation, a BR Code payment PDF may be retrieved by its id. 
 
@@ -942,7 +942,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get BR Code payment log
+### Get a BR Code payment log
 
 You can also get a BR Code payment log by specifying its id.
 
@@ -985,7 +985,7 @@ foreach($payments as $payment){
 
 **Note**: Instead of using BoletoPayment objects, you can also pass each payment element directly in array format, without using the constructor
 
-### Get boleto payment
+### Get a boleto payment
 
 To get a single boleto payment by its id, run:
 
@@ -997,7 +997,7 @@ $payment = BoletoPayment::get("19278361897236187236");
 print_r($payment);
 ```
 
-### Get boleto payment PDF
+### Get a boleto payment PDF
 
 After its creation, a boleto payment PDF may be retrieved by passing its id.
 
@@ -1015,7 +1015,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete boleto payment
+### Delete a boleto payment
 
 You can also cancel a boleto payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1060,7 +1060,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get boleto payment log
+### Get a boleto payment log
 
 You can also get a boleto payment log by specifying its id.
 
@@ -1072,7 +1072,7 @@ $log = BoletoPayment\Log::get("5155165527080960");
 print_r($log);
 ```
 
-### Create utility payment
+### Create a utility payment
 
 It's also simple to pay utility bills (such as electricity and water bills) in the SDK.
 
@@ -1117,7 +1117,7 @@ foreach($payments as $payment){
 }
 ```
 
-### Get utility payment
+### Get a utility payment
 
 You can get a specific bill by its id:
 
@@ -1129,7 +1129,7 @@ $payment = UtilityPayment::get("5155165527080960");
 print_r($payment);
 ```
 
-### Get utility payment PDF
+### Get a utility payment PDF
 
 After its creation, a utility payment PDF may also be retrieved by passing its id.
 
@@ -1147,7 +1147,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete utility payment
+### Delete a utility payment
 
 You can also cancel a utility payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1177,7 +1177,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get utility payment log
+### Get a utility payment log
 
 If you want to get a specific payment log by its id, just run:
 
@@ -1242,7 +1242,7 @@ foreach($requests as $request){
 }
 ```
 
-### Create webhook subscription
+### Create a webhook subscription
 
 To create a webhook subscription and be notified whenever an event occurs, run:
 
@@ -1257,7 +1257,7 @@ $webhook = Webhook::create([
 print_r($webhook);
 ```
 
-### Query webhooks
+### Query webhook subscriptions
 
 To search for registered webhooks, run:
 
@@ -1271,7 +1271,7 @@ foreach($webhooks as $webhook){
 }
 ```
 
-### Get a webhook
+### Get a webhook subscription
 
 You can get a specific webhook by its id.
 
@@ -1283,7 +1283,7 @@ $webhook = Webhook::get("10827361982368179");
 print_r($webhook);
 ```
 
-### Delete webhook
+### Delete a webhook subscription
 
 You can also delete a specific webhook by its id.
 
@@ -1339,7 +1339,7 @@ foreach($events as $event){
 }
 ```
 
-### Get webhook event
+### Get a webhook event
 
 You can get a specific webhook event by its id.
 
@@ -1351,7 +1351,7 @@ $event = Event::get("10827361982368179");
 print_r($event);
 ```
 
-### Delete webhook event
+### Delete a webhook event
 
 You can also delete a specific webhook event by its id.
 
@@ -1377,9 +1377,9 @@ $event = Event::update("129837198237192", ["isDelivered" => true]);
 print_r($event);
 ```
 
-### Get DICT key
+### Get a DICT key
 
-You can get PIX key's parameters by its id.
+You can get Pix key's parameters by its id.
 
 ```php
 use StarkBank\DictKey;
@@ -1391,7 +1391,7 @@ print_r($dictKey);
 
 ### Query your DICT keys
 
-To take a look at the PIX keys linked to your workspace, just run the following:
+To take a look at the Pix keys linked to your workspace, just run the following:
 
 ```php
 use StarkBank\DictKey;
@@ -1403,7 +1403,7 @@ foreach($dictKeys as $dictKey) {
 }
 ```
 
-### Create new Workspaces
+### Create a new Workspace
 
 The Organization user allows you to create new Workspaces (bank accounts) under your organization.
 Workspaces have independent balances, statements, operations and users.
@@ -1418,7 +1418,7 @@ $workspace = Workspace::create([
     "username" => "iron-bank-workspace-1",
     "name" => "Iron Bank Workspace 1"
     ],
-    $user = organization
+    $organization
 );
 
 print_r($workspace)
