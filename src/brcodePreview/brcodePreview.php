@@ -51,7 +51,7 @@ class BrcodePreview extends Resource
 
     ## Parameters (optional):
         - brcodes [array of strings]: List of brcodes to preview. ex: ["00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"]
-        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of BrcodePreview objects with updated attributes

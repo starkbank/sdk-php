@@ -16,6 +16,7 @@ require_once("utils/rest.php");
 require_once("utils/url.php");
 require_once("user/user.php");
 require_once("user/project.php");
+require_once("user/organization.php");
 require_once("balance/balance.php");
 require_once("transaction/transaction.php");
 require_once("boleto/boleto.php");
@@ -38,6 +39,7 @@ require_once("utilityPayment/utilityPayment.php");
 require_once("utilityPayment/log.php");
 require_once("paymentRequest/paymentRequest.php");
 require_once("webhook/webhook.php");
+require_once("workspace/workspace.php");
 require_once("event/event.php");
 
 ?>

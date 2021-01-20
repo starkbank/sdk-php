@@ -69,7 +69,7 @@ class BrcodePayment extends Resource
         - payments [array of BrcodePayment objects]: array of BrcodePayment objects to be created in the API
     
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
         - array of BrcodePayment objects with updated attributes
@@ -88,7 +88,7 @@ class BrcodePayment extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - BrcodePayment object with updated attributes
@@ -107,7 +107,7 @@ class BrcodePayment extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - BrcodePayment pdf file
@@ -125,10 +125,10 @@ class BrcodePayment extends Resource
     ## Parameters (required):
         - id [array of strings]: BrcodePayment unique ids. ex: "5656565656565656"
         - status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
-        - user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Parameters (optional):
-        - user [Project object]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - target BrcodePayment with updated attributes
@@ -150,7 +150,7 @@ class BrcodePayment extends Resource
         - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
         - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Project object, default null]: Project object. Not necessary if StarkBank\User.setDefaut() was set before function call
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of BrcodePayment objects with updated attributes
