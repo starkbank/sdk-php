@@ -22,11 +22,13 @@ class Transfer extends Resource
         - taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
         - bankCode [string]: code of the receiver bank institution in Brazil. If an ISPB (8 digits) is informed, a PIX transfer will be created, else a TED will be issued. ex: "20018183" or "341"
         - branchCode [string]: receiver bank account branch. Use '-' in case there is a verifier digit. ex: "1357-9"
-        - accountNumber [string]: Receiver Bank Account number. Use '-' before the verifier digit. ex: "876543-2"
+        - accountNumber [string]: receiver bank account number. Use '-' before the verifier digit. ex: "876543-2"
 
     ## Parameters (optional):
-        - tags [array of strings]: array of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+        - accountType [string, default "checking"]: receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings" or "salary"
+        - externalId [string, default null]: url safe string that must be unique among all your transfers. Duplicated externalIds will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
         - scheduled [DateTime or date, default now]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-11-30"
+        - tags [array of strings]: array of strings for reference when searching for transfers. ex: ["employees", "monthly"]
 
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
@@ -46,6 +48,8 @@ class Transfer extends Resource
         $this->bankCode = Checks::checkParam($params, "bankCode");
         $this->branchCode = Checks::checkParam($params, "branchCode");
         $this->accountNumber = Checks::checkParam($params, "accountNumber");
+        $this->accountType = Checks::checkParam($params, "accountType");
+        $this->externalId = Checks::checkParam($params, "externalId");
         $this->scheduled = Checks::checkDateTime(Checks::checkParam($params, "scheduled"));
         $this->tags = Checks::checkParam($params, "tags");
         $this->fee = Checks::checkParam($params, "fee");
