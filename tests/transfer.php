@@ -91,6 +91,8 @@ class TestTransfer
             "bankCode" => "01",
             "branchCode" => "0001",
             "accountNumber" => "10000-0",
+            "accountType" => "checking",
+            "externalId" => "php-" . $uuid = mt_rand(0, 0xffffffff)
         ];
         if ($schedule) {
             $datetime = (new DateTime("now"))->add(new DateInterval("P1D"));
