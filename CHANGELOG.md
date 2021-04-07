@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Fixed
+- Uncaught Exception when passing datetimes as strings
 
 ## [2.4.0] - 2021-01-21
 ### Added
