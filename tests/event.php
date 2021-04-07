@@ -35,7 +35,7 @@ class TestEvent
 
     public function queryGetAndUpdate()
     {
-        $events = iterator_to_array(Event::query(["limit" => 1, "isDelivered" => false]));
+        $events = iterator_to_array(Event::query(["limit" => 1, "isDelivered" => false, "before" => "2030-01-01"]));
 
         if (count($events) != 1) {
             throw new Exception("failed");
