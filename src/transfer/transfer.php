@@ -135,7 +135,7 @@ class Transfer extends Resource
      */
     public static function pdf($id, $user = null)
     {
-        return Rest::getPdf($user, Transfer::resource(), $id);
+        return Rest::getContent($user, Transfer::resource(), $id, "pdf");
     }
 
     /**

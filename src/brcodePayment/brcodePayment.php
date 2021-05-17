@@ -116,7 +116,7 @@ class BrcodePayment extends Resource
      */
     public static function pdf($id, $user = null)
     {
-        return Rest::getPdf($user, BrcodePayment::resource(), $id);
+        return Rest::getContent($user, BrcodePayment::resource(), $id, "pdf");
     }
 
     /**

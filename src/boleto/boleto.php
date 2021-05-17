@@ -158,7 +158,7 @@ class Boleto extends Resource
     public static function pdf($id, $options = [], $user = null)
     {
         $options["layout"] = Checks::checkParam($options, "layout");
-        return Rest::getPdf($user, Boleto::resource(), $id, $options);
+        return Rest::getContent($user, Boleto::resource(), $id, "pdf", $options);
     }
 
     /**

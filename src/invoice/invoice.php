@@ -152,7 +152,7 @@ class Invoice extends Resource
      */
     public static function pdf($id, $user = null)
     {
-        return Rest::getPdf($user, Invoice::resource(), $id);
+        return Rest::getContent($user, Invoice::resource(), $id, "pdf");
     }
 
     /**
@@ -173,7 +173,7 @@ class Invoice extends Resource
     public static function qrcode($id, $options = [], $user = null)
     {
         $options["size"] = Checks::checkParam($options, "size");
-        return Rest::getQrcode($user, Invoice::resource(), $id, $options);
+        return Rest::getContent($user, Invoice::resource(), $id, "qrcode", $options);
     }
 
     /**
