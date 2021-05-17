@@ -586,6 +586,18 @@ foreach($invoices as $invoice) {
 }
 ```
 
+### Get an invoice payment information
+
+Once an invoice has been paid, you can get the payment information using the Invoice.Payment sub-resource:
+
+```php
+use StarkBank\Invoice;
+
+$paymentInformation = Invoice::payment("5656565656565656");
+
+print_r($paymentInformation);
+```
+
 ### Query invoice logs
 
 Logs are pretty important to understand the life cycle of an invoice.
