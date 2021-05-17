@@ -49,6 +49,16 @@ class Rest
         return Request::fetch($user, "GET", $path, null, $options)->content;
     }
 
+    public static function getSubresource($user, $resource, $id, $subresource, $options = null)
+    {
+        $id = Checks::checkId($id);
+        $options = API::castJsonToApiFormat($options);
+        $path = API::endpoint($resource["name"]) . "/" . $id . "/" . API::endpoint($subresource["name"]);
+        $json = Request::fetch($user, "GET", $path)->json();
+        $entity = $json[API::lastName($subresource["name"])];
+        return API::fromApiJson($subresource["maker"], $entity);
+    }
+
     public static function post($user, $resource, $entities)
     {
         $entitiesJson = [];
