@@ -47,7 +47,7 @@ class BrcodePreview extends Resource
     /**
     # Retrieve BrcodePreviews
 
-    Receive an enumerator of BrcodePreview objects previously created in the Stark Bank API
+    Process BR Codes before creating BrcodePayments
 
     ## Parameters (optional):
         - brcodes [array of strings]: List of brcodes to preview. ex: ["00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"]
