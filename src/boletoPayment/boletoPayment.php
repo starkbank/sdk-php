@@ -115,7 +115,7 @@ class BoletoPayment extends Resource
      */
     public static function pdf($id, $user = null)
     {
-        return Rest::getPdf($user, BoletoPayment::resource(), $id);
+        return Rest::getContent($user, BoletoPayment::resource(), $id, "pdf");
     }
 
     /**

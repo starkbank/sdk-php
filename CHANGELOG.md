@@ -13,6 +13,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- Invoice.Payment sub-resource to allow retrieval of invoice payment information
+
 ## [2.4.1] - 2021-04-06
 ### Fixed
 - Uncaught Exception when passing datetimes as strings

@@ -56,6 +56,16 @@ class TestInvoice
         fclose($fp);
     }
 
+    public function queryAndGetPayment()
+    {
+        $invoice = iterator_to_array(Invoice::query(["limit" => 1, "status" => "paid"]))[0];
+        $payment = Invoice::payment($invoice->id);
+
+        if (is_null($payment->bankCode)) {
+            throw new Exception("failed");
+        }
+    }
+
     public function updateAmount()
     {
         $invoices = iterator_to_array(Invoice::query(["limit" => 1, "status" => "created"]));
@@ -186,6 +196,10 @@ echo " - OK";
 
 echo "\n\t- query and get";
 $test->queryGetGetPdfAndGetQrcode();
+echo " - OK";
+
+echo "\n\t- get payment";
+$test->queryAndGetPayment();
 echo " - OK";
 
 echo "\n\t- update amount";

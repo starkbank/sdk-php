@@ -6,6 +6,7 @@ use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
 use StarkBank\Utils\StarkBankDateTime;
 use StarkBank\Utils\StarkBankDate;
+use StarkBank\Invoice\Payment;
 
 
 class Invoice extends Resource
@@ -152,7 +153,7 @@ class Invoice extends Resource
      */
     public static function pdf($id, $user = null)
     {
-        return Rest::getPdf($user, Invoice::resource(), $id);
+        return Rest::getContent($user, Invoice::resource(), $id, "pdf");
     }
 
     /**
@@ -173,7 +174,7 @@ class Invoice extends Resource
     public static function qrcode($id, $options = [], $user = null)
     {
         $options["size"] = Checks::checkParam($options, "size");
-        return Rest::getQrcode($user, Invoice::resource(), $id, $options);
+        return Rest::getContent($user, Invoice::resource(), $id, "qrcode", $options);
     }
 
     /**
@@ -223,6 +224,32 @@ class Invoice extends Resource
     {
         $options["expiration"] = Checks::checkDateInterval(Checks::checkParam($options, "expiration"));
         return Rest::patchId($user, Invoice::resource(), $id, $options);
+    }
+
+    /**
+    # Retrieve a specific Invoice payment information
+
+    Receive the Invoice.Payment sub-resource associated with a paid Invoice.
+
+    ## Parameters (required):
+    - id [string]: Invoice unique id. ex: "5656565656565656"
+
+    ## Parameters (optional):
+    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+
+    ## Return:
+    - target Invoice Payment sub-resource
+     */
+    public static function payment($id, $user = null)
+    {
+        $payment = function ($array) {
+            return new Payment($array);
+        };
+        $subResource = [
+            "name" => "Payment",
+            "maker" => $payment
+        ];
+        return Rest::getSubresource($user, Invoice::resource(), $id, $subResource);
     }
 
     private static function resource()

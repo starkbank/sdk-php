@@ -2,8 +2,10 @@
 
 namespace StarkBank\Utils;
 
+use StarkBank\Utils\SubResource;
 
-class Resource
+
+class Resource extends SubResource
 {
     function __construct(&$params)
     {
@@ -12,10 +14,6 @@ class Resource
             $id = strval($id);
         }
         $this->id = $id;
-    }
-
-    function __toArray() {
-        return get_object_vars($this);
     }
 }
 

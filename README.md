@@ -77,8 +77,8 @@ list($privateKey, $publicKey) = Key::create();
 # or, to also save .pem files in a specific path
 list($privateKey, $publicKey) = Key::create("file/keys/");
 ```
-NOTE: When you are creating a new Project, it is recommended that you create the
-keys inside the infrastructure that will use it, in order to avoid risky internet
+NOTE: When you are creating new credentials, it is recommended that you create the
+keys inside the infrastructure that will use it, in order to avoid any risky internet
 transmissions of your **private-key**. Then you can export the **public-key** alone to the
 computer where it will be used in the new Project creation.
 
@@ -584,6 +584,18 @@ $invoices = iterator_to_array(Invoice::query(["limit" => 10, "before" => new Dat
 foreach($invoices as $invoice) {
     print_r($invoice);
 }
+```
+
+### Get an invoice payment information
+
+Once an invoice has been paid, you can get the payment information using the Invoice.Payment sub-resource:
+
+```php
+use StarkBank\Invoice;
+
+$paymentInformation = Invoice::payment("5656565656565656");
+
+print_r($paymentInformation);
 ```
 
 ### Query invoice logs

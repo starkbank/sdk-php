@@ -113,7 +113,7 @@ class UtilityPayment extends Resource
      */
     public static function pdf($id, $user = null)
     {
-        return Rest::getPdf($user, UtilityPayment::resource(), $id);
+        return Rest::getContent($user, UtilityPayment::resource(), $id, "pdf");
     }
 
     /**

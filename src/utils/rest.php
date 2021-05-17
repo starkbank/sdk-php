@@ -41,18 +41,22 @@ class Rest
         return API::fromApiJson($resource["maker"], $entity);
     }
 
-    public static function getPdf($user, $resource, $id, $options = null)
+    public static function getContent($user, $resource, $id, $subresourceName, $options = null)
     {
         $id = Checks::checkId($id);
         $options = API::castJsonToApiFormat($options);
-        return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/pdf", null, $options)->content;
+        $path = API::endpoint($resource["name"]) . "/" . $id . "/" . $subresourceName;
+        return Request::fetch($user, "GET", $path, null, $options)->content;
     }
 
-    public static function getQrcode($user, $resource, $id, $options = null)
+    public static function getSubresource($user, $resource, $id, $subresource, $options = null)
     {
         $id = Checks::checkId($id);
         $options = API::castJsonToApiFormat($options);
-        return Request::fetch($user, "GET", API::endpoint($resource["name"]) . "/" . $id . "/qrcode", null, $options)->content;
+        $path = API::endpoint($resource["name"]) . "/" . $id . "/" . API::endpoint($subresource["name"]);
+        $json = Request::fetch($user, "GET", $path)->json();
+        $entity = $json[API::lastName($subresource["name"])];
+        return API::fromApiJson($subresource["maker"], $entity);
     }
 
     public static function post($user, $resource, $entities)

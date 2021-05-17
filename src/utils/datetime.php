@@ -14,7 +14,7 @@ class StarkBankDate
     function __toString() {
         $value = $this->value;
         if (is_null($value))
-            return null;
+            return "";
         if (is_string($value))
             return $value;
         return $value->format("Y-m-d");
