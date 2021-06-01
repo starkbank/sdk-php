@@ -56,7 +56,6 @@ class Invoice extends Resource
         $this->expiration = Checks::checkDateInterval(Checks::checkParam($params, "expiration"));
         $this->fine = Checks::checkParam($params, "fine");
         $this->interest = Checks::checkParam($params, "interest");
-        $this->discounts = Checks::checkParam($params, "discounts");
         $this->tags = Checks::checkParam($params, "tags");
         $this->descriptions = Checks::checkParam($params, "descriptions");
         $this->pdf = Checks::checkParam($params, "pdf");
