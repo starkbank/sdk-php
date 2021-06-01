@@ -13,6 +13,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+## [2.5.1] - 2021-06-01
+### Fixed
+- Ignored Invoice.discounts parameter
 
 ## [2.5.0] - 2021-05-17
 ### Added
