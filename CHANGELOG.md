@@ -13,6 +13,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Fixed
+- Imports on main file to avoid conflicts with user files
+
 ## [2.5.1] - 2021-06-01
 ### Fixed
 - Ignored Invoice.discounts parameter
