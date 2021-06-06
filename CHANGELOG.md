@@ -13,6 +13,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+## [2.5.2] - 2021-06-06
 ### Fixed
 - Imports on main file to avoid conflicts with user files
 
