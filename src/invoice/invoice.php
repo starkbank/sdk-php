@@ -34,6 +34,7 @@ class Invoice extends Resource
 
     ## Attributes (return-only):
         - pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
+        - link [string]: public Invoice URL. ex: "https://company.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
         - nominalAmount [integer]: Invoice emission value in cents (will change if invoice is updated, but not if it"s paid). ex: 400000
         - fineAmount [integer]: Invoice fine value calculated over nominalAmount. ex: 20000
         - interestAmount [integer]: Invoice interest value calculated over nominalAmount. ex: 10000
@@ -59,6 +60,7 @@ class Invoice extends Resource
         $this->tags = Checks::checkParam($params, "tags");
         $this->descriptions = Checks::checkParam($params, "descriptions");
         $this->pdf = Checks::checkParam($params, "pdf");
+        $this->link = Checks::checkParam($params, "link");
         $this->nominalAmount = Checks::checkParam($params, "nominalAmount");
         $this->fineAmount = Checks::checkParam($params, "fineAmount");
         $this->interestAmount = Checks::checkParam($params, "interestAmount");
