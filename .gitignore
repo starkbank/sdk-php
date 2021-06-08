@@ -4,3 +4,4 @@ vendor
 keys
 *.pdf
 *.png
+.idea
