@@ -1,6 +1,6 @@
 {
   "name": "starkbank/sdk",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "type": "library",
   "description": "SDK to facilitate PHP integrations with Stark Bank",
   "homepage": "https://github.com/starkbank/sdk-php",

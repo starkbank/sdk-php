@@ -13,6 +13,11 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.6.0] - 2021-06-09
+### Added
+- Invoice.link property to allow easy access to invoice webpage
+
 ## [2.5.2] - 2021-06-06
 ### Fixed
 - Imports on main file to avoid conflicts with user files
