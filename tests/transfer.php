@@ -87,6 +87,7 @@ class TestTransfer
         $params = [
             "amount" => 10,
             "name" => "João da Silva",
+            "description" => "Test description",
             "taxId" => "012.345.678-90",
             "bankCode" => "01",
             "branchCode" => "0001",
