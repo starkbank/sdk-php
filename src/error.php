@@ -3,7 +3,9 @@
 namespace StarkBank\Error;
 use \Exception;
 
-class ErrorElement extends Exception
+class StarkBankError extends Exception {}
+
+class ErrorElement extends StarkBankError
 {
     public function __construct($code, $message)
     {
@@ -14,7 +16,7 @@ class ErrorElement extends Exception
     }
 }
 
-class InputErrors extends Exception
+class InputErrors extends StarkBankError
 {
     public function __construct($content)
     {
@@ -28,7 +30,7 @@ class InputErrors extends Exception
     }
 }
 
-class InternalServerError extends Exception
+class InternalServerError extends StarkBankError
 {
     public function __construct($message = "Houston, we have a problem.")
     {
@@ -36,7 +38,7 @@ class InternalServerError extends Exception
     }
 }
 
-class UnknownError extends Exception
+class UnknownError extends StarkBankError
 {
     public function __construct($message)
     {
@@ -44,7 +46,7 @@ class UnknownError extends Exception
     }
 }
 
-class InvalidSignatureError extends Exception
+class InvalidSignatureError extends StarkBankError
 {
     public function __construct($message)
     {
