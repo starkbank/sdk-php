@@ -18,6 +18,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - Transfer->description property to allow control over corresponding Transaction descriptions
 - Event->workspaceId property to multiple Workspace Webhook identification
 - Workspace::update() to allow parameter updates
+- Base exception class
 
 ## [2.6.0] - 2021-06-09
 ### Added
