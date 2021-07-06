@@ -15,8 +15,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Added
 - "payment" account type for Pix related resources
-- Event.workspaceId property to multiple Workspace Webhook identification
 - Transfer->description property to allow control over corresponding Transaction descriptions
+- Event->workspaceId property to multiple Workspace Webhook identification
+- Workspace::update() to allow parameter updates
 
 ## [2.6.0] - 2021-06-09
 ### Added

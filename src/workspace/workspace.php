@@ -20,6 +20,9 @@ class Workspace extends Resource
         - username [string]: Simplified name to define the workspace URL. This name must be unique across all Stark Bank Workspaces. Ex: "starkbankworkspace"
         - name [string]: Full name that identifies the Workspace. This name will appear when people access the Workspace on our platform, for example. Ex: "Stark Bank Workspace"
     
+    ## Parameters (optional):
+        - allowedTaxIds [list of strings]: list of tax IDs that will be allowed to send Deposits to this Workspace. ex: ["012.345.678-90", "20.018.183/0001-80"]
+    
     ## Attributes:
         - id [string, default null]: unique id returned when the workspace is created. ex: "5656565656565656"
      */
@@ -29,6 +32,7 @@ class Workspace extends Resource
 
         $this->username = Checks::checkParam($params, "username");
         $this->name = Checks::checkParam($params, "name");
+        $this->allowedTaxIds = Checks::checkParam($params, "allowedTaxIds");
 
         Checks::checkParams($params);
     }
@@ -93,7 +97,12 @@ class Workspace extends Resource
         return Rest::getList($user, Workspace::resource(), $options);
     }
 
-    private static function resource()
+    public static function update($id, $options = [], $user = null)
+    {
+        return Rest::patchId($user, Workspace::resource(), $id, $options);
+    }
+
+    private static function resource() 
     {
         $workspace = function ($array){
             return new Workspace($array);

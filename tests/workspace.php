@@ -8,18 +8,27 @@ use StarkBank\Organization;
 
 class Test
 {
-    public function create()
+    public function createAndUpdate()
     {
+        $organization = self::exampleOrganization();
         $workspace = self::example();
 
         $workspace = Workspace::create(
-            ["username" => $workspace->username, "name" => $workspace->name],
-            self::exampleOrganization(),
+            [
+                "username" => $workspace->username, 
+                "name" => $workspace->name, 
+                "allowedTaxIds" => ["96448045031", "26312286002"]
+            ],
+            $organization,
         );
+        self::checkWorkspace($workspace);
 
-        if (is_null($workspace->id) | is_null($workspace->username) | is_null($workspace->name)) {
-            throw new Exception("failed");
-        }
+        $workspace = Workspace::update(
+            $workspace->id, 
+            ["username" => strval(mt_rand(0, 0xffffffff)), "name" => "New name"],
+            Organization::replace($organization, $workspace->id)
+        );
+        self::checkWorkspace($workspace);
     }
 
     public function queryAndGet()
@@ -39,6 +48,13 @@ class Test
             if ($workspace->id != $prevWorkspace->id){
                 throw new Exception("failed");
             }
+        }
+    }
+
+    private static function checkWorkspace($workspace)
+    {
+        if (is_null($workspace->id) | is_null($workspace->username) | is_null($workspace->name)) {
+            throw new Exception("failed");
         }
     }
 
@@ -69,8 +85,8 @@ echo "\nWorkspace:";
 
 $test = new Test();
 
-echo "\n\t- create";
-$test->create();
+echo "\n\t- create and update";
+$test->createAndUpdate();
 echo " - OK";
 
 echo "\n\t- query and get";
