@@ -21,7 +21,7 @@ class Payment extends SubResource
         - bank_code [string]: code of the payer bank institution in Brazil. ex: "20018183"
         - branch_code [string]: payer bank account branch. ex: "1357-9"
         - account_number [string]: payer bank account number. ex: "876543-2"
-        - account_type [string]: payer bank account type. ex: "checking", "savings" or "salary"
+        - account_type [string]: payer bank account type. ex: "checking", "savings", "salary" or "payment"
         - end_to_end_id [string]: central bank's unique transaction ID. ex: "E79457883202101262140HHX553UPqeq"
         - method [string]: payment method that was used. ex: "pix"
    */
