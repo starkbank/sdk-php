@@ -40,6 +40,7 @@ class Event extends Resource
         $this->subscription = Checks::checkParam($params, "subscription");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
         $this->log = Event::buildLog($this->subscription, Checks::checkParam($params, "log"));
+        $this->workspaceId = Checks::checkParam($params, "workspaceId");
 
         Checks::checkParams($params);
     }

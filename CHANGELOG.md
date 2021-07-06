@@ -15,6 +15,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Added
 - "payment" account type for Pix related resources
+- Event.workspaceId property to multiple Workspace Webhook identification
 
 ## [2.6.0] - 2021-06-09
 ### Added
