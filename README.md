@@ -1443,9 +1443,11 @@ The only link between your Workspaces is the Organization that controls them.
 ```php
 use StarkBank\Workspace;
 
-$workspace = Workspace::create([
-    "username" => "iron-bank-workspace-1",
-    "name" => "Iron Bank Workspace 1"
+$workspace = Workspace::create(
+    [
+        "username" => "iron-bank-workspace-1",
+        "name" => "Iron Bank Workspace 1",
+        "allowedTaxIds" => ["96448045031", "26312286002"]
     ],
     $organization
 );
@@ -1480,6 +1482,25 @@ $workspace = Workspace::get("10827361982368179");
 print_r($workspace);
 ```
 
+### Update a Workspace
+
+ You can update a specific Workspace by its id.
+
+ ```php
+use StarkBank\Workspace;
+
+ $workspace = Workspace::update(
+    "10827361982368179", 
+    [
+        "username" => "new-username", 
+        "name" => "New name", 
+        "allowedTaxIds" => ["96448045031", "26312286002"]
+    ],
+    $organization
+ );
+
+ print_r($workspace);
+ ```
 
 ## Handling errors
 
