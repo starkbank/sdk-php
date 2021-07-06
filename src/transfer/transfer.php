@@ -28,6 +28,7 @@ class Transfer extends Resource
         - accountType [string, default "checking"]: receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
         - externalId [string, default null]: url safe string that must be unique among all your transfers. Duplicated externalIds will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
         - scheduled [DateTime or date, default now]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-11-30"
+        - description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
         - tags [array of strings]: array of strings for reference when searching for transfers. ex: ["employees", "monthly"]
 
     ## Attributes (return-only):
@@ -51,6 +52,7 @@ class Transfer extends Resource
         $this->accountType = Checks::checkParam($params, "accountType");
         $this->externalId = Checks::checkParam($params, "externalId");
         $this->scheduled = Checks::checkDateTime(Checks::checkParam($params, "scheduled"));
+        $this->description = Checks::checkParam($params, "description");
         $this->tags = Checks::checkParam($params, "tags");
         $this->fee = Checks::checkParam($params, "fee");
         $this->status = Checks::checkParam($params, "status");

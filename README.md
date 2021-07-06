@@ -341,6 +341,7 @@ $transfers = Transfer::create([
         "taxId" => "012.345.678-90",
         "name" => "Jon Snow",
         "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
+        "description" => "Transaction to dear provider",
         "tags" => []
     ])
 ]);
