@@ -24,7 +24,7 @@ class DictKey extends Resource
         - ispb [string, default null]: bank ISPB associated with the DICT key. ex: "20018183"
         - branchCode [string, default null]: bank account branch code associated with the DICT key. ex: "9585"
         - accountNumber [string, default null]: bank account number associated with the DICT key. ex: "9828282578010513"
-        - accountType [string, default null]: bank account type associated with the DICT key. ex: "checking", "saving" e "salary"
+        - accountType [string, default null]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
         - status [string, default null]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
         - accountCreated [DateTime, default null]: creation datetime of the bank account associated with the DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
         - owned [DateTime, default null]: datetime since when the current owner holds this DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')

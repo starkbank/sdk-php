@@ -25,7 +25,7 @@ class Transfer extends Resource
         - accountNumber [string]: receiver bank account number. Use '-' before the verifier digit. ex: "876543-2"
 
     ## Parameters (optional):
-        - accountType [string, default "checking"]: receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings" or "salary"
+        - accountType [string, default "checking"]: receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
         - externalId [string, default null]: url safe string that must be unique among all your transfers. Duplicated externalIds will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
         - scheduled [DateTime or date, default now]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-11-30"
         - tags [array of strings]: array of strings for reference when searching for transfers. ex: ["employees", "monthly"]
