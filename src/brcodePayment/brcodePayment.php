@@ -28,6 +28,7 @@ class BrcodePayment extends Resource
     
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
+        - name [string]: receiver name. ex: "Jon Snow"
         - status [string, default null]: current payment status. ex: "success" or "failed"
         - type [string, default null]: brcode type. ex: "static" or "dynamic"
         - transactionIds [list of strings]: ledger transaction ids linked to this brcode payment (if there are more than one, all but first are reversals). ex: ["19827356981273"]
@@ -44,6 +45,7 @@ class BrcodePayment extends Resource
         $this->description = Checks::checkParam($params, "description");
         $this->amount = Checks::checkParam($params, "amount");
         $this->scheduled = Checks::checkDateTime(Checks::checkParam($params, "scheduled"));
+        $this->name = Checks::checkParam($params, "name");
         $this->tags = Checks::checkParam($params, "tags");
         $this->status = Checks::checkParam($params, "status");
         $this->type = Checks::checkParam($params, "type");

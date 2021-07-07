@@ -20,6 +20,7 @@ class Deposit extends Resource
         - bankCode [string]: payer bank code in Brazil. ex: "20018183" or "341"
         - branchCode [string]: payer bank account branch. ex: "1357-9"
         - accountNumber [string]: payer bank account number. ex: "876543-2"
+        - accountType [string]: payer bank account type. ex: "checking"
         - amount [integer]: Deposit value in cents. ex: 1234 (= R$ 12.34)
         - type [string]: type of settlement that originated the deposit. ex: "pix" or "ted"
         - status [string]: current Deposit status. ex: "created"
@@ -38,6 +39,7 @@ class Deposit extends Resource
         $this->bankCode = Checks::checkParam($params, "bankCode");
         $this->branchCode = Checks::checkParam($params, "branchCode");
         $this->accountNumber = Checks::checkParam($params, "accountNumber");
+        $this->accountType = Checks::checkParam($params, "accountType");
         $this->amount = Checks::checkParam($params, "amount");
         $this->type = Checks::checkParam($params, "type");
         $this->status = Checks::checkParam($params, "status");

@@ -54,10 +54,10 @@ class TestBrcodePayment
     public static function example()
     {
         return new BrcodePayment([
-			"brcode" => "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A",
+			"brcode" => "00020126390014br.gov.bcb.pix0117valid@sandbox.com52040000530398654041.005802BR5908Jon Snow6009Sao Paulo62110507sdktest63046109",
 			"taxId" => "20.018.183/0001-80",
 			"description" => "Tony Stark's Suit",
-			"amount" => 7654321,
+			"amount" => 100,
 			"scheduled" => (new DateTime("now"))->add(new DateInterval("P5D")),
 			"tags" => ["Stark", "Suit"]
         ]);

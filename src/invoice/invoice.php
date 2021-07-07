@@ -43,6 +43,7 @@ class Invoice extends Resource
         - brcode [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
         - fee [integer, default null]: fee charged by this Invoice. ex: 65 (= R$ 0.65)
         - status [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
+        - transactionIds [list of strings]: ledger transaction ids linked to this Invoice (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
         - created [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
         - updated [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
      */
@@ -68,6 +69,7 @@ class Invoice extends Resource
         $this->brcode = Checks::checkParam($params, "brcode");
         $this->fee = Checks::checkParam($params, "fee");
         $this->status = Checks::checkParam($params, "status");
+        $this->transactionIds = Checks::checkParam($params, "transactionIds");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
         $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
 
