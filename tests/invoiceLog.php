@@ -27,6 +27,16 @@ class TestInvoiceLog
             throw new Exception("failed");
         }
     }
+
+    public function getLogPdf()
+    {
+        $invoiceLogs = iterator_to_array(Log::query(["limit" => 1, "types" => "reversed"]));        
+        $pdf = Log::pdf($invoiceLogs[0]->id);
+
+        $fp = fopen('invoice-log.pdf', 'w');
+        fwrite($fp, $pdf);
+        fclose($fp);
+    }
 }
 
 echo "\n\nInvoiceLog:";
@@ -35,4 +45,8 @@ $test = new TestInvoiceLog();
 
 echo "\n\t- query and get";
 $test->queryAndGet();
+echo " - OK";
+
+echo "\n\t- query and get log pdf";
+$test->getLogPdf();
 echo " - OK";

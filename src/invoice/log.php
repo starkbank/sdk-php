@@ -80,6 +80,25 @@ class Log extends Resource
         return Rest::getList($user, Log::resource(), $options);
     }
 
+    /**
+    # Retrieve a specific Invoice->Log pdf file
+
+    Receive a single Invoice->Log pdf file generated in the Stark Bank API by passing its id.
+
+    ## Parameters (required):
+        - id [string]: object unique id. ex: "5656565656565656"
+
+    ## Parameters (optional):
+        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+
+    ## Return:
+        - Invoice->Log pdf file
+     */
+    public static function pdf($id, $user = null)
+    {
+        return Rest::getContent($user, Log::resource(), $id, "pdf");
+    }
+
     private static function resource()
     {
         $invoiceLog = function ($array) {

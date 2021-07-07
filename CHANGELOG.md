@@ -21,6 +21,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - Base exception class
 - Missing parameters to Boleto, BrcodePayment, Deposit, DictKey and Invoice resources
 - Event->Attempt sub-resource to allow retrieval of information on failed webhook event delivery attempts
+- pdf method for retrieving PDF receipts from reversed invoice logs
 
 ## [2.6.0] - 2021-06-09
 ### Added
