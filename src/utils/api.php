@@ -83,7 +83,9 @@ class API
 
     public static function endpoint($resourceName)
     {
-        return str_replace("-log", "/log", StringCase::camelToKebab($resourceName));
+        $targets = array("-log", "-attempt");
+        $replacements = array("/log", "/attempt");
+        return str_replace($targets, $replacements, StringCase::camelToKebab($resourceName));
     }
 
     public static function lastName($resourceName)
