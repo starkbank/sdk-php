@@ -19,6 +19,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - Event->workspaceId property to multiple Workspace Webhook identification
 - Workspace::update() to allow parameter updates
 - Base exception class
+- Missing parameters to Boleto, BrcodePayment, Deposit, DictKey and Invoice resources
 
 ## [2.6.0] - 2021-06-09
 ### Added

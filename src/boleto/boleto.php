@@ -44,7 +44,9 @@ class Boleto extends Resource
         - line [string, default null]: generated Boleto line for payment. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
         - barCode [string, default null]: generated Boleto bar-code for payment. ex: "34195819600000000621090063571277307144464000"
         - status [string, default null]: current Boleto status. ex: "registered" or "paid"
+        - transactionIds [list of strings]: ledger transaction ids linked to this boleto. ex: ["19827356981273"]
         - created [DateTime, default null]: creation datetime for the Boleto.
+        - ourNumber [string, default null]: Reference number registered at the settlement bank. ex:"10131474"
      */
     function __construct(array $params)
     {
@@ -71,7 +73,9 @@ class Boleto extends Resource
         $this->line = Checks::checkParam($params, "line");
         $this->barCode = Checks::checkParam($params, "barCode");
         $this->status = Checks::checkParam($params, "status");
+        $this->transactionIds = Checks::checkParam($params, "transactionIds");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
+        $this->ourNumber = Checks::checkParam($params, "ourNumber");
 
         $discounts = Checks::checkParam($params, "discounts");
         if (!is_null($discounts)) {

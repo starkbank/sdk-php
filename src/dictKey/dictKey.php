@@ -13,7 +13,7 @@ class DictKey extends Resource
      
     DictKey represents a PIX key registered in Bacen's DICT system.
     
-    ## Parameters (required):
+    ## Parameters (optional):
         - id [string]: DictKey object unique id and PIX key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
     
     ## Attributes (return-only):
@@ -21,6 +21,7 @@ class DictKey extends Resource
         - name [string, default null]: key owner full name. ex: "Tony Stark"
         - taxId [string, default null]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
         - ownerType [string, default null]: DICT key owner type. ex "naturalPerson" or "legalPerson"
+        - bankName [string, default null]: bank name associated with the DICT key. ex: "Stark Bank"
         - ispb [string, default null]: bank ISPB associated with the DICT key. ex: "20018183"
         - branchCode [string, default null]: bank account branch code associated with the DICT key. ex: "9585"
         - accountNumber [string, default null]: bank account number associated with the DICT key. ex: "9828282578010513"
@@ -38,6 +39,7 @@ class DictKey extends Resource
         $this->name = Checks::checkParam($params, "name");
         $this->taxId = Checks::checkParam($params, "taxId");
         $this->ownerType = Checks::checkParam($params, "ownerType");
+        $this->bankName = Checks::checkParam($params, "bankName");
         $this->ispb = Checks::checkParam($params, "ispb");
         $this->branchCode = Checks::checkParam($params, "branchCode");
         $this->accountNumber = Checks::checkParam($params, "accountNumber");
