@@ -4,6 +4,7 @@ namespace Test\Event;
 
 use \Exception;
 use StarkBank\Event;
+use StarkBank\Event\Attempt;
 use StarkBank\Error\InvalidSignatureError;
 
 
@@ -30,6 +31,17 @@ class TestEvent
 
         if (is_null($event->id) | $event->id != $deleted->id) {
             throw new Exception("failed");
+        }
+    }
+
+    public function queryAttempts()
+    {
+        $events = iterator_to_array(Event::query(["limit" => 5, "isDelivered" => false]));
+
+        foreach ($events as $event) {
+            $attempts = iterator_to_array(Attempt::query(["eventIds" => $event->id, "limit" => 1]));
+            if (count($attempts) == 0)
+                throw new Exception("failed");
         }
     }
 
@@ -95,6 +107,10 @@ $test = new TestEvent();
 
 echo "\n\t- query and delete";
 $test->queryAndDelete();
+echo " - OK";
+
+echo "\n\t- query attempts";
+$test->queryAttempts();
 echo " - OK";
 
 echo "\n\t- query, get and update";

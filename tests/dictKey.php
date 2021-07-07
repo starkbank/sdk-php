@@ -8,7 +8,7 @@ class TestDictKey
 {
   public function get()
   {
-    $pixKey = "tony@starkbank.com";
+    $pixKey = "valid@sandbox.com";
     $dictKey = DictKey::get($pixKey);
     
     if (is_null($dictKey->id) || $dictKey->id != $pixKey) {

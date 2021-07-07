@@ -1406,6 +1406,32 @@ $event = Event::update("129837198237192", ["isDelivered" => true]);
 print_r($event);
 ```
 
+### Query failed webhook event delivery attempts information
+
+You can also get information on failed webhook event delivery attempts.
+
+```php
+use StarkBank\Event\Attempt;
+
+$attempts = Attempt::query(["eventIds" => $event->id, "limit" => 1]);
+
+foreach($attempts as $attempt){
+    print_r($attempt);
+}
+```
+
+### Get a failed webhook event delivery attempt information
+
+To retrieve information on a single attempt, use the following function:
+
+```php
+use StarkBank\Event\Attempt;
+
+$attempt = Attempt::get("1616161616161616");
+
+print_r($attempt);
+```
+
 ### Get a DICT key
 
 You can get Pix key's parameters by its id.
