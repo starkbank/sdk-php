@@ -44,5 +44,6 @@ require_once(__DIR__."/webhook/webhook.php");
 require_once(__DIR__."/workspace/workspace.php");
 require_once(__DIR__."/event/event.php");
 require_once(__DIR__."/event/attempt.php");
+require_once(__DIR__."/institution/institution.php");
 
 ?>

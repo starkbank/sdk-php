@@ -481,6 +481,20 @@ $log = Transfer\Log::get("5155165527080960");
 print_r($log);
 ```
 
+### Query Bacen institutions
+
+You can query institutions registered by the Brazilian Central Bank for Pix and TED transactions.
+
+```php
+use StarkBank\Institution;
+
+$institutions = Institution::query(["search" => "stark"]);
+
+foreach($institutions as $institution){
+    print_r($institution);
+}
+```
+
 ### Create invoices
 
 You can create dynamic QR Code invoices to charge customers or to receive money from accounts you have in other banks.
