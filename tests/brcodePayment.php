@@ -51,6 +51,27 @@ class TestBrcodePayment
         }
     }
 
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = BrcodePayment::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $brcodePayment) {
+                if (in_array($brcodePayment->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $brcodePayment->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 10) {
+            throw new Exception("failed");
+        }
+    }
+
     public static function example()
     {
         return new BrcodePayment([
@@ -78,4 +99,8 @@ echo " - OK";
 
 echo "\n\t- cancel";
 $test->cancel();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";

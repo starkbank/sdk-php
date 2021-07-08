@@ -39,6 +39,27 @@ class TestPaymentRequest
             throw new Exception("failed");
     }
 
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = PaymentRequest::page($options = ["centerId" => $_SERVER["SANDBOX_CENTER_ID"], "limit" => 2, "cursor" => $cursor]);
+            foreach ($page as $paymentRequest) {
+                if (in_array($paymentRequest->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $paymentRequest->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) == 0) {
+            throw new Exception("failed");
+        }
+    }
+
     private static function example()
     {
         $payment = self::createPayment();
@@ -83,4 +104,8 @@ echo " - OK";
 
 echo "\n\t- query";
 $test->query();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";

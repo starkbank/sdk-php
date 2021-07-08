@@ -7,6 +7,16 @@ use StarkBank\Utils\Checks;
 
 class Rest
 {
+    public static function getPage($user, $resource, array $query = [])
+    {
+        $json = Request::fetch($user, "GET", API::endpoint($resource["name"]), null, $query)->json();
+        $entities = []; 
+        foreach($json[API::lastNamePlural($resource["name"])] as $entity) {
+            array_push($entities, API::fromApiJson($resource["maker"], $entity));
+        }
+        return [$entities, $json["cursor"]];
+    }
+
     public static function getList($user, $resource, array $query = [])
     {
         $limit = Checks::CheckParam($query, "limit");

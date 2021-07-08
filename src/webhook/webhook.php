@@ -90,6 +90,26 @@ class Webhook extends Resource
     }
 
     /**
+    # Retrieve paged Webhooks
+
+    Receive a list of up to 100 Webhook objects previously created in the Stark Bank API and the cursor to the next page.
+    Use this function instead of query if you want to manually page your requests.
+
+    ## Parameters (optional):
+    - cursor [string, default null]: cursor returned on the previous page function call
+    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    
+    ## Return:
+    - list of Webhook objects with updated attributes
+    - cursor to retrieve the next page of Webhook objects
+     */
+    public static function page($options = [], $user = null)
+    {
+        return Rest::getPage($user, Webhook::resource(), $options);
+    }
+
+    /**
     # Delete a Webhook subscription entity
 
     Delete a Webhook subscription entity previously created in the Stark Bank API

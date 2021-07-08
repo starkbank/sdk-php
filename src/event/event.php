@@ -220,6 +220,29 @@ class Event extends Resource
     }
 
     /**
+    # Retrieve paged Events
+
+    Receive a list of up to 100 Event objects previously created in the Stark Bank API and the cursor to the next page.
+    Use this function instead of query if you want to manually page your requests.
+
+    ## Parameters (optional):
+    - cursor [string, default null]: cursor returned on the previous page function call
+    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+    - isDelivered [boolean, default None]: bool to filter successfully delivered events. ex: True or False
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    
+    ## Return:
+    - list of Event objects with updated attributes
+    - cursor to retrieve the next page of Event objects
+     */
+    public static function page($options = [], $user = null)
+    {
+        return Rest::getPage($user, Event::resource(), $options);
+    }
+
+    /**
     # Delete notification Events
 
     Delete an array of notification Event entities previously created in the Stark Bank API

@@ -63,12 +63,12 @@ class Log extends Resource
     Receive a enumerator of Log objects previously created in the Stark Bank API
 
     ## Parameters (optional):
-        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-        - types [array of strings, default null]: filter for log event types. ex: "success" or "failed"
-        - brcodePaymentIds [array of strings, default null]: array of BrcodePayment ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+    - types [array of strings, default null]: filter for log event types. ex: "success" or "failed"
+    - paymentIds [array of strings, default null]: array of BrcodePayment ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of Log objects with updated attributes
@@ -78,6 +78,30 @@ class Log extends Resource
         $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
         $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, Log::resource(), $options);
+    }
+
+    /**
+    # Retrieve paged BrcodePayment\Logs
+
+    Receive a list of up to 100 BrcodePayment\Log objects previously created in the Stark Bank API and the cursor to the next page.
+    Use this function instead of query if you want to manually page your requests.
+
+    ## Parameters (optional):
+    - cursor [string, default null]: cursor returned on the previous page function call
+    - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+    - types [array of strings, default null]: filter for log event types. ex: "success" or "failed"
+    - paymentIds [array of strings, default null]: array of BrcodePayment ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    
+    ## Return:
+    - list of BrcodePayment\Log objects with updated attributes
+    - cursor to retrieve the next page of BrcodePayment\Log objects
+     */
+    public static function page($options = [], $user = null)
+    {
+        return Rest::getPage($user, Log::resource(), $options);
     }
 
     private static function resource()

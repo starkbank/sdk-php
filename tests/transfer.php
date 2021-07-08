@@ -82,6 +82,27 @@ class TestTransfer
         fclose($fp);
     }
 
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = Transfer::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $transfer) {
+                if (in_array($transfer->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $transfer->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 10) {
+            throw new Exception("failed");
+        }
+    }
+
     public static function example($schedule=false)
     {
         $params = [
@@ -127,4 +148,8 @@ echo " - OK";
 
 echo "\n\t- query and get PDF";
 $test->queryAndGetPdf();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";
