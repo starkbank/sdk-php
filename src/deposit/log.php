@@ -80,6 +80,30 @@ class Log extends Resource
         return Rest::getList($user, Log::resource(), $options);
     }
 
+    /**
+    # Retrieve paged Deposit\Logs
+
+    Receive a list of up to 100 Deposit\Log objects previously created in the Stark Bank API and the cursor to the next page.
+    Use this function instead of query if you want to manually page your requests.
+
+    ## Parameters (optional):
+    - cursor [string, default null]: cursor returned on the previous page function call
+    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+    - types [list of strings, default null]: filter for log event types. ex: "created" or "credited"
+    - depositIds [list of strings, default null]: list of Deposit ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    
+    ## Return:
+    - list of Deposit\Log objects with updated attributes
+    - cursor to retrieve the next page of Deposit\Log objects
+     */
+    public static function page($options = [], $user = null)
+    {
+        return Rest::getPage($user, Log::resource(), $options);
+    }
+
     private static function resource()
     {
         $depositLog = function ($array) {

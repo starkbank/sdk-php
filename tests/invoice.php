@@ -117,6 +117,27 @@ class TestInvoice
         }
     }
 
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = Invoice::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $invoice) {
+                if (in_array($invoice->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $invoice->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 10) {
+            throw new Exception("failed");
+        }
+    }
+
     public static function examples()
     {
         return [
@@ -212,4 +233,8 @@ echo " - OK";
 
 echo "\n\t- update expiration";
 $test->updateExpiration();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";

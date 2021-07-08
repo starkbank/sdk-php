@@ -67,6 +67,27 @@ class TestTransaction
         }
     }
 
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = Transaction::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $transaction) {
+                if (in_array($transaction->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $transaction->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 10) {
+            throw new Exception("failed");
+        }
+    }
+
     public static function example($externalId)
     {
         return new Transaction([
@@ -93,4 +114,8 @@ echo " - OK";
 
 echo "\n\t- query";
 $test->queryIds();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";

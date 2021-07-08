@@ -45,6 +45,27 @@ class TestEvent
         }
     }
 
+    public function getAttemptsPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = Attempt::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $attempt) {
+                if (in_array($attempt->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $attempt->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 10) {
+            throw new Exception("failed");
+        }
+    }
+
     public function queryGetAndUpdate()
     {
         $events = iterator_to_array(Event::query(["limit" => 1, "isDelivered" => false, "before" => "2030-01-01"]));
@@ -60,6 +81,27 @@ class TestEvent
         }
 
         $event = Event::update($event->id, ["isDelivered" => true]);
+    }
+
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = Event::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $event) {
+                if (in_array($event->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $event->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 10) {
+            throw new Exception("failed");
+        }
     }
 
     public function parseRight()
@@ -113,8 +155,17 @@ echo "\n\t- query attempts";
 $test->queryAttempts();
 echo " - OK";
 
+echo "\n\t- get attempts page";
+$test->getAttemptsPage();
+echo " - OK";
+
+
 echo "\n\t- query, get and update";
 $test->queryGetAndUpdate();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";
 
 echo "\n\t- parse right";

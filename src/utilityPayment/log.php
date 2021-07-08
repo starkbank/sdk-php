@@ -79,6 +79,30 @@ class Log extends Resource
         return Rest::getList($user, Log::resource(), $options);
     }
 
+    /**
+    # Retrieve paged UtilityPayment\Logs
+
+    Receive a list of up to 100 UtilityPayment\Log objects previously created in the Stark Bank API and the cursor to the next page.
+    Use this function instead of query if you want to manually page your requests.
+
+    ## Parameters (optional):
+    - cursor [string, default null]: cursor returned on the previous page function call
+    - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+    - types [array of strings, default null]: filter retrieved objects by event types. ex: "paid" or "registered"
+    - paymentIds [array of strings, default null]: array of UtilityPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    
+    ## Return:
+    - list of UtilityPayment\Log objects with updated attributes
+    - cursor to retrieve the next page of UtilityPayment\Log objects
+     */
+    public static function page($options = [], $user = null)
+    {
+        return Rest::getPage($user, Log::resource(), $options);
+    }
+
     private static function resource()
     {
         $paymentLog = function ($array) {

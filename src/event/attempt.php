@@ -76,6 +76,30 @@ class Attempt extends Resource
         return Rest::getList($user, Attempt::resource(), $options);
     }
 
+    /**
+    # Retrieve paged Event\Attempts
+
+    Receive a list of up to 100 Event\Attempt objects previously created in the Stark Bank API and the cursor to the next page.
+    Use this function instead of query if you want to manually page your requests.
+
+    ## Parameters (optional):
+    - cursor [string, default null]: cursor returned on the previous page function call
+    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+    - eventIds [list of strings, default null]: list of Event ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+    - webhookIds [list of strings, default null]: list of Webhook ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    
+    ## Return:
+    - list of Event\Attempt objects with updated attributes
+    - cursor to retrieve the next page of Event\Attempt objects
+     */
+    public static function page($options = [], $user = null)
+    {
+        return Rest::getPage($user, Attempt::resource(), $options);
+    }
+
     private static function resource()
     {
         $attempt = function ($array) {

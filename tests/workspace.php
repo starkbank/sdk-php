@@ -58,6 +58,27 @@ class Test
         }
     }
 
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = Workspace::page($options = ["limit" => 2, "cursor" => $cursor,], $user = self::exampleOrganization());
+            foreach ($page as $workspace) {
+                if (in_array($workspace->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $workspace->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 4) {
+            throw new Exception("failed");
+        }
+    }
+
     private static function example()
     {
         $uuid = mt_rand(0, 0xffffffff);
@@ -91,4 +112,8 @@ echo " - OK";
 
 echo "\n\t- query and get";
 $test->queryAndGet();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";

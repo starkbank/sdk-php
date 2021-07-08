@@ -27,6 +27,27 @@ class TestUtilityPaymentLog
             throw new Exception("failed");
         }
     }
+
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = Log::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $utilityPaymentLog) {
+                if (in_array($utilityPaymentLog->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $utilityPaymentLog->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 10) {
+            throw new Exception("failed");
+        }
+    }
 }
 
 echo "\n\nUtilityPaymentLog:";
@@ -35,4 +56,8 @@ $test = new TestUtilityPaymentLog();
 
 echo "\n\t- query and get";
 $test->queryAndGet();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";

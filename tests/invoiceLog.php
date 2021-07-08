@@ -37,6 +37,27 @@ class TestInvoiceLog
         fwrite($fp, $pdf);
         fclose($fp);
     }
+
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = Log::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $invoiceLog) {
+                if (in_array($invoiceLog->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $invoiceLog->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 10) {
+            throw new Exception("failed");
+        }
+    }
 }
 
 echo "\n\nInvoiceLog:";
@@ -49,4 +70,8 @@ echo " - OK";
 
 echo "\n\t- query and get log pdf";
 $test->getLogPdf();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";

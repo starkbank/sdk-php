@@ -167,6 +167,34 @@ class Transfer extends Resource
         return Rest::getList($user, Transfer::resource(), $options);
     }
 
+    /**
+    # Retrieve paged Transfers
+
+    Receive a list of up to 100 Transfer objects previously created in the Stark Bank API and the cursor to the next page.
+    Use this function instead of query if you want to manually page your requests.
+
+    ## Parameters (optional):
+    - cursor [string, default null]: cursor returned on the previous page function call
+    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+    - transactionIds [list of strings, default null]: list of transaction IDs linked to the desired transfers. ex: ["5656565656565656", "4545454545454545"]
+    - status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
+    - taxId [string, default null]: filter for transfers sent to the specified tax ID. ex: "012.345.678-90"
+    - sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
+    - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+    - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    
+    ## Return:
+    - list of Transfer objects with updated attributes
+    - cursor to retrieve the next page of Transfer objects
+     */
+    public static function page($options = [], $user = null)
+    {
+        return Rest::getPage($user, Transfer::resource(), $options);
+    }
+
     private static function resource()
     {
         $transfer = function ($array) {

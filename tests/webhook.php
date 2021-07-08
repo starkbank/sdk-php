@@ -34,6 +34,27 @@ class TestWebhook
         }
     }
 
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = Webhook::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $webhook) {
+                if (in_array($webhook->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $webhook->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) == 0) {
+            throw new Exception("failed");
+        }
+    }
+
     private static function example()
     {
         $uuid = mt_rand(0, 0xffffffff);
@@ -55,4 +76,8 @@ echo " - OK";
 
 echo "\n\t- query and get";
 $test->queryAndGet();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";

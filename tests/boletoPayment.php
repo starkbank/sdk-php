@@ -52,6 +52,27 @@ class TestBoletoPayment
         fclose($fp);
     }
 
+    public function getPage()
+    {
+        $ids = [];
+        $cursor = null;
+        for ($i=0; $i < 2; $i++) { 
+            list($page, $cursor) = BoletoPayment::page($options = ["limit" => 5, "cursor" => $cursor]);
+            foreach ($page as $boletoPayment) {
+                if (in_array($boletoPayment->id, $ids)) {
+                    throw new Exception("failed");
+                }
+                array_push($ids, $boletoPayment->id);
+            }
+            if ($cursor == null) {
+                break;
+            }
+        }
+        if (count($ids) != 10) {
+            throw new Exception("failed");
+        }
+    }
+
     public static function example($schedule = true)
     {
         $params = [
@@ -80,4 +101,8 @@ echo " - OK";
 
 echo "\n\t- query and get PDF";
 $test->queryAndGetPdf();
+echo " - OK";
+
+echo "\n\t- get page";
+$test->getPage();
 echo " - OK";
