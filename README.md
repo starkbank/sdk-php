@@ -1293,6 +1293,111 @@ $log = UtilityPayment\Log::get("1902837198237992");
 print_r($log);
 ```
 
+### Create tax payments
+
+It is also simple to pay taxes (such as ISS and DAS) using this SDK.
+
+```php
+use StarkBank\TaxPayment;
+
+$payments = [
+    new TaxPayment([
+        "barCode" => "85660000001549403280074119002551100010601813",
+        "description" => "33ff6f90de30c7f60526dbe6a1bb3d0cd1f751c89a2fc9a8aad087d4efdc0bce",
+        "tags" => ["test2"],
+        "scheduled" => "2021-07-13"
+    ])];
+$payments = TaxPayment::create($payment);
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+ **Note**: Instead of using TaxPayment objects, you can also pass each payment element in dictionary format
+
+### Query tax payments
+
+To search for tax payments using filters, run:
+
+```php
+use StarkBank\TaxPayment;
+
+$payments = iterator_to_array(TaxPayment::query(["limit" => 10]));
+
+print_r($payments);
+```
+
+### Get tax payment
+
+You can get a specific tax payment by its id:
+
+```php
+use StarkBank\TaxPayment;
+
+$payment = TaxPayment::get("5155165527080960");
+
+print_r($payment);
+```
+
+### Get tax payment PDF
+
+After its creation, a tax payment PDF may also be retrieved by its id.
+
+```php
+use StarkBank\TaxPayment;
+
+$pdf = TaxPayment::pdf("5155165527080960");
+
+$fp = fopen('taxPayment.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Delete tax payment
+
+You can also cancel a tax payment by its id.
+Note that this is not possible if it has been processed already.
+
+```php
+use StarkBank\TaxPayment;
+
+$payment = TaxPayment::delete("5155165527080960");
+
+print_r($payment);
+```
+
+### Query tax payment logs
+
+You can search for payment logs by specifying filters. Use this to understand each payment life cycle.
+
+```php
+use StarkBank\TaxPayment\Log;
+
+$paymentLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created"]]));
+
+print_r($paymentLogs);
+```
+
+### Get tax payment log
+
+If you want to get a specific payment log by its id, just run:
+
+```php
+use StarkBank\TaxPayment\Log;
+
+$paymentLog = Log::get("1902837198237992");
+
+print_r($paymentLog);
+```
+
+**Note**: Some taxes can't be payed with bar codes. Since they have specific parameters, each one of them has its own
+resource and routes, which are all analogous to the TaxPayment resource. The ones we currently support are:
+- DarfPayment, for DARFs
+
 ### Create payment requests to be approved by authorized people in a cost center
 
 You can also request payments that must pass through a specific cost center approval flow to be executed.
@@ -1355,7 +1460,7 @@ use StarkBank\Webhook;
 
 $webhook = Webhook::create([
     "url" => "https://webhook.site/dd784f26-1d6a-4ca6-81cb-fda0267761ec",
-    "subscriptions" => ["transfer", "invoice", "deposit", "brcode-payment", "boleto", "boleto-payment", "utility-payment"]
+    "subscriptions" => ["transfer", "invoice", "deposit", "brcode-payment", "boleto", "boleto-payment", "utility-payment", "tax-payment"]
 ]);
 
 print_r($webhook);
@@ -1425,6 +1530,8 @@ if ($event->subscription == "transfer"){
 } elseif ($event->subscription == "boleto-payment"){
     print_r($event->log->payment);
 } elseif ($event->subscription == "utility-payment"){
+    print_r($event->log->payment);
+} elseif ($event->subscription == "tax-payment"){
     print_r($event->log->payment);
 }
 ```
