@@ -39,6 +39,8 @@ require_once(__DIR__."/boletoPayment/boletoPayment.php");
 require_once(__DIR__."/boletoPayment/log.php");
 require_once(__DIR__."/utilityPayment/utilityPayment.php");
 require_once(__DIR__."/utilityPayment/log.php");
+require_once(__DIR__."/darfPayment/darfPayment.php");
+require_once(__DIR__."/darfPayment/log.php");
 require_once(__DIR__."/paymentRequest/paymentRequest.php");
 require_once(__DIR__."/webhook/webhook.php");
 require_once(__DIR__."/workspace/workspace.php");
