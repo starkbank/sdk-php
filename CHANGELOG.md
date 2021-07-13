@@ -25,6 +25,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - page functions as a manual-pagination alternative to queries 
 - Institution resource to allow query of institutions recognized by the Brazilian Central Bank for Pix and TED transactions
 - TaxPayment resource
+- DarfPayment resource
 
 ## [2.6.0] - 2021-06-09
 ### Added

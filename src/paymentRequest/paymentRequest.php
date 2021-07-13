@@ -154,6 +154,8 @@ class PaymentRequest extends Resource
             return [$payment, "utility-payment"];
         if($payment instanceof TaxPayment)
             return [$payment, "tax-payment"];
+        if($payment instanceof DarfPayment)
+            return [$payment, "darf-payment"];
 
         if(!is_array($payment))
             throw new \Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment, a UtilityPayment, a TaxPayment or an array.");
@@ -176,6 +178,9 @@ class PaymentRequest extends Resource
             },
             "tax-payment" => function ($array) {
                 return new TaxPayment($array);
+            },
+            "darf-payment" => function ($array) {
+                return new DarfPayment($array);
             },
         ];
 

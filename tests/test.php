@@ -43,6 +43,8 @@ include_once("utilityPayment.php");
 include_once("utilityPaymentLog.php");
 include_once("taxPayment.php");
 include_once("taxPaymentLog.php");
+include_once("darfPayment.php");
+include_once("darfPaymentLog.php");
 include_once("webhook.php");
 include_once("workspace.php");
 include_once("event.php");

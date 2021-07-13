@@ -52,6 +52,8 @@ class Event extends Resource
             "boleto" => Event::boletoLogResource(),
             "boleto-payment" => Event::boletoPaymentLogResource(),
             "utility-payment" => Event::utilityPaymentLogResource(),
+            "darf-payment" => Event::DarfPaymentLogResource(),
+            "tax-payment" => Event::TaxPaymentLogResource(),
             "brcode-payment" => Event::brcodePaymentLogResource(),
             "boleto-holmes" => Event::boletoHolmesLogResource(),
             "invoice" => Event::invoiceLogResource(),
@@ -130,6 +132,20 @@ class Event extends Resource
             $array["payment"] = API::fromApiJson($payment, $array["payment"]);
             $log = function ($array) {
                 return new TaxPayment\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
+    
+    private static function darfPaymentLogResource()
+    {
+        return function ($array) {
+            $payment = function ($array) {
+                return new DarfPayment($array);
+            };
+            $array["payment"] = API::fromApiJson($payment, $array["payment"]);
+            $log = function ($array) {
+                return new DarfPayment\Log($array);
             };
             return API::fromApiJson($log, $array);
         };
