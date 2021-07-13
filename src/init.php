@@ -45,5 +45,7 @@ require_once(__DIR__."/workspace/workspace.php");
 require_once(__DIR__."/event/event.php");
 require_once(__DIR__."/event/attempt.php");
 require_once(__DIR__."/institution/institution.php");
+require_once(__DIR__."/taxPayment/taxPayment.php");
+require_once(__DIR__."/taxPayment/log.php");
 
 ?>

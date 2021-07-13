@@ -152,9 +152,11 @@ class PaymentRequest extends Resource
             return [$payment, "boleto-payment"];
         if($payment instanceof UtilityPayment)
             return [$payment, "utility-payment"];
+        if($payment instanceof TaxPayment)
+            return [$payment, "tax-payment"];
 
         if(!is_array($payment))
-            throw new \Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment, a UtilityPayment or an array.");
+            throw new \Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment, a UtilityPayment, a TaxPayment or an array.");
 
         $makerOptions = [
             "transfer" => function ($array) {
@@ -171,6 +173,9 @@ class PaymentRequest extends Resource
             },
             "utility-payment" => function ($array) {
                 return new UtilityPayment($array);
+            },
+            "tax-payment" => function ($array) {
+                return new TaxPayment($array);
             },
         ];
 

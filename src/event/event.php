@@ -121,6 +121,20 @@ class Event extends Resource
         };
     }
 
+    private static function taxPaymentLogResource()
+    {
+        return function ($array) {
+            $payment = function ($array) {
+                return new TaxPayment($array);
+            };
+            $array["payment"] = API::fromApiJson($payment, $array["payment"]);
+            $log = function ($array) {
+                return new TaxPayment\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
+
     private static function boletoHolmesLogResource()
     {
         return function ($array) {
