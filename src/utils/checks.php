@@ -5,6 +5,8 @@ use EllipticCurve\PrivateKey;
 use \Exception;
 use \DateTime;
 use \DateInterval;
+use StarkBank\Utils\StarkBankDateTime;
+use StarkBank\Utils\StarkBankDate;
 
 
 class Checks
@@ -62,6 +64,16 @@ class Checks
         if ($data instanceof DateTime)
             return $data;
         return new DateTime(strval($data));
+    }
+
+    public static function checkDateTimeOrDate($date)
+    {
+        if (is_null($date))
+            return $date;
+        if ($date->format('H:i:s') == "00:00:00") {
+            return new StarkBankDate($date);
+        }
+        return new StarkBankDateTime($date);
     }
 
     public static function checkDateInterval($data)
