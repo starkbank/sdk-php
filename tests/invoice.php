@@ -143,7 +143,7 @@ class TestInvoice
         return [
             new Invoice([
                 "amount" => 400000,
-                "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D"))),
+                "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P5D")))->setTime(0,0,0,0),
                 "taxId" => "012.345.678-90",
                 "name" => "João Rosá",
                 "expiration" => 123456789,
@@ -152,11 +152,11 @@ class TestInvoice
                 "discounts" => [
                     [
                         "percentage" => 5,
-                        "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P1D")))
+                        "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P1D")))->setTime(0,0,0,0)
                     ],
                     [
                         "percentage" => 3,
-                        "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P2D")))
+                        "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P2D")))->setTime(0,0,0,0)
                     ]
                 ],
                 "tags" => [
