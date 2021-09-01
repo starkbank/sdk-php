@@ -47,7 +47,7 @@ class Log extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - Log object with updated attributes
@@ -68,7 +68,7 @@ class Log extends Resource
     - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
     - types [array of strings, default null]: filter for log event types. ex: "created", "paid", "canceled" or "overdue"
     - invoiceIds [array of strings, default null]: array of Invoice ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of Log objects with updated attributes
@@ -93,7 +93,7 @@ class Log extends Resource
     - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
     - types [array of strings, default null]: filter for log event types. ex: "created", "paid", "canceled" or "overdue"
     - invoiceIds [array of strings, default null]: array of Invoice ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
     - list of Invoice\Log objects with updated attributes
@@ -113,7 +113,7 @@ class Log extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - Invoice->Log pdf file

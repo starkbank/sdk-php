@@ -67,7 +67,7 @@ class UtilityPayment extends Resource
         - payments [array of UtilityPayment objects]: array of UtilityPayment objects to be created in the API
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
         - array of UtilityPayment objects with updated attributes
@@ -86,7 +86,7 @@ class UtilityPayment extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
         - UtilityPayment object with updated attributes
@@ -106,7 +106,7 @@ class UtilityPayment extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - UtilityPayment pdf file
@@ -128,7 +128,7 @@ class UtilityPayment extends Resource
         - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default null]: filter for status of retrieved objects. ex: "paid"
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of UtilityPayment objects with updated attributes
@@ -155,7 +155,7 @@ class UtilityPayment extends Resource
     - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
     - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
     - status [string, default null]: filter for status of retrieved objects. ex: "paid"
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
     - list of UtilityPayment objects with updated attributes
@@ -175,7 +175,7 @@ class UtilityPayment extends Resource
         - id [string]: UtilityPayment unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - deleted UtilityPayment object

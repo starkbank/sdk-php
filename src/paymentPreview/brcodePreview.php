@@ -1,18 +1,17 @@
 <?php
 
-namespace StarkBank;
-use StarkBank\Utils\Resource;
+namespace StarkBank\PaymentPreview;
+use StarkBank\Utils\SubResource;
 use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
-use urlencode\urlencode;
 
 
-class BrcodePreview extends Resource
+class BrcodePreview extends SubResource
 {
     /**
     # BrcodePreview object
 
-    A BrcodePreview is used to get information from a BR Code you received to check the informations before paying it.
+    A BrcodePreview is used to get information from a BR Code you received before confirming the payment.
 
     ## Attributes (return-only):
         - status [string]: Payment status. ex: "active", "paid", "canceled" or "unknown"
@@ -24,12 +23,15 @@ class BrcodePreview extends Resource
         - accountType [string]: Payment receiver account type. ex: "checking"
         - allowChange [bool]: If True, the payment is able to receive amounts that are different from the nominal one. ex: True or False
         - amount [integer]: Value in cents that this payment is expecting to receive. If 0, any value is accepted. ex: 123 (= R$1,23)
+        - nominalAmount [integer]: Original value in cents that this payment was expecting to receive without the discounts, fines, etc.. If 0, any value is accepted. ex: 123 (= R$1,23)
+        - interestAmount [integer]: Current interest value in cents that this payment is charging. If 0, any value is accepted. ex: 123 (= R$1,23)
+        - fineAmount [integer]: Current fine value in cents that this payment is charging. ex: 123 (= R$1,23)
+        - reductionAmount [integer]: Current value reduction value in cents that this payment is expecting. ex: 123 (= R$1,23)
+        - discountAmount [integer]: Current discount value in cents that this payment is expecting. ex: 123 (= R$1,23)
         - reconciliationId [string]: Reconciliation ID linked to this payment. ex: "txId", "payment-123"
      */
     function __construct(array $params)
     {
-        parent::__construct($params);
-
         $this->status = Checks::checkParam($params, "status");
         $this->name = Checks::checkParam($params, "name");
         $this->taxId = Checks::checkParam($params, "taxId");
@@ -39,39 +41,17 @@ class BrcodePreview extends Resource
         $this->accountType = Checks::checkParam($params, "accountType");
         $this->allowChange = Checks::checkParam($params, "allowChange");
         $this->amount = Checks::checkParam($params, "amount");
+        $this->nominalAmount = Checks::checkParam($params, "nominalAmount");
+        $this->interestAmount = Checks::checkParam($params, "interestAmount");
+        $this->fineAmount = Checks::checkParam($params, "fineAmount");
+        $this->reductionAmount = Checks::checkParam($params, "reductionAmount");
+        $this->discountAmount = Checks::checkParam($params, "discountAmount");
         $this->reconciliationId = Checks::checkParam($params, "reconciliationId");
 
         Checks::checkParams($params);
     }
 
-    /**
-     * @deprecated
-    # Retrieve BrcodePreviews
-
-    Process BR Codes before creating BrcodePayments
-
-    ## Parameters (optional):
-        - brcodes [array of strings]: List of brcodes to preview. ex: ["00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"]
-        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
-
-    ## Return:
-        - enumerator of BrcodePreview objects with updated attributes
-     */
-    public static function query($options = [], $user = null)
-    {
-        trigger_error('BrcodePreview is deprecated, use PaymentPreview instead', E_USER_DEPRECATED);
-        $brcodes = Checks::checkParam($options, "brcodes");
-        if (!is_null($brcodes)) {
-            $urlsafe = [];
-            foreach($brcodes as $brcode)
-                array_push($urlsafe, urlencode($brcode));
-            $brcodes = $urlsafe;
-        }
-        $options["brcodes"] = $brcodes;
-        return Rest::getList($user, BrcodePreview::resource(), $options);
-    }
-
-    private static function resource()
+    static function resource()
     {
         $preview = function ($array) {
             return new BrcodePreview($array);

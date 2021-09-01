@@ -113,7 +113,7 @@ class Invoice extends Resource
         - invoices [array of Invoice objects]: array of Invoice objects to be created in the API
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - array of Invoice objects with updated attributes
@@ -132,7 +132,7 @@ class Invoice extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - Invoice object with updated attributes
@@ -151,7 +151,7 @@ class Invoice extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - Invoice pdf file
@@ -171,7 +171,7 @@ class Invoice extends Resource
 
     ## Parameters (optional):
         - size [integer, default 7]: number of pixels in each "box" of the QR code. Minimum = 1, maximum = 50. ex: 12
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - Invoice png blob
@@ -194,7 +194,7 @@ class Invoice extends Resource
         - status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
         - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of Invoice objects with updated attributes
@@ -220,7 +220,7 @@ class Invoice extends Resource
     - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
     - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
     - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - list of Invoice objects with updated attributes
@@ -242,10 +242,10 @@ class Invoice extends Resource
         - amount [string]: If the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer
         - due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
         - expiration [DateInterval or integer, default null]: time interval in seconds between due date and expiration date. ex 123456789
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - target Invoice with updated attributes
@@ -265,7 +265,7 @@ class Invoice extends Resource
     - id [string]: Invoice unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
     - target Invoice Payment sub-resource

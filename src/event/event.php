@@ -217,7 +217,7 @@ class Event extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - Event object with updated attributes
@@ -237,7 +237,7 @@ class Event extends Resource
         - after [DateTime or string, default null]: date filter for objects created only after specified date. ex: "2020-04-03"
         - before [DateTime or string, default null]: date filter for objects created only before specified date. ex: "2020-04-03"
         - isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of Event objects with updated attributes
@@ -261,7 +261,7 @@ class Event extends Resource
     - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
     - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
     - isDelivered [boolean, default None]: bool to filter successfully delivered events. ex: True or False
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - list of Event objects with updated attributes
@@ -281,7 +281,7 @@ class Event extends Resource
         - id [string]: Event unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - deleted Event object
@@ -302,7 +302,7 @@ class Event extends Resource
         - isDelivered [bool]: If true and event hasn't been delivered already, event will be set as delivered. ex: true
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - target Event with updated attributes
@@ -324,7 +324,7 @@ class Event extends Resource
         - signature [string]: base-64 digital signature received at response header "Digital-Signature"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - Event object with updated attributes

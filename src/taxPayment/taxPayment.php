@@ -39,7 +39,7 @@ class TaxPayment extends Resource
     - payments [list of TaxPayment objects]: list of TaxPayment objects to be created in the API
     
     ## Parameters (optional):
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - list of TaxPayment objects with updated attributes     
@@ -58,7 +58,7 @@ class TaxPayment extends Resource
     - id [string]: object unique id. ex: "5656565656565656"
     
     ## Parameters (optional):
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - TaxPayment object with updated attributes
@@ -78,7 +78,7 @@ class TaxPayment extends Resource
     - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - TaxPayment pdf file
@@ -122,7 +122,7 @@ class TaxPayment extends Resource
     - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
     - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
     - status [string, default null]: filter for status of retrieved objects. ex: "success"
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if starkbank.user was set before function call
+    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if starkbank.user was set before function call
     ## Return:
     - list of TaxPayment objects with updated attributes
     - cursor to retrieve the next page of TaxPayment objects
@@ -141,7 +141,7 @@ class TaxPayment extends Resource
     - id [string]: TaxPayment unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - deleted TaxPayment with updated attributes

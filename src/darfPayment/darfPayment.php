@@ -74,7 +74,7 @@ class DarfPayment extends Resource
     - payments [list of DarfPayment objects]: list of DarfPayment objects to be created in the API
 
     ## Parameters (optional):
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
 
     ## Return:
     - list of DarfPayment objects with updated attributes
@@ -93,7 +93,7 @@ class DarfPayment extends Resource
     - id [string]: object unique id. ex: "5656565656565656"
     
     ## Parameters (optional):
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - DarfPayment object with updated attributes
@@ -113,7 +113,7 @@ class DarfPayment extends Resource
     - id [string]: object unique id. ex: "5656565656565656"
     
     ## Parameters (optional):
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - DarfPayment pdf file
@@ -161,7 +161,7 @@ class DarfPayment extends Resource
     - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
     - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
     - status [string, default null]: filter for status of retrieved objects. ex: "success"
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - list of DarfPayment objects with updated attributes
@@ -181,7 +181,7 @@ class DarfPayment extends Resource
     - id [string]: DarfPayment unique id. ex: "5656565656565656"
     
     ## Parameters (optional):
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - deleted DarfPayment with updated attributes
