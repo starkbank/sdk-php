@@ -49,6 +49,7 @@ include_once("webhook.php");
 include_once("workspace.php");
 include_once("event.php");
 include_once("paymentRequest.php");
+include_once("paymentPreview.php");
 include_once("institution.php");
 
 echo "\n\nAll tests concluded\n\n";

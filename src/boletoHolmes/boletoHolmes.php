@@ -52,7 +52,7 @@ class BoletoHolmes extends Resource
         - holmes [array of BoletoHolmes objects]: array of BoletoHolmes objects to be created in the API
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - array of BoletoHolmes objects with updated attributes
@@ -71,7 +71,7 @@ class BoletoHolmes extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - BoletoHolmes object with updated attributes
@@ -94,7 +94,7 @@ class BoletoHolmes extends Resource
         - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default null]: filter for status of retrieved objects. ex: "solved"
         - boletoId [string, default null]: filter for holmes that investigate a specific boleto by its ID. ex: "5656565656565656"
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - generator of BoletoHolmes objects with updated attributes
@@ -121,7 +121,7 @@ class BoletoHolmes extends Resource
     - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
     - status [string, default null]: filter for status of retrieved objects. ex: "solved"
     - boletoId [string, default null]: filter for holmes that investigate a specific boleto by its ID. ex: "5656565656565656"
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
     - list of BoletoHolmes objects with updated attributes

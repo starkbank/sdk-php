@@ -45,7 +45,7 @@ class Log extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - BoletoHolmes\Log object with updated attributes
@@ -66,7 +66,7 @@ class Log extends Resource
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - types [array of strings, default null]: filter retrieved objects by event type. ex: ["solving", "solved"]
         - holmesIds [array of strings, default null]: array of BoletoHolmes ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - array of BoletoHolmes\Log objects with updated attributes
@@ -91,7 +91,7 @@ class Log extends Resource
     - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
     - types [array of strings, default null]: filter retrieved objects by event type. ex: ["solving", "solved"]
     - holmesIds [array of strings, default null]: array of BoletoHolmes ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
     - list of BoletoHolmes\Log objects with updated attributes

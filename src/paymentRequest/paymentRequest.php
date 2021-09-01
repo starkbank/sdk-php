@@ -74,7 +74,7 @@ class PaymentRequest extends Resource
         - requests [array of PaymentRequest objects]: array of PaymentRequest objects to be created in the API
 
     ## Parameters (optional):
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - list of PaymentRequest objects with updated attributes
@@ -101,7 +101,7 @@ class PaymentRequest extends Resource
         - type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "brcode-payment"
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of PaymentRequest objects with updated attributes
@@ -129,7 +129,7 @@ class PaymentRequest extends Resource
     - type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
     - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
     - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
     - list of PaymentRequest objects with updated attributes
