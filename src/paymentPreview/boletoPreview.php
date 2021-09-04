@@ -3,7 +3,6 @@
 namespace StarkBank\PaymentPreview;
 use StarkBank\Utils\SubResource;
 use StarkBank\Utils\Checks;
-use StarkBank\Utils\Rest;
 
 
 class BoletoPreview extends SubResource

@@ -31,7 +31,7 @@ class TestDictKey
   public function getPage()
   {
     $ids = [];
-    list($page, $cursor) = DictKey::page($options = ["limit" => 1, "cursor" => $cursor]);
+    list($page, $cursor) = DictKey::page($options = ["limit" => 1]);
     foreach ($page as $dictKey) {
       if (in_array($dictKey->id, $ids)) {
         throw new Exception("failed");
