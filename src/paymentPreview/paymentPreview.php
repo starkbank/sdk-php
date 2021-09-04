@@ -9,8 +9,6 @@ use StarkBank\Utils\Resource;
 use StarkBank\Utils\Checks;
 use StarkBank\Utils\Api;
 use StarkBank\Utils\Rest;
-use StarkBank\Utils\StarkBankDateTime;
-use StarkBank\Utils\StarkBankDate;
 
 
 class PaymentPreview extends Resource
