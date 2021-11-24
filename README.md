@@ -8,6 +8,44 @@ If you have no idea what Stark Bank is, check out our [website](https://www.star
 and discover a world where receiving or making payments
 is as easy as sending a text message to your client!
 
+# Introduction
+
+## Index
+
+- [Introduction](#introduction)
+    - [Supported PHP versions](#supported-php-versions)
+    - [API documentation](#stark-bank-api-documentation)
+    - [Versioning](#versioning)
+- [Setup](#setup)
+    - [Install our SDK](#1-install-our-sdk)
+    - [Create your Private and Public Keys](#2-create-your-private-and-public-keys)
+    - [Register your user credentials](#3-register-your-user-credentials)
+    - [Setting up the user](#4-setting-up-the-user)
+    - [Setting up the error language](#5-setting-up-the-error-language)
+    - [Resource listing and manual pagination](#6-resource-listing-and-manual-pagination)
+- [Testing in Sandbox](#testing-in-sandbox) 
+- [Usage](#usage)
+    - [Transactions](#create-transactions): Account statement entries
+    - [Balance](#get-balance): Account balance
+    - [Transfers](#create-transfers): Wire transfers (TED and manual Pix)
+    - [DictKeys](#get-dict-key): Pix Key queries to use with Transfers
+    - [Institutions](#query-bacen-institutions): Instutitions recognized by the Central Bank
+    - [Invoices](#create-invoices): Reconciled receivables (dynamic PIX QR Codes)
+    - [Deposits](#query-deposits): Other cash-ins (static PIX QR Codes, manual PIX, etc)
+    - [Boletos](#create-boletos): Boleto receivables
+    - [BoletoHolmes](#investigate-a-boleto): Boleto receivables investigator
+    - [BrcodePayments](#pay-a-br-code): Pay Pix QR Codes
+    - [BoletoPayments](#pay-a-boleto): Pay Boletos
+    - [UtilityPayments](#create-utility-payments): Pay Utility bills (water, light, etc.)
+    - [TaxPayments](#create-tax-payment): Pay taxes
+    - [PaymentPreviews](#preview-payment-information-before-executing-the-payment): Preview all sorts of payments
+    - [Webhooks](#create-a-webhook-subscription): Configure your webhook endpoints and subscriptions
+    - [WebhookEvents](#process-webhook-events): Manage webhook events
+    - [WebhookEventAttempts](#query-failed-webhook-event-delivery-attempts-information): Query failed webhook event deliveries
+    - [Workspaces](#create-a-new-workspace): Manage your accounts
+- [Handling errors](#handling-errors)
+- [Help and Feedback](#help-and-feedback)
+
 ## Supported PHP Versions
 
 This library supports the following PHP versions:
@@ -282,7 +320,7 @@ for the value to be credited to your account.
 Here are a few examples on how to use the SDK. If you have any doubts, check out
 the function or class docstring to get more info or go straight to our [API docs].
 
-### Create transactions
+## Create transactions
 
 To send money between Stark Bank accounts, you can create transactions:
 
@@ -313,7 +351,7 @@ foreach($transactions as $transaction){
 
 **Note**: Instead of using Transaction objects, you can also pass each transaction element directly in array format, without using the constructor
 
-### Query transactions
+## Query transactions
 
 To understand your balance changes (bank statement), you can query
 transactions. Note that our system creates transactions for you when
@@ -332,7 +370,7 @@ foreach($transactions as $transaction){
 }
 ```
 
-### Get a transaction
+## Get a transaction
 
 You can get a specific transaction by its id:
 
@@ -344,7 +382,7 @@ $transaction = Transaction::get("5155165527080960");
 print_r($transaction);
 ```
 
-### Get your balance
+## Get balance
 
 To know how much money you have in your workspace, run:
 
@@ -356,7 +394,7 @@ $balance = Balance::get();
 print_r($balance);
 ```
 
-### Create transfers
+## Create transfers
 
 You can also create transfers in the SDK (TED/Pix).
 
@@ -395,7 +433,7 @@ foreach($transfers as $transfer){
 
 **Note**: Instead of using Transfer objects, you can also pass each transfer element directly in array format, without using the constructor
 
-### Query transfers
+## Query transfers
 
 You can query multiple transfers according to filters.
 
@@ -412,7 +450,7 @@ foreach($transfers as $transfer){
 }
 ```
 
-### Get a transfer
+## Get a transfer
 
 To get a single transfer by its id, run:
 
@@ -424,7 +462,7 @@ $transfer = Transfer::get("5155165527080960");
 print_r($transfer);
 ```
 
-### Cancel a scheduled transfer
+## Cancel a scheduled transfer
 
 To cancel a single scheduled transfer by its id, run:
 
@@ -436,7 +474,7 @@ $transfer = Transfer::delete("5155165527080960");
 print_r($transfer);
 ```
 
-### Get a transfer PDF
+## Get a transfer PDF
 
 A transfer PDF may also be retrieved by passing its id.
 This operation is only valid if the transfer status is "processing" or "success".
@@ -455,7 +493,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Query transfer logs
+## Query transfer logs
 
 You can query transfer logs to better understand transfer life cycles.
 
@@ -469,7 +507,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get a transfer log
+## Get a transfer log
 
 You can also get a specific log by its id.
 
@@ -481,7 +519,33 @@ $log = Transfer\Log::get("5155165527080960");
 print_r($log);
 ```
 
-### Query Bacen institutions
+## Get DICT key
+
+You can get Pix key's parameters by its id.
+
+```php
+use StarkBank\DictKey;
+
+$dictKey = DictKey::get();
+
+print_r($dictKey);
+```
+
+## Query your DICT keys
+
+To take a look at the Pix keys linked to your workspace, just run the following:
+
+```php
+use StarkBank\DictKey;
+
+$dictKeys = iterator_to_array(DictKey::query(["limit" => 1, "type" => "evp", "status" => "registered"]));
+
+foreach($dictKeys as $dictKey) {
+    print_r($dictKey);
+}
+```
+
+## Query Bacen institutions
 
 You can query institutions registered by the Brazilian Central Bank for Pix and TED transactions.
 
@@ -495,7 +559,7 @@ foreach($institutions as $institution){
 }
 ```
 
-### Create invoices
+## Create invoices
 
 You can create dynamic QR Code invoices to charge customers or to receive money from accounts you have in other banks. 
 
@@ -554,7 +618,7 @@ print_r($invoice);
 ```
 **Note**: Instead of using Invoice objects, you can also pass each invoice element directly in array format, without using the constructor
 
-### Get an invoice
+## Get an invoice
 
 After its creation, information on an invoice may be retrieved by its id.
 Its status indicates whether it's been paid.
@@ -567,7 +631,7 @@ $invoice = Invoice::get("5656565656565656");
 print_r($invoice);
 ```
 
-### Get an invoice QR Code 
+## Get an invoice QR Code 
 
 After its creation, an Invoice QR Code may be retrieved by its id. 
 
@@ -584,7 +648,7 @@ fclose($fp);
 Be careful not to accidentally enforce any encoding on the raw png content,
 as it may corrupt the file.
 
-### Get an invoice PDF
+## Get an invoice PDF
 
 After its creation, an invoice PDF may be retrieved by its id.
 
@@ -602,7 +666,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Cancel an invoice
+## Cancel an invoice
 
 You can also cancel an invoice by its id.
 Note that this is not possible if it has been paid already.
@@ -615,7 +679,7 @@ $invoice = Invoice::update("5656565656565656", ["status" => "canceled"]);
 print_r($invoice);
 ```
 
-### Update an invoice
+## Update an invoice
 
 You can update an invoice's amount, due date and expiration by its id.
 Note that this is not possible if it has been paid already.
@@ -635,7 +699,7 @@ $updatedInvoice = Invoice::update(
 print_r($updatedInvoice);
 ```
 
-### Query invoices
+## Query invoices
 
 You can get a list of created invoices given some filters.
 
@@ -649,7 +713,7 @@ foreach($invoices as $invoice) {
 }
 ```
 
-### Get a reversed invoice log PDF
+## Get a reversed invoice log PDF
 
 Whenever an Invoice is successfully reversed, a reversed log will be created.
 To retrieve a specific reversal receipt, you can request the corresponding log PDF:
@@ -668,7 +732,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Get an invoice payment information
+## Get an invoice payment information
 
 Once an invoice has been paid, you can get the payment information using the Invoice.Payment sub-resource:
 
@@ -680,7 +744,7 @@ $paymentInformation = Invoice::payment("5656565656565656");
 print_r($paymentInformation);
 ```
 
-### Query invoice logs
+## Query invoice logs
 
 Logs are pretty important to understand the life cycle of an invoice.
 
@@ -694,7 +758,7 @@ foreach($invoiceLogs as $log) {
 }
 ```
 
-### Get an invoice log
+## Get an invoice log
 
 You can get a single log by its id.
 
@@ -706,7 +770,7 @@ $invoiceLog = Log::get("5656565656565656");
 print_r($invoice);
 ```
 
-### Query deposits
+## Query deposits
 
 You can get a list of created deposits given some filters.
 
@@ -720,7 +784,7 @@ foreach($deposits as $deposit) {
 }
 ```
 
-### Get a deposit
+## Get a deposit
 
 After its creation, information on a deposit may be retrieved by its id. 
 
@@ -732,7 +796,7 @@ $deposit = Deposit::get("5656565656565656");
 print_r($deposit);
 ```
 
-### Query deposit logs
+## Query deposit logs
 
 Logs are pretty important to understand the life cycle of a deposit.
 
@@ -746,7 +810,7 @@ foreach($depositLogs as $log) {
 }
 ```
 
-### Get a deposit log
+## Get a deposit log
 
 You can get a single log by its id.
 
@@ -758,7 +822,7 @@ $depositLog = Log::get("5656565656565656");
 print_r($deposit);
 ```
 
-### Create boletos
+## Create boletos
 
 You can create boletos to charge customers or to receive money from accounts
 you have in other banks.
@@ -792,7 +856,7 @@ foreach($boletos as $boleto){
 **Note**: Instead of using Boleto objects, you can also pass each boleto element directly in array format, without using the constructor
 
 
-### Get a boleto
+## Get a boleto
 
 After its creation, information on a boleto may be retrieved by passing its id.
 Its status indicates whether it's been paid.
@@ -805,7 +869,7 @@ $boleto = Boleto::get("5155165527080960");
 print_r($boleto);
 ```
 
-### Get a boleto PDF
+## Get a boleto PDF
 
 After its creation, a boleto PDF may be retrieved by passing its id.
 
@@ -823,7 +887,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete a boleto
+## Delete a boleto
 
 You can also cancel a boleto by its id.
 Note that this is not possible if it has been processed already.
@@ -836,7 +900,7 @@ $boleto = Boleto::delete("5155165527080960");
 print_r($boleto);
 ```
 
-### Query boletos
+## Query boletos
 
 You can get an array of created boletos given some filters.
 
@@ -853,7 +917,7 @@ foreach($boletos as $boleto){
 }
 ```
 
-### Query boleto logs
+## Query boleto logs
 
 Logs are pretty important to understand the life cycle of a boleto.
 
@@ -867,7 +931,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get a boleto log
+## Get a boleto log
 
 You can get a single log by its id.
 
@@ -879,7 +943,7 @@ $log = Boleto\Log::get("5155165527080960");
 print_r($log);
 ```
 
-### Investigate a boleto
+## Investigate a boleto
 
 You can discover if a StarkBank boleto has been recently paid before we receive the response on the next day.
 This can be done by creating a BoletoHolmes object, which fetches the updated status of the corresponding
@@ -903,7 +967,7 @@ foreach($holmes as $sherlock){
 
 **Note**: Instead of using BoletoHolmes objects, you can also pass each payment element directly in array format, without using the constructor
 
-### Get a boleto holmes
+## Get a boleto holmes
 
 To get a single Holmes by its id, run:
 
@@ -913,7 +977,7 @@ $sherlock = Boleto::get("5976467733217280");
 print_r($sherlock)
 ```
 
-### Query boleto holmes
+## Query boleto holmes
 
 You can search for boleto Holmes using filters. 
 
@@ -926,7 +990,7 @@ foreach($holmes as $sherlock){
 }
 ```
 
-### Query boleto holmes logs
+## Query boleto holmes logs
 
 Searches are also possible with boleto holmes logs:
 
@@ -939,7 +1003,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get a boleto holmes log
+## Get a boleto holmes log
 
 You can also get a boleto holmes log by specifying its id.
 
@@ -949,7 +1013,7 @@ $log = Log::get("5976467733217280");
 print_r($log)
 ```
 
-### Pay a BR Code
+## Pay a BR Code
 
 Paying a BR Code is also simple.
 
@@ -974,7 +1038,7 @@ foreach($payments as $payment){
 
 **Note**: Instead of using BrcodePayment objects, you can also pass each payment element directly in array format, without using the constructor
 
-### Get a BR Code payment
+## Get a BR Code payment
 
 To get a single BR Code payment by its id, run:
 
@@ -986,7 +1050,7 @@ $payment = BrcodePayment::get("19278361897236187236");
 print_r($payment);
 ```
 
-### Get a BR Code payment PDF
+## Get a BR Code payment PDF
 
 After its creation, a BR Code payment PDF may be retrieved by its id. 
 
@@ -1004,7 +1068,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Query BR Code payments
+## Query BR Code payments
 
 You can search for BR Code payments using filters. 
 
@@ -1020,7 +1084,7 @@ foreach($payments as $payment){
 }
 ```
 
-### Query BR Code payment logs
+## Query BR Code payment logs
 
 Searches are also possible with BR Code payment logs:
 
@@ -1036,7 +1100,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get a BR Code payment log
+## Get a BR Code payment log
 
 You can also get a BR Code payment log by specifying its id.
 
@@ -1048,7 +1112,7 @@ $log = BrcodePayment\Log::get("5155165527080960");
 print_r($log);
 ```
 
-### Pay a boleto
+## Pay a boleto
 
 Paying a boleto is also simple.
 
@@ -1079,7 +1143,7 @@ foreach($payments as $payment){
 
 **Note**: Instead of using BoletoPayment objects, you can also pass each payment element directly in array format, without using the constructor
 
-### Get a boleto payment
+## Get a boleto payment
 
 To get a single boleto payment by its id, run:
 
@@ -1091,7 +1155,7 @@ $payment = BoletoPayment::get("19278361897236187236");
 print_r($payment);
 ```
 
-### Get a boleto payment PDF
+## Get a boleto payment PDF
 
 After its creation, a boleto payment PDF may be retrieved by passing its id.
 
@@ -1109,7 +1173,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete a boleto payment
+## Delete a boleto payment
 
 You can also cancel a boleto payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1122,7 +1186,7 @@ $payment = BoletoPayment::delete("5155165527080960");
 print_r($payment);
 ```
 
-### Query boleto payments
+## Query boleto payments
 
 You can search for boleto payments using filters.
 
@@ -1138,7 +1202,7 @@ foreach($payments as $payment){
 }
 ```
 
-### Query boleto payment logs
+## Query boleto payment logs
 
 Searches are also possible with boleto payment logs:
 
@@ -1154,7 +1218,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get a boleto payment log
+## Get a boleto payment log
 
 You can also get a boleto payment log by specifying its id.
 
@@ -1166,7 +1230,7 @@ $log = BoletoPayment\Log::get("5155165527080960");
 print_r($log);
 ```
 
-### Create a utility payment
+## Create utility payments
 
 It's also simple to pay utility bills (such as electricity and water bills) in the SDK.
 
@@ -1195,7 +1259,7 @@ foreach($payments as $payment){
 
 **Note**: Instead of using UtilityPayment objects, you can also pass each payment element directly in array format, without using the constructor
 
-### Query utility payments
+## Query utility payments
 
 To search for utility payments using filters, run:
 
@@ -1211,7 +1275,7 @@ foreach($payments as $payment){
 }
 ```
 
-### Get a utility payment
+## Get a utility payment
 
 You can get a specific bill by its id:
 
@@ -1223,7 +1287,7 @@ $payment = UtilityPayment::get("5155165527080960");
 print_r($payment);
 ```
 
-### Get a utility payment PDF
+## Get a utility payment PDF
 
 After its creation, a utility payment PDF may also be retrieved by passing its id.
 
@@ -1241,7 +1305,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete a utility payment
+## Delete a utility payment
 
 You can also cancel a utility payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1254,7 +1318,7 @@ $payment = UtilityPayment::delete("5155165527080960");
 print_r($payment);
 ```
 
-### Query utility payment logs
+## Query utility payment logs
 
 You can search for payments by specifying filters. Use this to understand the
 bills life cycles.
@@ -1271,7 +1335,7 @@ foreach($logs as $log){
 }
 ```
 
-### Get a utility payment log
+## Get a utility payment log
 
 If you want to get a specific payment log by its id, just run:
 
@@ -1283,7 +1347,7 @@ $log = UtilityPayment\Log::get("1902837198237992");
 print_r($log);
 ```
 
-### Create tax payments
+## Create tax payment
 
 It is also simple to pay taxes (such as ISS and DAS) using this SDK.
 
@@ -1305,7 +1369,7 @@ foreach($payments as $payment){
 
  **Note**: Instead of using TaxPayment objects, you can also pass each payment element in dictionary format
 
-### Query tax payments
+## Query tax payments
 
 To search for tax payments using filters, run:
 
@@ -1317,7 +1381,7 @@ $payments = iterator_to_array(TaxPayment::query(["limit" => 10]));
 print_r($payments);
 ```
 
-### Get tax payment
+## Get tax payment
 
 You can get a specific tax payment by its id:
 
@@ -1329,7 +1393,7 @@ $payment = TaxPayment::get("5155165527080960");
 print_r($payment);
 ```
 
-### Get tax payment PDF
+## Get tax payment PDF
 
 After its creation, a tax payment PDF may also be retrieved by its id.
 
@@ -1347,7 +1411,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete tax payment
+## Delete tax payment
 
 You can also cancel a tax payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1360,7 +1424,7 @@ $payment = TaxPayment::delete("5155165527080960");
 print_r($payment);
 ```
 
-### Query tax payment logs
+## Query tax payment logs
 
 You can search for payment logs by specifying filters. Use this to understand each payment life cycle.
 
@@ -1372,7 +1436,7 @@ $paymentLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created
 print_r($paymentLogs);
 ```
 
-### Get tax payment log
+## Get tax payment log
 
 If you want to get a specific payment log by its id, just run:
 
@@ -1388,7 +1452,7 @@ print_r($paymentLog);
 resource and routes, which are all analogous to the TaxPayment resource. The ones we currently support are:
 - DarfPayment, for DARFs
 
-### Preview payment information before executing the payment
+## Preview payment information before executing the payment
 
 You can preview multiple types of payment to confirm any information before actually paying.
 If the "scheduled" parameter is not informed, today will be assumed as the intended payment date.
@@ -1410,7 +1474,7 @@ foreach ($previews as $preview) {
 
 **Note**: Instead of using PaymentPreview objects, you can also pass each element directly in array format, without using the constructor
 
-### Create payment requests to be approved by authorized people in a cost center
+## Create payment requests to be approved by authorized people in a cost center
 
 You can also request payments that must pass through a specific cost center approval flow to be executed.
 In certain structures, this allows double checks for cash-outs and also gives time to load your account
@@ -1449,7 +1513,7 @@ foreach($requests as $request){
 **Note**: Instead of using PaymentRequest objects, you can also pass each request element directly in array format, without using the constructor
 
 
-### Query payment requests
+## Query payment requests
 
 To search for payment requests, run:
 
@@ -1463,7 +1527,7 @@ foreach($requests as $request){
 }
 ```
 
-### Create a webhook subscription
+## Create a webhook subscription
 
 To create a webhook subscription and be notified whenever an event occurs, run:
 
@@ -1478,7 +1542,7 @@ $webhook = Webhook::create([
 print_r($webhook);
 ```
 
-### Query webhook subscriptions
+## Query webhook subscriptions
 
 To search for registered webhooks, run:
 
@@ -1492,7 +1556,7 @@ foreach($webhooks as $webhook){
 }
 ```
 
-### Get a webhook subscription
+## Get a webhook subscription
 
 You can get a specific webhook by its id.
 
@@ -1504,7 +1568,7 @@ $webhook = Webhook::get("10827361982368179");
 print_r($webhook);
 ```
 
-### Delete a webhook subscription
+## Delete a webhook subscription
 
 You can also delete a specific webhook by its id.
 
@@ -1516,7 +1580,7 @@ $webhook = Webhook::delete("10827361982368179");
 print_r($webhook);
 ```
 
-### Process webhook events
+## Process webhook events
 
 It's easy to process events that arrived in your webhook. Remember to pass the
 signature header so the SDK can make sure it's really StarkBank that sent you
@@ -1548,7 +1612,7 @@ if ($event->subscription == "transfer"){
 }
 ```
 
-### Query webhook events
+## Query webhook events
 
 To search for webhooks events, run:
 
@@ -1562,7 +1626,7 @@ foreach($events as $event){
 }
 ```
 
-### Get a webhook event
+## Get a webhook event
 
 You can get a specific webhook event by its id.
 
@@ -1574,7 +1638,7 @@ $event = Event::get("10827361982368179");
 print_r($event);
 ```
 
-### Delete a webhook event
+## Delete a webhook event
 
 You can also delete a specific webhook event by its id.
 
@@ -1586,7 +1650,7 @@ $event = Event::delete("10827361982368179");
 print_r($event);
 ```
 
-### Set webhook events as delivered
+## Set webhook events as delivered
 
 This can be used in case you've lost events.
 With this function, you can manually set events retrieved from the API as
@@ -1600,7 +1664,7 @@ $event = Event::update("129837198237192", ["isDelivered" => true]);
 print_r($event);
 ```
 
-### Query failed webhook event delivery attempts information
+## Query failed webhook event delivery attempts information
 
 You can also get information on failed webhook event delivery attempts.
 
@@ -1614,7 +1678,7 @@ foreach($attempts as $attempt){
 }
 ```
 
-### Get a failed webhook event delivery attempt information
+## Get a failed webhook event delivery attempt information
 
 To retrieve information on a single attempt, use the following function:
 
@@ -1626,33 +1690,7 @@ $attempt = Attempt::get("1616161616161616");
 print_r($attempt);
 ```
 
-### Get a DICT key
-
-You can get Pix key's parameters by its id.
-
-```php
-use StarkBank\DictKey;
-
-$dictKey = DictKey::get();
-
-print_r($dictKey);
-```
-
-### Query your DICT keys
-
-To take a look at the Pix keys linked to your workspace, just run the following:
-
-```php
-use StarkBank\DictKey;
-
-$dictKeys = iterator_to_array(DictKey::query(["limit" => 1, "type" => "evp", "status" => "registered"]));
-
-foreach($dictKeys as $dictKey) {
-    print_r($dictKey);
-}
-```
-
-### Create a new Workspace
+## Create a new Workspace
 
 The Organization user allows you to create new Workspaces (bank accounts) under your organization.
 Workspaces have independent balances, statements, operations and users.
@@ -1675,7 +1713,7 @@ $workspace = Workspace::create(
 print_r($workspace)
 ```
 
-### List your Workspaces
+## List your Workspaces
 
 This route lists Workspaces. If no parameter is passed, all the workspaces the user has access to will be listed, but
 you can also find other Workspaces by searching for their usernames or IDs directly.
@@ -1690,7 +1728,7 @@ foreach($workspaces as $workspace){
 }
 ```
 
-### Get a Workspace
+## Get a Workspace
 
 You can get a specific Workspace by its id.
 
@@ -1702,7 +1740,7 @@ $workspace = Workspace::get("10827361982368179");
 print_r($workspace);
 ```
 
-### Update a Workspace
+## Update a Workspace
 
  You can update a specific Workspace by its id.
 
@@ -1722,7 +1760,7 @@ use StarkBank\Workspace;
  print_r($workspace);
  ```
 
-## Handling errors
+# Handling errors
 
 The SDK may raise one of four types of errors: __InputErrors__, __InternalServerError__, __UnknownError__, __InvalidSignatureError__
 
@@ -1763,3 +1801,11 @@ neither __InputErrors__ nor an __InternalServerError__, such as connectivity pro
 __InvalidSignatureError__ will be raised specifically by StarkBank\Event::parse()
 when the provided content and signature do not check out with the Stark Bank public
 key.
+
+# Help and Feedback
+
+If you have any questions about our SDK, just send us an email.
+We will respond you quickly, pinky promise. We are here to help you integrate with us ASAP.
+We also love feedback, so don't be shy about sharing your thoughts with us.
+
+Email: developers@starkbank.com
