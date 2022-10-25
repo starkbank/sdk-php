@@ -1,9 +1,8 @@
 <?php
 
 namespace StarkBank\Invoice;
-
-use StarkBank\Utils\Checks;
-use StarkBank\Utils\SubResource;
+use StarkCore\Utils\Checks;
+use StarkCore\Utils\SubResource;
 
 
 class Payment extends SubResource

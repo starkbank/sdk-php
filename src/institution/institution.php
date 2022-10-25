@@ -1,9 +1,9 @@
 <?php
 
 namespace StarkBank;
-use StarkBank\Utils\SubResource;
-use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
+use StarkCore\Utils\Checks;
+use StarkCore\Utils\SubResource;
 
 
 class Institution extends SubResource
