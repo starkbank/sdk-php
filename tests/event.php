@@ -5,7 +5,7 @@ namespace Test\Event;
 use \Exception;
 use StarkBank\Event;
 use StarkBank\Event\Attempt;
-use StarkBank\Error\InvalidSignatureError;
+use StarkCore\Error\InvalidSignatureError;
 
 
 class TestEvent

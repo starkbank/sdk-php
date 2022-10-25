@@ -8,10 +8,11 @@ class Settings
 {
     private static $user;
     private static $language = "en-US";
+    private static $timeout = 15;
 
-    public static function getUser()
+    public static function getUser($user=null)
     {
-        return self::$user;
+        return is_null($user) ? self::$user : $user;
     }
 
     public static function setUser($user)
@@ -32,5 +33,13 @@ class Settings
             return;
         }
         throw new Exception("language must be one of " . join(", ", $acceptedLanguages));
+    }
+
+    public static function getTimeout(){
+        return self::$timeout;
+    }
+
+    public static function setTimeout($timeout){
+        self::$timeout = $timeout;
     }
 }

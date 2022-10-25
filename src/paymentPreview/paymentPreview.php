@@ -1,14 +1,14 @@
 <?php
 
 namespace StarkBank;
+use StarkCore\Utils\Api;
+use StarkBank\Utils\Rest;
+use StarkCore\Utils\Checks;
+use StarkCore\Utils\Resource;
+use StarkBank\PaymentPreview\TaxPreview;
 use StarkBank\PaymentPreview\BrcodePreview;
 use StarkBank\PaymentPreview\BoletoPreview;
-use StarkBank\PaymentPreview\TaxPreview;
 use StarkBank\PaymentPreview\UtilityPreview;
-use StarkBank\Utils\Resource;
-use StarkBank\Utils\Checks;
-use StarkBank\Utils\Api;
-use StarkBank\Utils\Rest;
 
 
 class PaymentPreview extends Resource

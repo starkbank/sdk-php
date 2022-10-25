@@ -54,6 +54,8 @@ This library supports the following PHP versions:
 * PHP 7.2
 * PHP 7.3
 * PHP 7.4
+* PHP 8.0
+* PHP 8.1
 
 ## Stark Bank API documentation
 

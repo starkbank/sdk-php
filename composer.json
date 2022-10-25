@@ -15,7 +15,8 @@
   ],
   "require": {
     "php": ">=7.1",
-    "starkbank/ecdsa": "^0.0.5"
+    "starkbank/ecdsa": "^2.0.0",
+    "starkinfra/core": "^0.0.1"
   },
   "keywords": [
     "starkbank",
@@ -26,7 +27,11 @@
     "sdk"
   ],
   "autoload": {
-    "files": ["src/init.php"]
+    "files": ["src/init.php"],
+    "psr-4": {
+      "StarkBank\\": "src/"
+    },
+    "classmap": ["src/"]
   },
   "scripts": {
     "check-style": "phpcs src tests",

@@ -1,10 +1,11 @@
 <?php
 
 namespace StarkBank;
-use StarkBank\Utils\Resource;
-use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
-use StarkBank\Utils\StarkBankDate;
+use StarkCore\Utils\Checks;
+use StarkCore\Utils\Resource;
+use StarkCore\Utils\StarkDate;
+
 
 class Deposit extends Resource
 {
@@ -92,8 +93,8 @@ class Deposit extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
-        $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
+        $options["after"] = new StarkDate(Checks::checkParam($options, "after"));
+        $options["before"] = new StarkDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, Deposit::resource(), $options);
     }
 

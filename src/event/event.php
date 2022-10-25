@@ -1,19 +1,12 @@
 <?php
 
 namespace StarkBank;
-
-use \Exception;
-use EllipticCurve\PublicKey;
-use EllipticCurve\Signature;
-use EllipticCurve\Ecdsa;
-use StarkBank\Error\InvalidSignatureError;
-use StarkBank\Utils\Resource;
-use StarkBank\Utils\Checks;
+use StarkCore\Utils\API;
+use StarkCore\Utils\Checks;
+use StarkCore\Utils\Resource;
+use StarkCore\Utils\StarkDate;
 use StarkBank\Utils\Rest;
-use StarkBank\Utils\API;
-use StarkBank\Utils\Request;
-use StarkBank\Utils\Cache;
-use StarkBank\Utils\StarkBankDate;
+use StarkBank\Utils\Parse;
 
 
 class Event extends Resource
@@ -244,8 +237,8 @@ class Event extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
-        $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
+        $options["after"] = new StarkDate(Checks::checkParam($options, "after"));
+        $options["before"] = new StarkDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, Event::resource(), $options);
     }
 
@@ -329,40 +322,8 @@ class Event extends Resource
     ## Return:
         - Event object with updated attributes
      */
-    public static function parse($content, $signature, $user = null)
-    {
-        $event = API::fromApiJson(Event::resource()["maker"], json_decode($content, true)["event"]);
-
-        try {
-            $signature = Signature::fromBase64($signature);
-        } catch (Exception $e) {
-            throw new InvalidSignatureError("The provided signature is not valid");
-        }
-
-        if (Event::verifySignature($user, $content, $signature)) {
-            return $event;
-        }
-        if (Event::verifySignature($user, $content, $signature, true)) {
-            return $event;
-        }
-
-        throw new InvalidSignatureError("The provided signature and content do not match the Stark Bank public key");
-    }
-
-    private static function verifySignature($user, $content, $signature, $refresh = false)
-    {
-        $publicKey = Cache::getStarkBankPublicKey();
-        if (is_null($publicKey) | $refresh) {
-            $pem = Event::getPublicKeyPem($user);
-            $publicKey = PublicKey::fromPem($pem);
-            Cache::setStarkBankPublicKey($publicKey);
-        }
-        return Ecdsa::verify($content, $signature, $publicKey);
-    }
-
-    private static function getPublicKeyPem($user)
-    {
-        return Request::fetch($user, "GET", "/public-key", null, ["limit" => 1])->json()["publicKeys"][0]["content"];
+    public static function parse($content, $signature, $user = null) {
+        return Parse::parseAndVerify($content, $signature, Event::resource(), $user);
     }
 
     private static function resource()

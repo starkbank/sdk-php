@@ -1,8 +1,9 @@
 <?php
 
 namespace StarkBank\PaymentPreview;
-use StarkBank\Utils\SubResource;
-use StarkBank\Utils\Checks;
+
+use StarkCore\Utils\Checks;
+use StarkCore\Utils\SubResource;
 
 
 class TaxPreview extends SubResource
