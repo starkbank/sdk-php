@@ -1,9 +1,9 @@
 <?php
 
 namespace StarkBank;
-use StarkBank\Utils\Resource;
-use StarkBank\Utils\Checks;
 use StarkBank\Utils\Rest;
+use StarkCore\Utils\Checks;
+use StarkCore\Utils\Resource;
 
 
 class Balance extends Resource

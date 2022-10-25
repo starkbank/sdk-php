@@ -1,11 +1,11 @@
 <?php
 
 namespace StarkBank\UtilityPayment;
-use StarkBank\Utils\Resource;
-use StarkBank\Utils\Checks;
+use StarkCore\Utils\API;
+use StarkCore\Utils\Checks;
+use StarkCore\Utils\Resource;
+use StarkCore\Utils\StarkDate;
 use StarkBank\Utils\Rest;
-use StarkBank\Utils\API;
-use StarkBank\Utils\StarkBankDate;
 use StarkBank\UtilityPayment;
 
 
@@ -74,8 +74,8 @@ class Log extends Resource
      */
     public static function query($options = [], $user = null)
     {
-        $options["after"] = new StarkBankDate(Checks::checkParam($options, "after"));
-        $options["before"] = new StarkBankDate(Checks::checkParam($options, "before"));
+        $options["after"] = new StarkDate(Checks::checkParam($options, "after"));
+        $options["before"] = new StarkDate(Checks::checkParam($options, "before"));
         return Rest::getList($user, Log::resource(), $options);
     }
 
