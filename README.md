@@ -87,12 +87,6 @@ To use the bindings, use Composer's autoload:
 require_once('vendor/autoload.php');
 ```
 
-1.2 Manual installation: You can also download the latest release from GitHub and then, to use the bindings, include the init.php file.
-
-```sh
-require_once('/path/to/starkbank/sdk-php/init.php');
-```
-
 In manual installations, you will also need to get the following dependency:
 - [starkbank/ecdsa](https://github.com/starkbank/ecdsa-php)
 
