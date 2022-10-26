@@ -13,10 +13,12 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.9.1] - 2022-10-26
 ### Fixed
 - repeated autoload requirement
 
-## [2.9.0] - 2021-10-25
+## [2.9.0] - 2022-10-25
 ### Changed
 - internal structure to use starkcore as a dependency.
 
