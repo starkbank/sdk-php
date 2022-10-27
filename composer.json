@@ -15,7 +15,7 @@
   ],
   "require": {
     "php": ">=7.1",
-    "starkinfra/core": "^0.0.2"
+    "starkinfra/core": "^0.0.3"
   },
   "keywords": [
     "starkbank",
