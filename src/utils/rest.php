@@ -8,7 +8,7 @@ use StarkCore\Utils\StarkHost;
 class Rest
 {
     private const apiVersion = "v2";
-    private const sdkVersion = "2.9.1";
+    private const sdkVersion = "2.9.2";
     private const host = StarkHost::bank;
 
     public static function getPage($user, $resource, array $query = [])
