@@ -392,7 +392,7 @@ print_r($balance);
 
 ## Create transfers
 
-You can also create transfers in the SDK (TED/Pix).
+You can also create transfers in the SDK (TED/Pix) and configure transfer behavior according to its rules.
 
 ```php
 use StarkBank\Transfer;
@@ -418,7 +418,14 @@ $transfers = Transfer::create([
         "name" => "Jon Snow",
         "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
         "description" => "Transaction to dear provider",
-        "tags" => []
+        "tags" => [],
+        "rules" => [
+            new Transfer\Rule([
+                "key" => "resendingLimit",  # Set maximum number of retries if Transfer fails due to systemic issues at the receiver bank
+                "value" => 5                # Our resending limit is 10 by default
+            ])
+        ]
+
     ])
 ]);
 
@@ -1806,4 +1813,4 @@ If you have any questions about our SDK, just send us an email.
 We will respond you quickly, pinky promise. We are here to help you integrate with us ASAP.
 We also love feedback, so don't be shy about sharing your thoughts with us.
 
-Email: developers@starkbank.com
+Email: help@starkbank.com

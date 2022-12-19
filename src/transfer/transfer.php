@@ -1,6 +1,7 @@
 <?php
 
 namespace StarkBank;
+use StarkBank\Transfer\Rule;
 use StarkBank\Utils\Rest;
 use StarkCore\Utils\Checks;
 use StarkCore\Utils\Resource;
@@ -30,6 +31,7 @@ class Transfer extends Resource
         - scheduled [DateTime or date, default now]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-11-30"
         - description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
         - tags [array of strings]: array of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+        - rules [list of Transfer\Rules, default []]: list of Transfer\Rule objects for modifying transfer behavior. ex: [Transfer\Rule(key=>"resendingLimit", value=>5)]
 
     ## Attributes (return-only):
         - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
@@ -54,6 +56,7 @@ class Transfer extends Resource
         $this->scheduled = Checks::checkDateTime(Checks::checkParam($params, "scheduled"));
         $this->description = Checks::checkParam($params, "description");
         $this->tags = Checks::checkParam($params, "tags");
+        $this->rules = Rule::parseRules(Checks::checkParam($params, "rules"));
         $this->fee = Checks::checkParam($params, "fee");
         $this->status = Checks::checkParam($params, "status");
         $this->transactionIds = Checks::checkParam($params, "transactionIds");
