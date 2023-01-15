@@ -30,8 +30,9 @@ is as easy as sending a text message to your client!
     - [Transfers](#create-transfers): Wire transfers (TED and manual Pix)
     - [DictKeys](#get-dict-key): Pix Key queries to use with Transfers
     - [Institutions](#query-bacen-institutions): Instutitions recognized by the Central Bank
-    - [Invoices](#create-invoices): Reconciled receivables (dynamic PIX QR Codes)
-    - [Deposits](#query-deposits): Other cash-ins (static PIX QR Codes, manual PIX, etc)
+    - [Invoices](#create-invoices): Reconciled receivables (dynamic Pix QR Codes)
+    - [DynamicBrcode](#create-dynamicbrcodes): Simplified reconciled receivables (dynamic Pix QR Codes)
+    - [Deposits](#query-deposits): Other cash-ins (static Pix QR Codes, manual Pix, etc)
     - [Boletos](#create-boletos): Boleto receivables
     - [BoletoHolmes](#investigate-a-boleto): Boleto receivables investigator
     - [BrcodePayments](#pay-a-br-code): Pay Pix QR Codes
@@ -766,6 +767,77 @@ use StarkBank\Invoice\Log;
 $invoiceLog = Log::get("5656565656565656");
 
 print_r($invoice);
+```
+
+## Create DynamicBrcodes
+
+You can create simplified dynamic QR Codes to receive money using Pix transactions. 
+When a DynamicBrcode is paid, a Deposit is created with the tags parameter containing the character “dynamic-brcode/” followed by the DynamicBrcode’s uuid "dynamic-brcode/{uuid}" for conciliation.
+
+The differences between an Invoice and the DynamicBrcode are the following:
+
+|                   | Invoice | DynamicBrcode |
+|-------------------|:-------:|:-------------:|
+| Expiration        |    ✓    |       ✓       |
+| Due, fine and fee |    ✓    |       X       |
+| Discount          |    ✓    |       X       |
+| Description       |    ✓    |       X       |
+| Can be updated    |    ✓    |       X       |
+
+**Note:** In order to check if a BR code has expired, you must first calculate its expiration date (add the expiration to the creation date).
+**Note:** To know if the BR code has been paid, you need to query your Deposits by the tag "dynamic-brcode/{uuid}" to check if it has been paid.
+
+```php
+use StarkBank\DynamicBrcode;
+
+$brcodes = DynamicBrcode::create([
+    new DynamicBrcode([
+        "amount" => 23571,  # R$ 235,71 
+        "expiration" => 12345
+    ]),
+    new DynamicBrcode([
+        "amount" => 23571,  # R$ 235,71 
+        "expiration" => 12345
+    ])
+]);
+
+foreach($brcodes as $brcode) {
+    print_r($brcode);
+}
+```
+
+**Note**: Instead of using DynamicBrcode objects, you can also pass each brcode element in dictionary format
+
+## Get a DynamicBrcode
+
+After its creation, information on a DynamicBrcode may be retrieved by its uuid.
+
+```php
+use StarkBank\DynamicBrcode;
+
+$brcode = DynamicBrcode::get("e09e6c5293a5485d9777cc29582e3ecf");
+
+print_r($brcode);
+```
+
+## Query DynamicBrcodes
+
+You can get a list of created DynamicBrcodes given some filters.
+
+```php
+use StarkBank\DynamicBrcode;
+
+$brcodes = iterator_to_array(DynamicBrcode::query(
+    [
+        "limit" => 10, 
+        "after" => "2023-01-01",
+        "before" => "2023-01-30",
+    ]
+));
+
+foreach($brcodes as $brcode) {
+    print_r($brcode);
+}
 ```
 
 ## Query deposits
