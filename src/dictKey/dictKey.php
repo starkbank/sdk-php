@@ -12,10 +12,10 @@ class DictKey extends Resource
     /**
     # DictKey object
      
-    DictKey represents a PIX key registered in Bacen's DICT system.
+    DictKey represents a Pix key registered in Bacen's DICT system.
     
     ## Parameters (optional):
-        - id [string]: DictKey object unique id and PIX key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
+        - id [string]: DictKey object unique id and Pix key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
     
     ## Attributes (return-only):
         - type [string, default null]: DICT key type. ex: "email", "cpf", "cnpj", "phone" or "evp"
@@ -59,7 +59,7 @@ class DictKey extends Resource
     Receive a single DictKey object by passing its id
 
     ## Parameters (required):
-        - id [string]: DictKey object unique id and PIX key itself. ex: 'tony@starkbank.com', '722.461.430-04', '20.018.183/0001-80', '+5511988887777', 'b6295ee1-f054-47d1-9e90-ee57b74f60d9'
+        - id [string]: DictKey object unique id and Pix key itself. ex: 'tony@starkbank.com', '722.461.430-04', '20.018.183/0001-80', '+5511988887777', 'b6295ee1-f054-47d1-9e90-ee57b74f60d9'
 
     ## Parameters (optional):
         - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
