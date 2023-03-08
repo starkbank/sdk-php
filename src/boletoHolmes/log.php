@@ -11,6 +11,12 @@ use StarkBank\BoletoHolmes;
 
 class Log extends Resource
 {
+
+    public $holmes;
+    public $type;
+    public $created;
+    public $updated;
+
     /**
     # BoletoHolmes\Log object
 
@@ -19,12 +25,12 @@ class Log extends Resource
     user, but it can be retrieved to check additional information
     on the BoletoHolmes.
 
-    ## Attributes:
+    ## Attributes (return-only):
         - id [string]: unique id returned when the log is created. ex: "5656565656565656"
         - holmes [BoletoHolmes]: BoletoHolmes entity to which the log refers to.
         - type [string]: type of the BoletoHolmes event which triggered the log creation. ex: "solving" or "solved"
-        - created [DateTime, default null]: creation datetime for the holmes. ex: DateTime('2020-01-01T15:03:01.012345Z')
-        - updated [DateTime, default null]: latest update datetime for the holmes. ex: DateTime('2020-01-01T15:03:01.012345Z')
+        - created [DateTime]: creation datetime for the holmes. ex: DateTime('2020-01-01T15:03:01.012345Z')
+        - updated [DateTime]: latest update datetime for the holmes. ex: DateTime('2020-01-01T15:03:01.012345Z')
      */
     function __construct(array $params)
     {
@@ -33,6 +39,7 @@ class Log extends Resource
         $this->holmes = Checks::checkParam($params, "holmes");
         $this->type = Checks::checkParam($params, "type");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
+        $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
 
         Checks::checkParams($params);
     }
@@ -86,17 +93,17 @@ class Log extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - types [array of strings, default null]: filter retrieved objects by event type. ex: ["solving", "solved"]
-    - holmesIds [array of strings, default null]: array of BoletoHolmes ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - types [array of strings, default null]: filter retrieved objects by event type. ex: ["solving", "solved"]
+        - holmesIds [array of strings, default null]: array of BoletoHolmes ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
-    - list of BoletoHolmes\Log objects with updated attributes
-    - cursor to retrieve the next page of BoletoHolmes\Log objects
+        - list of BoletoHolmes\Log objects with updated attributes
+        - cursor to retrieve the next page of BoletoHolmes\Log objects
      */
     public static function page($options = [], $user = null)
     {

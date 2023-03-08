@@ -9,6 +9,14 @@ use StarkCore\Utils\StarkDate;
 
 class BoletoHolmes extends Resource
 {
+
+    public $boletoId;
+    public $tags;
+    public $status;
+    public $result;
+    public $created;
+    public $updated;
+
     /**
     # BoletoHolmes object
 
@@ -23,11 +31,11 @@ class BoletoHolmes extends Resource
         - tags [array of strings]: array of strings for tagging
 
     ## Attributes (return-only):
-        - id [string, default null]: unique id returned when holmes is created. ex: "5656565656565656"
-        - status [string, default null]: current holmes status. ex: "solving" or "solved"
-        - result [string, default null]: result of boleto status investigation. ex: "paid" or "cancelled"
-        - created [DateTime, default null]: creation datetime for the holmes. ex: DateTime('2020-01-01T15:03:01.012345Z')
-        - updated [DateTime, default null]: latest update datetime for the holmes. ex: DateTime('2020-01-01T15:03:01.012345Z')
+        - id [string]: unique id returned when holmes is created. ex: "5656565656565656"
+        - status [string]: current holmes status. ex: "solving" or "solved"
+        - result [string]: result of boleto status investigation. ex: "paid" or "cancelled"
+        - created [DateTime]: creation datetime for the holmes. ex: DateTime('2020-01-01T15:03:01.012345Z')
+        - updated [DateTime]: latest update datetime for the holmes. ex: DateTime('2020-01-01T15:03:01.012345Z')
      */
 
     function __construct(array $params)
@@ -114,19 +122,19 @@ class BoletoHolmes extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-    - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - status [string, default null]: filter for status of retrieved objects. ex: "solved"
-    - boletoId [string, default null]: filter for holmes that investigate a specific boleto by its ID. ex: "5656565656565656"
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - tags [array of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [array of strings, default null]: array of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - status [string, default null]: filter for status of retrieved objects. ex: "solved"
+        - boletoId [string, default null]: filter for holmes that investigate a specific boleto by its ID. ex: "5656565656565656"
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
-    - list of BoletoHolmes objects with updated attributes
-    - cursor to retrieve the next page of BoletoHolmes objects
+        - list of BoletoHolmes objects with updated attributes
+        - cursor to retrieve the next page of BoletoHolmes objects
      */
     public static function page($options = [], $user = null)
     {

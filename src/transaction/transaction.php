@@ -9,6 +9,18 @@ use StarkCore\Utils\StarkDate;
 
 class Transaction extends Resource
 {
+
+    public $amount;
+    public $description;
+    public $externalId;
+    public $receiverId;
+    public $senderId;
+    public $tags;
+    public $fee;
+    public $source;
+    public $balance;
+    public $created;
+
     /**
     # Transaction object
 
@@ -31,11 +43,11 @@ class Transaction extends Resource
 
     ## Attributes (return-only):
         - senderId [string]: unique id of the sending workspace. ex: "5656565656565656"
-        - source [string, default null]: locator of the entity that generated the transaction. ex: "charge/1827351876292", "transfer/92873912873/chargeback"
-        - id [string, default null]: unique id returned when Transaction is created. ex: "7656565656565656"
-        - fee [integer, default null]: fee charged when the transaction was created. ex: 200 (= R$ 2.00)
-        - balance [integer, default null]: account balance after transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
-        - created [DateTime, default null]: creation datetime for the transaction.
+        - source [string]: locator of the entity that generated the transaction. ex: "charge/1827351876292", "transfer/92873912873/chargeback"
+        - id [string]: unique id returned when Transaction is created. ex: "7656565656565656"
+        - fee [integer]: fee charged when the transaction was created. ex: 200 (= R$ 2.00)
+        - balance [integer]: account balance after transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
+        - created [DateTime]: creation datetime for the transaction.
      */
     function __construct(array $params)
     {
@@ -124,18 +136,18 @@ class Transaction extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-    - externalIds [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - externalIds [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
-    - list of Transaction objects with updated attributes
-    - cursor to retrieve the next page of Transaction objects
+        - list of Transaction objects with updated attributes
+        - cursor to retrieve the next page of Transaction objects
      */
     public static function page($options = [], $user = null)
     {

@@ -3,9 +3,6 @@
 namespace Test\Institution;
 use \Exception;
 use StarkBank\Institution;
-use \DateTime;
-use \DateTimeZone;
-use \DateInterval;
 
 
 class TestInstitution
@@ -13,7 +10,7 @@ class TestInstitution
     public function query()
     {
         $institution = Institution::query(["search" => "stark"]);
-        if (count($institution) != 1) {
+        if (count($institution) != 2) {
             throw new Exception("failed");
         }
 

@@ -11,6 +11,12 @@ use StarkBank\Invoice;
 
 class Log extends Resource
 {
+
+    public $created;
+    public $type;
+    public $errors;
+    public $invoice;
+
     /**
     # Invoice\Log object
 
@@ -19,7 +25,7 @@ class Log extends Resource
     user, but it can be retrieved to check additional information
     on the Invoice.
 
-    ## Attributes:
+    ## Attributes (return-only):
         - id [string]: unique id returned when the log is created. ex: "5656565656565656"
         - invoice [Invoice]: Invoice entity to which the log refers to.
         - errors [array of strings]: array of errors linked to this Invoice event
@@ -63,12 +69,12 @@ class Log extends Resource
     Receive a enumerator of Log objects previously created in the Stark Bank API
 
     ## Parameters (optional):
-    - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - types [array of strings, default null]: filter for log event types. ex: "created", "paid", "canceled" or "overdue"
-    - invoiceIds [array of strings, default null]: array of Invoice ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - types [array of strings, default null]: filter for log event types. ex: "created", "paid", "canceled" or "overdue"
+        - invoiceIds [array of strings, default null]: array of Invoice ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of Log objects with updated attributes
@@ -87,17 +93,17 @@ class Log extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - types [array of strings, default null]: filter for log event types. ex: "created", "paid", "canceled" or "overdue"
-    - invoiceIds [array of strings, default null]: array of Invoice ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - types [array of strings, default null]: filter for log event types. ex: "created", "paid", "canceled" or "overdue"
+        - invoiceIds [array of strings, default null]: array of Invoice ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
-    - list of Invoice\Log objects with updated attributes
-    - cursor to retrieve the next page of Invoice\Log objects
+        - list of Invoice\Log objects with updated attributes
+        - cursor to retrieve the next page of Invoice\Log objects
      */
     public static function page($options = [], $user = null)
     {

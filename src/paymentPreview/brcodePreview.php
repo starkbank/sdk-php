@@ -7,6 +7,23 @@ use StarkCore\Utils\SubResource;
 
 class BrcodePreview extends SubResource
 {
+
+    public $status;
+    public $name;
+    public $taxId;
+    public $bankCode;
+    public $branchCode;
+    public $accountNumber;
+    public $accountType;
+    public $allowChange;
+    public $amount;
+    public $nominalAmount;
+    public $interestAmount;
+    public $fineAmount;
+    public $reductionAmount;
+    public $discountAmount;
+    public $reconciliationId;
+
     /**
     # BrcodePreview object
 

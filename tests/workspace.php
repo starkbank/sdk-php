@@ -79,6 +79,24 @@ class Test
         }
     }
 
+    public function updatePicture()
+    {
+        $organization = self::exampleOrganization();
+
+        $workspaces = iterator_to_array(Workspace::query(["limit" => 1], $organization));
+
+        $workspaceId = $workspaces[0]->id;
+
+        $pictureBytes = file_get_contents('tests/utils/logo.png');
+
+        $workspace = Workspace::update(
+            $workspaceId, 
+            ["picture" => $pictureBytes, "pictureType" => "image/png"],
+            Organization::replace($organization, $workspaceId)
+        );
+        self::checkWorkspace($workspace);
+    }
+
     private static function example()
     {
         $uuid = mt_rand(0, 0xffffffff);
@@ -105,6 +123,10 @@ class Test
 echo "\nWorkspace:";
 
 $test = new Test();
+
+echo "\n\t- updatePicture";
+$test->updatePicture();
+echo " - OK";
 
 echo "\n\t- create and update";
 $test->createAndUpdate();
