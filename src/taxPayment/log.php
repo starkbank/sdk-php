@@ -94,7 +94,7 @@ class Log extends Resource
         - before [datetime.date or string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
         - types [list of strings, default null]: filter retrieved objects by types. ex: "success" or "failed"
         - paymentIds [list of strings, default null]: list of TaxPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
 
     ## Return:
         - list of TaxPayment\Log objects with updated attributes

@@ -101,7 +101,7 @@ class Webhook extends Resource
     ## Parameters (optional):
         - cursor [string, default null]: cursor returned on the previous page function call
         - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
         - list of Webhook objects with updated attributes

@@ -51,7 +51,7 @@ class Attempt extends Resource
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
 
     ## Return:
         - Event->Attempt object with updated attributes
@@ -72,7 +72,7 @@ class Attempt extends Resource
         - before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
         - eventIds [list of strings, default null]: list of Event ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
         - webhookIds [list of strings, default null]: list of Webhook ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
 
     ## Return:
         - generator of Event->Attempt objects with updated attributes
@@ -95,7 +95,7 @@ class Attempt extends Resource
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - eventIds [list of strings, default null]: list of Event ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - webhookIds [list of strings, default null]: list of Webhook ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
         - list of Event\Attempt objects with updated attributes

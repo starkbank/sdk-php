@@ -27,7 +27,7 @@ class Payment extends SubResource
     ## Attributes (return-only):
         - amount [integer]: amount in cents that was paid. ex: 1234 (= R$ 12.34)
         - name [string]: payer full name. ex: "Anthony Edward Stark"
-        - tax_id [string]: payer tax ID (CPF or CNPJ). ex: "20.018.183/0001-80"
+        - taxId [string]: payer tax ID (CPF or CNPJ). ex: "20.018.183/0001-80"
         - bank_code [string]: code of the payer bank institution in Brazil. ex: "20018183"
         - branch_code [string]: payer bank account branch. ex: "1357-9"
         - account_number [string]: payer bank account number. ex: "876543-2"

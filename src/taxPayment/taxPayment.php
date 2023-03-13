@@ -165,7 +165,7 @@ class TaxPayment extends Resource
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
         - status [string, default null]: filter for status of retrieved objects. ex: "success"
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if starkbank.user was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if starkbank.user was set before function call
 
     ## Return:
         - list of TaxPayment objects with updated attributes

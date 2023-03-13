@@ -48,7 +48,7 @@ class Institution extends SubResource
         - search [string, default null]: part of the institution name to be searched. ex: "stark"
         - spiCodes [list of strings, default null]: list of SPI (Pix) codes to be searched. ex: ["20018183"]
         - strCodes [list of strings, default null]: list of STR (TED) codes to be searched. ex: ["260"]
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
         - list of Institution objects with updated attributes

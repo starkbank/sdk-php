@@ -37,7 +37,7 @@ class Workspace extends Resource
         - status [string]: current Workspace status. Options: "active", "closed", "frozen" or "blocked"
         - organizationId [string]: unique organization id returned when the organization is created. ex: "5656565656565656"
         - pictureUrl [string]: public workspace image (png) URL. ex: "https://storage.googleapis.com/api-ms-workspace-sbx.appspot.com/pictures/workspace/6284441752174592.png?20230208220551"
-        - created [datetime.datetime]: creation datetime of the workspace. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+        - created [DateTime]: creation datetime for the payment.
      */
     function __construct(array $params)
     {
@@ -125,7 +125,7 @@ class Workspace extends Resource
         - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
         - username [string, default null]: query by the simplified name that defines the workspace URL. This name is always unique across all Stark Bank Workspaces. Ex: "starkbankworkspace"
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
         - list of Workspace objects with updated attributes
@@ -153,7 +153,7 @@ class Workspace extends Resource
         - allowedTaxIds [list of strings, default []]: list of tax IDs that will be allowed to send Deposits to this Workspace. If empty, all are allowed. ex: ["012.345.678-90", "20.018.183/0001-80"]
         - picture [list of bytes, default null]: Binary buffer of the picture. ex: file_get_contents('myprofilepic.jpg');
         - status [string, default null]: current Workspace status. Options: "active" or "blocked"
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
         - target Workspace with updated attributes

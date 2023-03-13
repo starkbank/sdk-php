@@ -262,7 +262,7 @@ class Event extends Resource
         - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - isDelivered [boolean, default null]: bool to filter successfully delivered events. ex: True or False
-        - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
         - list of Event objects with updated attributes
