@@ -14,6 +14,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 ## [Unreleased]
 ### Added
+- metadata attribute to Transfer resource
 - workspaceId attribute to Boleto resource
 - updated attribute to BoletoHolmes\Log resource
 - transactionIds attribute to DarfPayment, TaxPayment resource

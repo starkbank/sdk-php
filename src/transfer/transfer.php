@@ -6,6 +6,7 @@ use StarkCore\Utils\Checks;
 use StarkCore\Utils\Resource;
 use StarkCore\Utils\StarkDate;
 use StarkBank\Transfer\Rule;
+use StarkBank\Transfer\Metadata;
 
 
 class Transfer extends Resource
@@ -26,6 +27,7 @@ class Transfer extends Resource
     public $fee;
     public $status;
     public $transactionIds;
+    public $metadata;
     public $created;
     public $updated;
 
@@ -57,6 +59,7 @@ class Transfer extends Resource
         - fee [integer]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
         - status [string]: current transfer status. ex: "success" or "failed"
         - transactionIds [array of strings]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
+        - metadata [Metadata object]: object used to store additional information about the Transfer object.
         - created [DateTime]: creation datetime for the transfer.
         - updated [DateTime]: latest update datetime for the transfer.
      */
@@ -79,6 +82,7 @@ class Transfer extends Resource
         $this->fee = Checks::checkParam($params, "fee");
         $this->status = Checks::checkParam($params, "status");
         $this->transactionIds = Checks::checkParam($params, "transactionIds");
+        $this->metadata = Metadata::parseRule(Checks::checkParam($params, "metadata"));
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
         $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
 
