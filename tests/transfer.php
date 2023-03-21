@@ -114,7 +114,13 @@ class TestTransfer
             "branchCode" => "0001",
             "accountNumber" => "10000-0",
             "accountType" => "checking",
-            "externalId" => "php-" . $uuid = mt_rand(0, 0xffffffff)
+            "externalId" => "php-" . $uuid = mt_rand(0, 0xffffffff),
+            "rules" => [
+                new Transfer\Rule([
+                    "key" => "resendingLimit",
+                    "value" => 5
+                ])
+            ]
         ];
         if ($schedule) {
             $datetime = (new DateTime("now"))->add(new DateInterval("P1D"));

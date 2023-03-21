@@ -7,16 +7,27 @@ use StarkCore\Utils\SubResource;
 
 class Payment extends SubResource
 {
+
+  public $name;
+  public $taxId;
+  public $bankCode;
+  public $branchCode;
+  public $accountNumber;
+  public $accountType;
+  public $amount;
+  public $endToEndId;
+  public $method;
+
   /**
     # Invoice.Payment object
 
     When an Invoice is paid, its Payment sub-resource will become available.
     It carries all the available information about the invoice payment.
 
-    ## Attributes:
+    ## Attributes (return-only):
         - amount [integer]: amount in cents that was paid. ex: 1234 (= R$ 12.34)
         - name [string]: payer full name. ex: "Anthony Edward Stark"
-        - tax_id [string]: payer tax ID (CPF or CNPJ). ex: "20.018.183/0001-80"
+        - taxId [string]: payer tax ID (CPF or CNPJ). ex: "20.018.183/0001-80"
         - bank_code [string]: code of the payer bank institution in Brazil. ex: "20018183"
         - branch_code [string]: payer bank account branch. ex: "1357-9"
         - account_number [string]: payer bank account number. ex: "876543-2"

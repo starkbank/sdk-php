@@ -8,6 +8,11 @@ use StarkCore\Utils\Resource;
 
 class Balance extends Resource
 {
+
+    public $amount;
+    public $currency;
+    public $updated;
+
     /**
     # Balance object
 
@@ -17,10 +22,10 @@ class Balance extends Resource
     can be retrieved to see the information available.
 
     ## Attributes (return-only):
-        - id [string, default null]: unique id returned when Balance is created. ex: "5656565656565656"
-        - amount [integer, default null]: current balance amount of the workspace in cents. ex: 200 (= R$ 2.00)
-        - currency [string, default null]: currency of the current workspace. Expect others to be added eventually. ex: "BRL"
-        - updated [DateTime, default null]: update datetime for the balance.
+        - id [string]: unique id returned when Balance is created. ex: "5656565656565656"
+        - amount [integer]: current balance amount of the workspace in cents. ex: 200 (= R$ 2.00)
+        - currency [string]: currency of the current workspace. Expect others to be added eventually. ex: "BRL"
+        - updated [DateTime]: update datetime for the balance.
      */
     function __construct(array $params)
     {

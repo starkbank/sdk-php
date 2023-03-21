@@ -9,6 +9,19 @@ use StarkCore\Utils\StarkDate;
 
 class BoletoPayment extends Resource
 {
+
+    public $line;
+    public $taxId;
+    public $barCode;
+    public $description;
+    public $tags;
+    public $amount;
+    public $scheduled;
+    public $status;
+    public $fee;
+    public $transactionIds;
+    public $created;
+
     /**
     # BoletoPayment object
 
@@ -25,15 +38,16 @@ class BoletoPayment extends Resource
         - description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
 
     ## Parameters (optional):
+        - amount [integer, default null]: amount to be paid. If none is informed, the current boleto value will be used. ex: 23456 (= R$ 234.56)
         - scheduled [DateTime or string, default today]: payment scheduled date.
         - tags [array of strings]: array of strings for tagging
 
     ## Attributes (return-only):
-        - id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-        - status [string, default null]: current payment status. ex: "success" or "failed"
-        - amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-        - fee [integer, default null]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
-        - created [DateTime, default null]: creation datetime for the payment.
+        - id [string]: unique id returned when payment is created. ex: "5656565656565656"
+        - status [string]: current payment status. ex: "success" or "failed"
+        - fee [integer]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
+        - transactionIds [list of strings]: ledger transaction ids linked to this BoletoPayment. ex: ["19827356981273"]
+        - created [DateTime]: creation datetime for the payment.
      */
     function __construct(array $params)
     {
@@ -44,10 +58,11 @@ class BoletoPayment extends Resource
         $this->barCode = Checks::checkParam($params, "barCode");
         $this->description = Checks::checkParam($params, "description");
         $this->tags = Checks::checkParam($params, "tags");
+        $this->amount = Checks::checkParam($params, "amount");
         $this->scheduled = Checks::checkDateTime(Checks::checkParam($params, "scheduled"));
         $this->status = Checks::checkParam($params, "status");
-        $this->amount = Checks::checkParam($params, "amount");
         $this->fee = Checks::checkParam($params, "fee");
+        $this->transactionIds = Checks::checkParam($params, "transactionIds");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
 
         Checks::checkParams($params);
@@ -149,18 +164,18 @@ class BoletoPayment extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - status [string, default null]: filter for status of retrieved objects. ex: "success"
-    - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-    - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - status [string, default null]: filter for status of retrieved objects. ex: "success"
+        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
-    - list of BoletoPayment objects with updated attributes
-    - cursor to retrieve the next page of BoletoPayment objects
+        - list of BoletoPayment objects with updated attributes
+        - cursor to retrieve the next page of BoletoPayment objects
      */
     public static function page($options = [], $user = null)
     {

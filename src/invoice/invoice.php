@@ -10,6 +10,30 @@ use StarkBank\Invoice\Payment;
 
 class Invoice extends Resource
 {
+    
+    public $amount;
+    public $due;
+    public $taxId;
+    public $name;
+    public $expiration;
+    public $fine;
+    public $interest;
+    public $discounts;
+    public $tags;
+    public $descriptions;
+    public $pdf;
+    public $link;
+    public $nominalAmount;
+    public $fineAmount;
+    public $interestAmount;
+    public $discountAmount;
+    public $brcode;
+    public $fee;
+    public $status;
+    public $transactionIds;
+    public $created;
+    public $updated;
+
     /**
     # Invoice object
 
@@ -27,8 +51,8 @@ class Invoice extends Resource
     ## Parameters (optional):
         - due [DateTime or string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
         - expiration [DateInterval or integer, default null]: time interval in seconds between due date and expiration date. ex 123456789
-        - fine [float, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
-        - interest [float, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
+        - fine [float, default 2.0]: Invoice fine for overdue payment in %. ex: 2.5
+        - interest [float, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
         - discounts [array of dictionaries, default null]: array of dictionaries with "percentage":float and "due":DateTime or string pairs
         - tags [array of strings, default null]: array of strings for tagging
         - descriptions [array of dictionaries, default null]: array of dictionaries with "key":string and (optional) "value":string pairs
@@ -40,13 +64,13 @@ class Invoice extends Resource
         - fineAmount [integer]: Invoice fine value calculated over nominalAmount. ex: 20000
         - interestAmount [integer]: Invoice interest value calculated over nominalAmount. ex: 10000
         - discountAmount [integer]: Invoice discount value calculated over nominalAmount. ex: 3000
-        - id [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
-        - brcode [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
-        - fee [integer, default null]: fee charged by this Invoice. ex: 65 (= R$ 0.65)
-        - status [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
+        - id [string]: unique id returned when Invoice is created. ex: "5656565656565656"
+        - brcode [string]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
+        - fee [integer]: fee charged by this Invoice. ex: 65 (= R$ 0.65)
+        - status [string]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
         - transactionIds [list of strings]: ledger transaction ids linked to this Invoice (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
-        - created [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
-        - updated [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
+        - created [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
+        - updated [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
      */
     function __construct(array $params)
     {
@@ -212,18 +236,18 @@ class Invoice extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
-    - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-    - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
-    - list of Invoice objects with updated attributes
-    - cursor to retrieve the next page of Invoice objects
+        - list of Invoice objects with updated attributes
+        - cursor to retrieve the next page of Invoice objects
      */
     public static function page($options = [], $user = null)
     {
@@ -261,13 +285,13 @@ class Invoice extends Resource
     Receive the Invoice.Payment sub-resource associated with a paid Invoice.
 
     ## Parameters (required):
-    - id [string]: Invoice unique id. ex: "5656565656565656"
+        - id [string]: Invoice unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
-    - target Invoice Payment sub-resource
+        - target Invoice Payment sub-resource
      */
     public static function payment($id, $user = null)
     {

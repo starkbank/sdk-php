@@ -80,8 +80,14 @@ class TestBrcodePayment
 			"description" => "Tony Stark's Suit",
 			"amount" => 100,
 			"scheduled" => (new DateTime("now"))->add(new DateInterval("P5D")),
-			"tags" => ["Stark", "Suit"]
-        ]);
+			"tags" => ["Stark", "Suit"],
+			"rules" => [
+				new BrcodePayment\Rule([
+					"key" => "resendingLimit",
+					"value" => 5
+				])
+			]
+		]);
     }
 }
 

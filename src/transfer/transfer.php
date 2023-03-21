@@ -5,10 +5,32 @@ use StarkBank\Utils\Rest;
 use StarkCore\Utils\Checks;
 use StarkCore\Utils\Resource;
 use StarkCore\Utils\StarkDate;
+use StarkBank\Transfer\Rule;
+use StarkBank\Transfer\Metadata;
 
 
 class Transfer extends Resource
 {
+
+    public $amount;
+    public $name;
+    public $taxId;
+    public $bankCode;
+    public $branchCode;
+    public $accountNumber;
+    public $accountType;
+    public $externalId;
+    public $scheduled;
+    public $description;
+    public $tags;
+    public $rules;
+    public $fee;
+    public $status;
+    public $transactionIds;
+    public $metadata;
+    public $created;
+    public $updated;
+
     /**
     # Transfer object
 
@@ -30,14 +52,16 @@ class Transfer extends Resource
         - scheduled [DateTime or date, default now]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-11-30"
         - description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
         - tags [array of strings]: array of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+        - rules [list of Transfer\Rules, default []]: list of Transfer\Rule objects for modifying transfer behavior. ex: [Transfer\Rule(key=>"resendingLimit", value=>5)]
 
     ## Attributes (return-only):
-        - id [string, default null]: unique id returned when Transfer is created. ex: "5656565656565656"
-        - fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
-        - status [string, default null]: current transfer status. ex: "success" or "failed"
-        - transactionIds [array of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-        - created [DateTime, default null]: creation datetime for the transfer.
-        - updated [DateTime, default null]: latest update datetime for the transfer.
+        - id [string]: unique id returned when Transfer is created. ex: "5656565656565656"
+        - fee [integer]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
+        - status [string]: current transfer status. ex: "success" or "failed"
+        - transactionIds [array of strings]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
+        - metadata [Metadata object]: object used to store additional information about the Transfer object.
+        - created [DateTime]: creation datetime for the transfer.
+        - updated [DateTime]: latest update datetime for the transfer.
      */
     function __construct(array $params)
     {
@@ -54,9 +78,11 @@ class Transfer extends Resource
         $this->scheduled = Checks::checkDateTime(Checks::checkParam($params, "scheduled"));
         $this->description = Checks::checkParam($params, "description");
         $this->tags = Checks::checkParam($params, "tags");
+        $this->rules = Rule::parseRules(Checks::checkParam($params, "rules"));
         $this->fee = Checks::checkParam($params, "fee");
         $this->status = Checks::checkParam($params, "status");
         $this->transactionIds = Checks::checkParam($params, "transactionIds");
+        $this->metadata = Checks::checkParam($params, "metadata") ? Metadata::parseRule(Checks::checkParam($params, "metadata")) : null;
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
         $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
 
@@ -174,21 +200,21 @@ class Transfer extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - transactionIds [list of strings, default null]: list of transaction IDs linked to the desired transfers. ex: ["5656565656565656", "4545454545454545"]
-    - status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
-    - taxId [string, default null]: filter for transfers sent to the specified tax ID. ex: "012.345.678-90"
-    - sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
-    - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-    - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - transactionIds [list of strings, default null]: list of transaction IDs linked to the desired transfers. ex: ["5656565656565656", "4545454545454545"]
+        - status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
+        - taxId [string, default null]: filter for transfers sent to the specified tax ID. ex: "012.345.678-90"
+        - sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
+        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
-    - list of Transfer objects with updated attributes
-    - cursor to retrieve the next page of Transfer objects
+        - list of Transfer objects with updated attributes
+        - cursor to retrieve the next page of Transfer objects
      */
     public static function page($options = [], $user = null)
     {

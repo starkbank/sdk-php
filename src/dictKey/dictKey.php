@@ -9,28 +9,43 @@ use StarkCore\Utils\StarkDate;
 
 class DictKey extends Resource
 {
+
+    public $type;
+    public $name;
+    public $taxId;
+    public $ownerType;
+    public $bankName;
+    public $ispb;
+    public $branchCode;
+    public $accountNumber;
+    public $accountType;
+    public $accountCreated;
+    public $status;
+    public $owned;
+    public $created;
+
     /**
     # DictKey object
-     
+    
     DictKey represents a Pix key registered in Bacen's DICT system.
     
     ## Parameters (optional):
         - id [string]: DictKey object unique id and Pix key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
     
     ## Attributes (return-only):
-        - type [string, default null]: DICT key type. ex: "email", "cpf", "cnpj", "phone" or "evp"
-        - name [string, default null]: key owner full name. ex: "Tony Stark"
-        - taxId [string, default null]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
-        - ownerType [string, default null]: DICT key owner type. ex "naturalPerson" or "legalPerson"
-        - bankName [string, default null]: bank name associated with the DICT key. ex: "Stark Bank"
-        - ispb [string, default null]: bank ISPB associated with the DICT key. ex: "20018183"
-        - branchCode [string, default null]: bank account branch code associated with the DICT key. ex: "9585"
-        - accountNumber [string, default null]: bank account number associated with the DICT key. ex: "9828282578010513"
-        - accountType [string, default null]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
-        - status [string, default null]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
-        - accountCreated [DateTime, default null]: creation datetime of the bank account associated with the DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
-        - owned [DateTime, default null]: datetime since when the current owner holds this DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
-        - created [DateTime, default null]: creation datetime for the DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
+        - type [string]: DICT key type. ex: "email", "cpf", "cnpj", "phone" or "evp"
+        - name [string]: key owner full name. ex: "Tony Stark"
+        - taxId [string]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
+        - ownerType [string]: DICT key owner type. ex "naturalPerson" or "legalPerson"
+        - bankName [string]: bank name associated with the DICT key. ex: "Stark Bank"
+        - ispb [string]: bank ISPB associated with the DICT key. ex: "20018183"
+        - branchCode [string]: bank account branch code associated with the DICT key. ex: "9585"
+        - accountNumber [string]: bank account number associated with the DICT key. ex: "9828282578010513"
+        - accountType [string]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
+        - status [string]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
+        - accountCreated [DateTime]: creation datetime of the bank account associated with the DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
+        - owned [DateTime]: datetime since when the current owner holds this DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
+        - created [DateTime]: creation datetime for the DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
      */
     function __construct(array $params)
     {
@@ -52,7 +67,7 @@ class DictKey extends Resource
 
         Checks::checkParams($params);
     }
-  
+
     /**
     # Retrieve a specific DictKey
 
@@ -83,7 +98,7 @@ class DictKey extends Resource
         - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
         - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-        - status [string, default None]: filter for status of retrieved objects. ex: "success"
+        - status [string, default null]: filter for status of retrieved objects. ex: "success"
         - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
@@ -103,18 +118,18 @@ class DictKey extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
-    - type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
-    - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+        - type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
-    - list of DictKey objects with updated attributes
-    - cursor to retrieve the next page of DictKey objects
+        - list of DictKey objects with updated attributes
+        - cursor to retrieve the next page of DictKey objects
      */
     public static function page($options = [], $user = null)
     {

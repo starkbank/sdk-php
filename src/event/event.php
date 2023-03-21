@@ -11,6 +11,13 @@ use StarkBank\Utils\Parse;
 
 class Event extends Resource
 {
+
+    public $isDelivered;
+    public $subscription;
+    public $created;
+    public $log;
+    public $workspaceId;
+
     /**
     # Webhook Event object
 
@@ -18,12 +25,13 @@ class Event extends Resource
     Events cannot be created, but may be retrieved from the Stark Bank API to
     list all generated updates on entities.
 
-    ## Attributes:
+    ## Attributes (return-only):
         - id [string]: unique id returned when the event is created. ex: "5656565656565656"
         - log [Log]: a Log object from one the subscription services (Transfer\Log, Boleto\Log, BoletoPayment\log or UtilityPayment\Log)
         - created [DateTime]: creation datetime for the notification event.
         - isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
         - subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
+        - workspaceId [string]: ID of the Workspace that generated this event. Mostly used when multiple Workspaces have Webhooks registered to the same endpoint. ex: "4545454545454545"
      */
     function __construct(array $params)
     {
@@ -249,16 +257,16 @@ class Event extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - isDelivered [boolean, default None]: bool to filter successfully delivered events. ex: True or False
-    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - isDelivered [boolean, default null]: bool to filter successfully delivered events. ex: True or False
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
-    - list of Event objects with updated attributes
-    - cursor to retrieve the next page of Event objects
+        - list of Event objects with updated attributes
+        - cursor to retrieve the next page of Event objects
      */
     public static function page($options = [], $user = null)
     {
