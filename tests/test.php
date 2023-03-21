@@ -34,7 +34,6 @@ include_once("deposit.php");
 include_once("depositLog.php");
 include_once("brcodePayment.php");
 include_once("brcodePaymentLog.php");
-include_once("brcodePreview.php");
 include_once("transfer.php");
 include_once("transferLog.php");
 include_once("boletoPayment.php");

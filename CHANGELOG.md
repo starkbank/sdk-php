@@ -14,7 +14,21 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 ## [Unreleased]
 ### Added
+- metadata attribute to Transfer resource
+- workspaceId attribute to Boleto resource
+- updated attribute to BoletoHolmes\Log resource
+- transactionIds attribute to DarfPayment, TaxPayment resource
+- transactionIds, type and updated attribute to UtilityPayment resource
+- status, organizationId, pictureUrl and created attribute to Workspace resource
 - pictureUrl attribute to DynamicBrcode resource
+- rules attribute to BrcodePayment resource
+- BrcodePayment\Rule sub-resource
+- rules attribute to Transfer resource
+- Transfer\Rule sub-resource
+### Changed
+- amount attribute to parameter on BoletoPayment resource
+### Removed
+- deprecated BrcodePreview resource
 
 ## [2.10.0] - 2023-01-16
 ### Added

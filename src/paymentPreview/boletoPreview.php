@@ -7,6 +7,23 @@ use StarkCore\Utils\SubResource;
 
 class BoletoPreview extends SubResource
 {
+
+    public $status;
+    public $amount;
+    public $discountAmount;
+    public $fineAmount;
+    public $interestAmount;
+    public $due;
+    public $expiration;
+    public $name;
+    public $taxId;
+    public $receiverName;
+    public $receiverTaxId;
+    public $payerName;
+    public $payerTaxId;
+    public $line;
+    public $barCode;
+
     /**
     # BoletoPreview object
 
@@ -14,10 +31,10 @@ class BoletoPreview extends SubResource
 
     ## Attributes (return-only):
         - status [string]: current boleto status. ex: "active", "expired" or "inactive"
-        - amount [int]: final amount to be paid. ex: 23456 (= R$ 234.56)
-        - discountAmount [int]: discount amount to be paid. ex: 23456 (= R$ 234.56)
-        - fineAmount [int]: fine amount to be paid. ex: 23456 (= R$ 234.56)
-        - interestAmount [int]: interest amount to be paid. ex: 23456 (= R$ 234.56)
+        - amount [integer]: final amount to be paid. ex: 23456 (= R$ 234.56)
+        - discountAmount [integer]: discount amount to be paid. ex: 23456 (= R$ 234.56)
+        - fineAmount [integer]: fine amount to be paid. ex: 23456 (= R$ 234.56)
+        - interestAmount [integer]: interest amount to be paid. ex: 23456 (= R$ 234.56)
         - due [DateTime]: Boleto due date. DateTime('2020-01-01T15:03:01.012345Z')
         - expiration [DateTime]: Boleto expiration date. DateTime('2020-01-01T15:03:01.012345Z')
         - name [string]: beneficiary full name. ex: "Anthony Edward Stark"

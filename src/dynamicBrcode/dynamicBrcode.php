@@ -8,6 +8,15 @@ use StarkBank\Utils\Rest;
 
 class DynamicBrcode extends Resource
 {
+    
+    public $amount;
+    public $expiration;
+    public $tags;
+    public $uuid;
+    public $pictureUrl;
+    public $updated;
+    public $created;
+
     /**
     # DynamicBrcode object
 
@@ -30,8 +39,8 @@ class DynamicBrcode extends Resource
         - id [string]: id returned on creation, this is the BR code. ex: "00020126360014br.gov.bcb.pix0114+552840092118152040000530398654040.095802BR5915Jamie Lannister6009Sao Paulo620705038566304FC6C"
         - uuid [string]: unique uuid returned when the DynamicBrcode is created. ex: "4e2eab725ddd495f9c98ffd97440702d"
         - pictureUrl [string]: public QR Code (png image) URL. "https://sandbox.api.starkbank.com/v2/dynamic-brcode/d3ebb1bd92024df1ab6e5a353ee799a4.png"
-        - updated [string, default null]: creation datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000"
-        - created [string, default null]: creation datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000"
+        - updated [string]: creation datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000"
+        - created [string]: creation datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000"
      */
     function __construct(array $params)
     {

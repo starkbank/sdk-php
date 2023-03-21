@@ -39,7 +39,9 @@ is as easy as sending a text message to your client!
     - [BoletoPayments](#pay-a-boleto): Pay Boletos
     - [UtilityPayments](#create-utility-payments): Pay Utility bills (water, light, etc.)
     - [TaxPayments](#create-tax-payment): Pay taxes
+    - [DarfPayments](#create-darf-payment): Pay DARFs
     - [PaymentPreviews](#preview-payment-information-before-executing-the-payment): Preview all sorts of payments
+    - [PaymentRequest](#create-payment-requests-to-be-approved-by-authorized-people-in-a-cost-center): Request a payment approval to a cost center
     - [Webhooks](#create-a-webhook-subscription): Configure your webhook endpoints and subscriptions
     - [WebhookEvents](#process-webhook-events): Manage webhook events
     - [WebhookEventAttempts](#query-failed-webhook-event-delivery-attempts-information): Query failed webhook event deliveries
@@ -280,7 +282,7 @@ foreach($transactions as $transaction){
 
 - The `page` function gives you full control over the API pagination. With each function call, you receive up to
 100 results and the cursor to retrieve the next batch of elements. This allows you to stop your queries and
-pick up from where you left off whenever it is convenient. When there are no more elements to be retrieved, the returned cursor will be `None`.
+pick up from where you left off whenever it is convenient. When there are no more elements to be retrieved, the returned cursor will be `null`.
 
 ```php
 use StarkBank\Transaction;
@@ -393,7 +395,7 @@ print_r($balance);
 
 ## Create transfers
 
-You can also create transfers in the SDK (TED/Pix).
+You can also create transfers in the SDK (TED/Pix) and configure transfer behavior according to its rules.
 
 ```php
 use StarkBank\Transfer;
@@ -419,7 +421,13 @@ $transfers = Transfer::create([
         "name" => "Jon Snow",
         "scheduled" => (new DateTime("now"))->add(new DateInterval("P1D")),
         "description" => "Transaction to dear provider",
-        "tags" => []
+        "tags" => [],
+        "rules" => [
+            new Transfer\Rule([
+                "key" => "resendingLimit",  # Set maximum number of retries if Transfer fails due to systemic issues at the receiver bank
+                "value" => 5                # Our resending limit is 10 by default
+            ])
+        ]
     ])
 ]);
 
@@ -1097,7 +1105,13 @@ $payments = BrcodePayment::create([
         "description" => "Tony Stark's Suit",
         "amount" => 7654321,
         "scheduled" => (new DateTime("now"))->add(new DateInterval("P5D")),
-        "tags" => ["Stark", "Suit"]
+        "tags" => ["Stark", "Suit"],
+        "rules" => [
+            new BrcodePayment\Rule([
+                "key" => "resendingLimit",  # Set maximum number of retries if BrcodePayment fails due to systemic issues at the receiver bank
+                "value" => 5                # Our resending limit is 10 by default
+            ])
+        ]
     ])
 ]);
 
@@ -1106,6 +1120,7 @@ foreach($payments as $payment){
 }
 ```
 
+**Note**: You can also configure payment behavior according to its rules
 **Note**: Instead of using BrcodePayment objects, you can also pass each payment element directly in array format, without using the constructor
 
 ## Get a BR Code payment
@@ -1518,6 +1533,115 @@ $paymentLog = Log::get("1902837198237992");
 print_r($paymentLog);
 ```
 
+## Create DARF payment
+
+If you want to manually pay DARFs without barcodes, you may create DarfPayments:
+
+```php
+use StarkBank\DarfPayment;
+use \DateTime;
+use \DateInterval;
+
+$payments = [
+    new DarfPayment([
+        "description" => "Darf Payment Example",
+        "tags" => ["Darf"],
+        "due" => "2023-02-08",
+        "competence" => "2020-04-03",
+        "fineAmount" => 100,
+        "interestAmount" => 100,
+        "nominalAmount" => 1000,
+        "revenueCode" => "0201",
+        "taxId" => "45678350005",
+        "scheduled" => "2023-02-05",
+    ])];
+$payments = DarfPayment::create($payment);
+foreach($payments as $payment){
+    print_r($payment);
+}
+```
+
+**Note**: Instead of using DarfPayment objects, you can also pass each payment element in dictionary format
+
+## Query DARF payments
+
+To search for DARF payments using filters, run:
+
+```php
+use StarkBank\DarfPayment;
+
+$payments = iterator_to_array(DarfPayment::query(["limit" => 10]));
+
+print_r($payments);
+```
+
+## Get DARF payment
+
+You can get a specific DARF payment by its id:
+
+```php
+use StarkBank\DarfPayment;
+
+$payment = DarfPayment::get("5155165527080960");
+
+print_r($payment);
+```
+
+## Get DARF payment PDF
+
+After its creation, a DARF payment PDF may also be retrieved by its id. 
+
+```php
+use StarkBank\DarfPayment;
+
+$pdf = DarfPayment::pdf("5155165527080960");
+
+$fp = fopen('darfPayment.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+## Delete DARF payment
+
+You can also cancel a DARF payment by its id.
+Note that this is not possible if it has been processed already.
+
+```php
+use StarkBank\DarfPayment;
+
+$paymentLog = Log::get("1902837198237992");
+
+print_r($paymentLog);
+```
+
+## Query DARF payment logs
+
+You can search for payment logs by specifying filters. Use this to understand each payment life cycle.
+
+```php
+use StarkBank\DarfPayment\Log;
+
+$paymentLogs = iterator_to_array(Log::query(["limit" => 10, "types" => ["created"]]));
+
+print_r($paymentLogs);
+```
+
+## Get DARF payment log
+
+If you want to get a specific payment log by its id, just run:
+
+```php
+use StarkBank\DarfPayment\Log;
+
+$paymentLog = Log::get("1902837198237992");
+
+print_r($paymentLog);
+```
+
 **Note**: Some taxes can't be payed with bar codes. Since they have specific parameters, each one of them has its own
 resource and routes, which are all analogous to the TaxPayment resource. The ones we currently support are:
 - DarfPayment, for DARFs
@@ -1878,4 +2002,4 @@ If you have any questions about our SDK, just send us an email.
 We will respond you quickly, pinky promise. We are here to help you integrate with us ASAP.
 We also love feedback, so don't be shy about sharing your thoughts with us.
 
-Email: developers@starkbank.com
+Email: help@starkbank.com

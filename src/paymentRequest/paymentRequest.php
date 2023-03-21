@@ -10,6 +10,19 @@ use StarkBank\Utils\Rest;
 
 class PaymentRequest extends Resource
 {
+
+    public $centerId;
+    public $payment;
+    public $type;
+    public $due;
+    public $tags;
+    public $amount;
+    public $description;
+    public $status;
+    public $actions;
+    public $created;
+    public $updated;
+
     /**
     # PaymentRequest object
 
@@ -31,29 +44,30 @@ class PaymentRequest extends Resource
         - tags [array of strings]: array of strings for tagging
 
     ## Attributes (return-only):
-        - id [string, default null]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
-        - amount [integer, default null]: PaymentRequest amount. ex: 100000 = R$1.000,00
-        - status [string, default null]: current PaymentRequest status. ex: "pending" or "approved"
-        - actions [array of dictionaries, default null]: array of actions that are affecting this PaymentRequest. ex: [["type" => "member", "id" => "56565656565656", "action" => "requested"]]
-        - updated [DateTime, default null]: latest update datetime for the PaymentRequest.
-        - created [DateTime, default null]: creation datetime for the PaymentRequest.
+        - id [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
+        - amount [integer]: PaymentRequest amount. ex: 100000 = R$1.000,00
+        - description [string]: payment request description. ex: "Tony Stark's Suit"
+        - status [string]: current PaymentRequest status. ex: "pending" or "approved"
+        - actions [array of dictionaries]: array of actions that are affecting this PaymentRequest. ex: [["type" => "member", "id" => "56565656565656", "action" => "requested"]]
+        - updated [DateTime]: latest update datetime for the PaymentRequest.
+        - created [DateTime]: creation datetime for the PaymentRequest.
      */
     function __construct(array $params)
     {
         parent::__construct($params);
 
         $this->centerId = Checks::checkParam($params, "centerId");
+        $this->payment = Checks::checkParam($params, "payment");
+        $this->type = Checks::checkParam($params, "type");
         $this->due = Checks::checkParam($params, "due");
-        $this->description = Checks::checkParam($params, "description");
         $this->tags = Checks::checkParam($params, "tags");
         $this->amount = Checks::checkParam($params, "amount");
+        $this->description = Checks::checkParam($params, "description");
         $this->status = Checks::checkParam($params, "status");
         $this->actions = Checks::checkParam($params, "actions");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
         $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
 
-        $this->payment = Checks::checkParam($params, "payment");
-        $this->type = Checks::checkParam($params, "type");
         Checks::checkParams($params);
 
         list($this->payment, $this->type) = self::parsePayment($this->payment, $this->type);
@@ -121,20 +135,20 @@ class PaymentRequest extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - sort [string, default "-created"]: sort order considered in response. Valid options are "-created" or "-due".
-    - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
-    - type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
-    - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-    - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - sort [string, default "-created"]: sort order considered in response. Valid options are "-created" or "-due".
+        - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+        - type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
+        - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+        - ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
-    - list of PaymentRequest objects with updated attributes
-    - cursor to retrieve the next page of PaymentRequest objects
+        - list of PaymentRequest objects with updated attributes
+        - cursor to retrieve the next page of PaymentRequest objects
      */
     public static function page($options = [], $user = null)
     {

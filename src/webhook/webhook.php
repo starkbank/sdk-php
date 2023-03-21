@@ -8,6 +8,10 @@ use StarkCore\Utils\Resource;
 
 class Webhook extends Resource
 {
+
+    public $url;
+    public $subscriptions;
+
     /**
     # Webhook subscription object
 
@@ -19,8 +23,8 @@ class Webhook extends Resource
         - url [string]: Url that will be notified when an event occurs.
         - subscriptions [array of strings]: array of any non-empty combination of the available services. ex: ["transfer", "invoice"]
 
-    ## Attributes:
-        - id [string, default null]: unique id returned when the webhook is created. ex: "5656565656565656"
+    ## Attributes (return-only):
+        - id [string]: unique id returned when the webhook is created. ex: "5656565656565656"
      */
     function __construct(array $params)
     {
@@ -95,13 +99,13 @@ class Webhook extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
-    - user [Organization/Project object, default null, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:
-    - list of Webhook objects with updated attributes
-    - cursor to retrieve the next page of Webhook objects
+        - list of Webhook objects with updated attributes
+        - cursor to retrieve the next page of Webhook objects
      */
     public static function page($options = [], $user = null)
     {

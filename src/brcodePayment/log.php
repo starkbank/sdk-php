@@ -11,6 +11,12 @@ use StarkBank\BrcodePayment;
 
 class Log extends Resource
 {
+
+    public $created;
+    public $type;
+    public $errors;
+    public $payment;
+
     /**
     # BrcodePayment \Log object
 
@@ -19,7 +25,7 @@ class Log extends Resource
     user, but it can be retrieved to check additional information
     on the BrcodePayment.
 
-    ## Attributes:
+    ## Attributes (return-only):
         - id [string]: unique id returned when the log is created. ex: "5656565656565656"
         - payment [BrcodePayment]: BrcodePayment entity to which the log refers to.
         - errors [array of strings]: array of errors linked to this BrcodePayment event
@@ -63,12 +69,12 @@ class Log extends Resource
     Receive a enumerator of Log objects previously created in the Stark Bank API
 
     ## Parameters (optional):
-    - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - types [array of strings, default null]: filter for log event types. ex: "success" or "failed"
-    - paymentIds [array of strings, default null]: array of BrcodePayment ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - types [array of strings, default null]: filter for log event types. ex: "success" or "failed"
+        - paymentIds [array of strings, default null]: array of BrcodePayment ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
         - enumerator of Log objects with updated attributes
@@ -87,17 +93,17 @@ class Log extends Resource
     Use this function instead of query if you want to manually page your requests.
 
     ## Parameters (optional):
-    - cursor [string, default null]: cursor returned on the previous page function call
-    - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-    - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
-    - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-    - types [array of strings, default null]: filter for log event types. ex: "success" or "failed"
-    - paymentIds [array of strings, default null]: array of BrcodePayment ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-    - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+        - cursor [string, default null]: cursor returned on the previous page function call
+        - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+        - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
+        - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
+        - types [array of strings, default null]: filter for log event types. ex: "success" or "failed"
+        - paymentIds [array of strings, default null]: array of BrcodePayment ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
     
     ## Return:
-    - list of BrcodePayment\Log objects with updated attributes
-    - cursor to retrieve the next page of BrcodePayment\Log objects
+        - list of BrcodePayment\Log objects with updated attributes
+        - cursor to retrieve the next page of BrcodePayment\Log objects
      */
     public static function page($options = [], $user = null)
     {

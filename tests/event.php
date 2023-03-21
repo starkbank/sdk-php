@@ -159,7 +159,6 @@ echo "\n\t- get attempts page";
 $test->getAttemptsPage();
 echo " - OK";
 
-
 echo "\n\t- query, get and update";
 $test->queryGetAndUpdate();
 echo " - OK";
