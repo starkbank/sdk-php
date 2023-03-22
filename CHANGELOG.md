@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.11.0] - 2023-03-22
 ### Added
 - metadata attribute to Transfer resource
 - workspaceId attribute to Boleto resource
