@@ -38,11 +38,14 @@ class TestEvent
     {
         $events = iterator_to_array(Event::query(["limit" => 5, "isDelivered" => false]));
 
-        foreach ($events as $event) {
-            $attempts = iterator_to_array(Attempt::query(["eventIds" => $event->id, "limit" => 1]));
-            if (count($attempts) == 0)
-                throw new Exception("failed");
-        }
+        $eventIds = array_map(function ($event) {
+            return $event->id;
+        }, $events);
+
+        $attempts = iterator_to_array(Attempt::query(["eventIds" => $eventIds]));
+
+        if (count($attempts) == 0)
+            throw new Exception("failed");
     }
 
     public function getAttemptsPage()

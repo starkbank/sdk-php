@@ -144,6 +144,21 @@ class Rest
         );
     }
 
+    public static function postRaw($user, $path, $payload, $query = null)
+    {
+        return \StarkCore\Utils\Rest::postRaw(
+            self::getSdkVersion(),
+            self::getHost(),
+            self::getApiVersion(),
+            Settings::getUser($user),
+            Settings::getLanguage(),
+            Settings::getTimeout(),
+            $path,
+            $payload,
+            $query
+        );
+    }
+
     public static function getSdkVersion()
     {
         return self::sdkVersion;
