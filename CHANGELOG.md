@@ -13,6 +13,18 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- CorporateBalance resource
+- CorporateCard resource
+- CorporateHolder resource
+- CorporateInvoice resource
+- CorporatePurchase resource
+- CorporateRule resource
+- CorporateTransaction resource
+- CorporateWithdrawal resource
+- CardMethod sub-resource
+- MerchantCategory sub-resource
+- MerchantCountry sub-resource
 
 ## [2.11.0] - 2023-03-22
 ### Added
