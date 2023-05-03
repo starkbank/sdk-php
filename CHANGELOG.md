@@ -13,6 +13,10 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- schedule attribute to CorporateRules resource
+- purposes attribute to CorporateRules resource
+- description attribute to Corporate Purchase Log
 
 ## [2.12.0] - 2023-04-27
 ### Added

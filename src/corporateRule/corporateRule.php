@@ -19,6 +19,8 @@ class CorporateRule extends Resource
     public $categories;
     public $countries;
     public $methods;
+    public $schedule;
+    public $purposes;
 
     /**
     # CorporateRule object
@@ -32,6 +34,8 @@ class CorporateRule extends Resource
     ## Parameters (optional):
         - id [string, default null]: unique id returned when Rule is created. ex: "5656565656565656"
         - interval [string, default "lifetime"]: interval to reset the counters of the rule. ex: "instant", "day", "week", "month", "year" or "lifetime"
+        - schedule [string, default null]: schedule time for user to spend. ex: "every monday, wednesday from 00:00 to 23:59 in America/Sao_Paulo"
+        - purposes [list of string, default null]: list of strings representing the allowed purposes for card purchases, you can use this to restrict ATM withdrawals. ex: ["purchase", "withdrawal"]
         - currencyCode [string, default "BRL"]: code of the currency used by the rule. ex: "BRL" or "USD"
         - categories [array of MerchantCategories objects, default []]: merchant categories accepted by the rule. ex: ["eatingPlacesRestaurants", "travelAgenciesTourOperators"]
         - countries [array of MerchantCountries objects, default []]: countries accepted by the rule. ex: ["BRA", "USA"]
@@ -56,6 +60,8 @@ class CorporateRule extends Resource
         $this->categories = MerchantCategory::parseCategories(Checks::checkParam($params, "categories"));
         $this->countries = MerchantCountry::parseCountries(Checks::checkParam($params, "countries"));
         $this->methods = CardMethod::parseMethods(Checks::checkParam($params, "methods"));
+        $this->schedule = Checks::checkParam($params, "schedule");
+        $this->purposes = Checks::checkParam($params, "purposes");
 
         Checks::checkParams($params);
     }

@@ -17,6 +17,7 @@ class Log extends Resource
     public $corporateTransactionId;
     public $errors;
     public $created;
+    public $description;
 
     /**
     # CorporatePurchase\Log object
@@ -29,6 +30,7 @@ class Log extends Resource
     ## Attributes (return-only):
         - id [string]: unique id returned when the log is created. ex: "5656565656565656"
         - purchase [CorporatePurchase]: CorporatePurchase entity to which the log refers to.
+        - description [string]: purchase descriptions. ex: "my_description"
         - corporateTransactionId [string]: transaction ID related to the CorporatePurchase.
         - errors [array of strings]: list of errors linked to this CorporatePurchase event
         - type [string]: type of the CorporatePurchase event which triggered the log creation. ex: "approved", "canceled", "confirmed", "denied", "reversed", "voided".
@@ -43,6 +45,7 @@ class Log extends Resource
         $this->corporateTransactionId = Checks::checkParam($params, "corporateTransactionId");
         $this->errors = Checks::checkParam($params, "errors");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
+        $this->description = Checks::checkParam($params, "description");
 
         Checks::checkParams($params);
     }

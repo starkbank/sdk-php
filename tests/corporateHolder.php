@@ -53,8 +53,9 @@ class TestCorporateHolder
     {
         $holders = CorporateHolder::create(TestCorporateHolder::generateExampleHoldersJson(1), ["expand" => "rules"]);
         $holderId = $holders[0]->id;
-        $holder = CorporateHolder::update($holderId, ["name" => "Updated Name"]);
-        if ($holder->name != "Updated Name") {
+        $holderName = "Updated Name" . substr(uniqid(), 0, 10);
+        $holder = CorporateHolder::update($holderId, ["name" => $holderName]);
+        if ($holder->name != $holderName) {
             throw new Exception("failed");
         }
         $holder = CorporateHolder::cancel($holderId);
@@ -73,7 +74,14 @@ class TestCorporateHolder
                 'permissions' => [
                     new CorporateHolder\Permission([
                         'ownerType' => 'project',
-                        'ownerId' => $_SERVER["SANDBOX_BANK_PROJECT_ID"],
+                        'ownerId' => $_SERVER["SANDBOX_ID"],
+                        ])
+                    ],
+                "rules" => [
+                    new CorporateRule([
+                        "name" => "travel", 
+                        "amount" => 200000,
+                        "schedule" => "every monday, wednesday from 00:00 to 23:59 in America/Sao_Paulo",
                     ])
                 ]
             ]);

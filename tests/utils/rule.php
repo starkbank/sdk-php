@@ -4,10 +4,10 @@ namespace Test\Utils;
 use StarkBank\CardMethod;
 use StarkBank\MerchantCountry;
 use StarkBank\MerchantCategory;
+use StarkBank\CorporateRule;
 
 
-class CorporateRule
-{
+class TestCorporateRule {
     public static function generateExampleRulesJson($n=1)
     {
         $rules = [];
