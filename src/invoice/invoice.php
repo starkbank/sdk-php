@@ -6,6 +6,7 @@ use StarkCore\Utils\Resource;
 use StarkCore\Utils\StarkDate;
 use StarkBank\Utils\Rest;
 use StarkBank\Invoice\Payment;
+use StarkBank\Invoice\Rule;
 
 
 class Invoice extends Resource
@@ -20,6 +21,7 @@ class Invoice extends Resource
     public $interest;
     public $discounts;
     public $tags;
+    public $rules;
     public $descriptions;
     public $pdf;
     public $link;
@@ -54,6 +56,7 @@ class Invoice extends Resource
         - fine [float, default 2.0]: Invoice fine for overdue payment in %. ex: 2.5
         - interest [float, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
         - discounts [array of dictionaries, default null]: array of dictionaries with "percentage":float and "due":DateTime or string pairs
+        - rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
         - tags [array of strings, default null]: array of strings for tagging
         - descriptions [array of dictionaries, default null]: array of dictionaries with "key":string and (optional) "value":string pairs
 
@@ -83,6 +86,7 @@ class Invoice extends Resource
         $this->expiration = Checks::checkDateInterval(Checks::checkParam($params, "expiration"));
         $this->fine = Checks::checkParam($params, "fine");
         $this->interest = Checks::checkParam($params, "interest");
+        $this->rules = Rule::parseRules(Checks::checkParam($params, "rules"));
         $this->tags = Checks::checkParam($params, "tags");
         $this->descriptions = Checks::checkParam($params, "descriptions");
         $this->pdf = Checks::checkParam($params, "pdf");

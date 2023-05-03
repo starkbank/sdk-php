@@ -159,6 +159,14 @@ class TestInvoice
                         "due" => ((new DateTime("now", new DateTimeZone('Europe/London')))->add(new DateInterval("P2D")))->setTime(0,0,0,0)
                     ]
                 ],
+                "rules" => [
+                    new Invoice\Rule([
+                        "key" => "allowedTaxIds",
+                        "value" => [
+                            "012.345.678-90"
+                        ]
+                    ])
+                ],
                 "tags" => [
                     'War supply',
                     'Invoice #1234'
