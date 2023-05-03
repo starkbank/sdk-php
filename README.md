@@ -603,6 +603,14 @@ $invoices = [
                 "due" => ((new DateTime("now"))->add(new DateInterval("P2D")))
             ]
         ],
+        "rules" => [
+            new Invoice\Rule([
+                "key" => "allowedTaxIds",       # Set TaxIds allowed to receive this Invoice
+                "value" => [
+                    "012.345.678-90"
+                ]
+            ])
+        ],
         "tags" => [
             'War supply',
             'Invoice #1234'
