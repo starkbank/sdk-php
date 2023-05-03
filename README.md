@@ -43,7 +43,7 @@ is as easy as sending a text message to your client!
     - [PaymentPreviews](#preview-payment-information-before-executing-the-payment): Preview all sorts of payments
     - [PaymentRequest](#create-payment-requests-to-be-approved-by-authorized-people-in-a-cost-center): Request a payment approval to a cost center
     - [CorporateHolders](#create-corporateholders): Manage cardholders
-    - [CorporateCards](#create-corporatecards): Create virtual and/or physical cards
+    - [CorporateCard](#create-corporatecard): Create virtual and/or physical cards
     - [CorporateInvoices](#create-corporateinvoices): Add money to your corporate balance
     - [CorporateWithdrawals](#create-corporatewithdrawals): Send money back to your Workspace from your corporate balance
     - [CorporateBalance](#get-your-corporatebalance): View your corporate balance
@@ -1742,12 +1742,19 @@ $holders = CorporateHolder::create([
         "tags" => [
             "Traveler Employee"
         ],
+        "permissions" => [
+                    new CorporateHolder\Permission([
+                        'ownerType' => 'project',
+                        'ownerId' => $_SERVER["SANDBOX_ID"],
+                    ])
+                ],
         "rules" => [
             new StarkBank\CorporateRule([
                 "name" => "General USD",
                 "interval" => "day",
                 "amount" => 100000,
-                "currencyCode" => "USD"
+                "currencyCode" => "USD",
+                "schedule" => "every monday, wednesday from 00:00 to 23:59 in America/Sao_Paulo"
             ])
         ]
     ]),
