@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.13.0] - 2023-05-03
 ### Added
 - rules attribute to Invoice resource
 - Invoice.Rule sub-resource
