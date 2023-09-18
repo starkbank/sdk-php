@@ -12,8 +12,6 @@ class BrcodePreview extends SubResource
     public $name;
     public $taxId;
     public $bankCode;
-    public $branchCode;
-    public $accountNumber;
     public $accountType;
     public $allowChange;
     public $amount;
@@ -34,8 +32,6 @@ class BrcodePreview extends SubResource
         - name [string]: Payment receiver name. ex: "Tony Stark"
         - taxId [string]: Payment receiver tax ID. ex: "012.345.678-90"
         - bankCode [string]: Payment receiver bank code. ex: "20018183"
-        - branchCode [string]: Payment receiver branch code. ex: "0001"
-        - accountNumber [string]: Payment receiver account number. ex: "1234567"
         - accountType [string]: Payment receiver account type. ex: "checking"
         - allowChange [bool]: If True, the payment is able to receive amounts that are different from the nominal one. ex: True or False
         - amount [integer]: Value in cents that this payment is expecting to receive. If 0, any value is accepted. ex: 123 (= R$1,23)
@@ -52,8 +48,6 @@ class BrcodePreview extends SubResource
         $this->name = Checks::checkParam($params, "name");
         $this->taxId = Checks::checkParam($params, "taxId");
         $this->bankCode = Checks::checkParam($params, "bankCode");
-        $this->branchCode = Checks::checkParam($params, "branchCode");
-        $this->accountNumber = Checks::checkParam($params, "accountNumber");
         $this->accountType = Checks::checkParam($params, "accountType");
         $this->allowChange = Checks::checkParam($params, "allowChange");
         $this->amount = Checks::checkParam($params, "amount");
