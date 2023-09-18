@@ -19,10 +19,7 @@ class DictKey extends Resource
     public $branchCode;
     public $accountNumber;
     public $accountType;
-    public $accountCreated;
     public $status;
-    public $owned;
-    public $created;
 
     /**
     # DictKey object
@@ -39,13 +36,10 @@ class DictKey extends Resource
         - ownerType [string]: DICT key owner type. ex "naturalPerson" or "legalPerson"
         - bankName [string]: bank name associated with the DICT key. ex: "Stark Bank"
         - ispb [string]: bank ISPB associated with the DICT key. ex: "20018183"
-        - branchCode [string]: bank account branch code associated with the DICT key. ex: "9585"
-        - accountNumber [string]: bank account number associated with the DICT key. ex: "9828282578010513"
-        - accountType [string]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
+        - branchCode [string]: encrypted bank account branch code associated with the DICT key. ex: "ZW5jcnlwdGVkLWJyYW5jaC1jb2Rl"
+        - accountNumber [string]: encrypted bank account number associated with the DICT key. ex: "ZW5jcnlwdGVkLWFjY291bnQtbnVtYmVy"
+        - accountType [string]: bank account type associated with the DICT key. ex: "checking", "savings", "salary" or "payment"
         - status [string]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
-        - accountCreated [DateTime]: creation datetime of the bank account associated with the DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
-        - owned [DateTime]: datetime since when the current owner holds this DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
-        - created [DateTime]: creation datetime for the DICT key. ex: DateTime('2020-01-01T15:03:01.012345Z')
      */
     function __construct(array $params)
     {
@@ -60,10 +54,7 @@ class DictKey extends Resource
         $this->branchCode = Checks::checkParam($params, "branchCode");
         $this->accountNumber = Checks::checkParam($params, "accountNumber");
         $this->accountType = Checks::checkParam($params, "accountType");
-        $this->accountCreated = Checks::checkDateTime(Checks::checkParam($params, "accountCreated"));
         $this->status = Checks::checkParam($params, "status");
-        $this->owned = Checks::checkDateTime(Checks::checkParam($params, "owned"));
-        $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
 
         Checks::checkParams($params);
     }
