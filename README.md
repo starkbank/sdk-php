@@ -889,6 +889,24 @@ $deposit = Deposit::get("5656565656565656");
 print_r($deposit);
 ```
 
+## Update an deposit
+
+You can update a deposit's amount by its id.
+To fully reverse the deposit, pass "amount" => 0.
+
+```php
+use StarkBank\Deposit
+
+$updatedDeposit = Deposit::update(
+    "5656565656565656",
+    [
+        "amount" => 4321
+    ]
+);
+
+print_r($updatedDeposit);
+```
+
 ## Query deposit logs
 
 Logs are pretty important to understand the life cycle of a deposit.

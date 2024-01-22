@@ -140,6 +140,27 @@ class Deposit extends Resource
         return Rest::getPage($user, Deposit::resource(), $options);
     }
 
+    /**
+    # Update Deposit entity
+
+    Update the Deposit by passing its id to be partially or fully reversed.
+
+    ## Parameters (required):
+        - id [string]: Deposit unique id. ex: "5656565656565656"
+        
+    ## Parameters (optional):
+        - amount [string]: The new amount of the Deposit. If the amount = 0 the Deposit will be fully reversed
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+
+    ## Return:
+        - target Deposit with updated attributes
+     */
+    public static function update($id, $options = [], $user = null)
+    {
+        $options["amount"] = Checks::checkDateInterval(Checks::checkParam($options, "amount"));
+        return Rest::patchId($user, Deposit::resource(), $id, $options);
+    }
+
     private static function resource()
     {
         $deposit = function ($array) {
