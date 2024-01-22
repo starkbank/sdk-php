@@ -43,6 +43,23 @@ class TestDeposit
             throw new Exception("failed");
         }
     }
+
+    public function update()
+    {
+        $deposits = iterator_to_array(Deposit::query(["limit" => 1, "status" => "created"]));
+        
+        if (count($deposits) != 1) {
+            throw new Exception("failed");
+        }
+
+        foreach ($deposits as $deposit) {
+            $updateDeposit = Deposit::update($deposit->id, ["amount" => 0]);
+ 
+            if ($updateDeposit->amount != 0) {
+                throw new Exception("failed");
+            }
+        }
+    }
 }
 
 echo "\n\nDeposit:";
@@ -55,4 +72,8 @@ echo " - OK";
 
 echo "\n\t- get page";
 $test->getPage();
+echo " - OK";
+
+echo "\n\t- update";
+$test->update();
 echo " - OK";
