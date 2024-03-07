@@ -63,5 +63,11 @@ include_once("merchantCountry.php");
 include_once("paymentRequest.php");
 include_once("paymentPreview.php");
 include_once("institution.php");
+include_once("split.php");
+include_once("splitLog.php");
+include_once("splitReceiver.php");
+include_once("splitReceiverLog.php");
+include_once("splitProfile.php");
+include_once("splitProfileLog.php");
 
 echo "\n\nAll tests concluded\n\n";

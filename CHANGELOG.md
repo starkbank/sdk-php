@@ -13,6 +13,13 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- Split resource
+- SplitReceiver resource
+- SplitProfile resource
+- update starkCore version
+- Split to Invoice resource
+- Split to Boleto resource
 
 ## [2.15.0] - 2024-01-22
 ### Added

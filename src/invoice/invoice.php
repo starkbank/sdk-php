@@ -22,6 +22,7 @@ class Invoice extends Resource
     public $discounts;
     public $tags;
     public $rules;
+    public $splits;
     public $descriptions;
     public $pdf;
     public $link;
@@ -57,6 +58,7 @@ class Invoice extends Resource
         - interest [float, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
         - discounts [array of dictionaries, default null]: array of dictionaries with "percentage":float and "due":DateTime or string pairs
         - rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
+        - splits [list of Split.Splits, default []]: list of Split.Splits objects to indicate payment receivers. ex: [Invoice.Split(amount=141, receiverId="5706627130851328")]
         - tags [array of strings, default null]: array of strings for tagging
         - descriptions [array of dictionaries, default null]: array of dictionaries with "key":string and (optional) "value":string pairs
 
@@ -87,6 +89,7 @@ class Invoice extends Resource
         $this->fine = Checks::checkParam($params, "fine");
         $this->interest = Checks::checkParam($params, "interest");
         $this->rules = Rule::parseRules(Checks::checkParam($params, "rules"));
+        $this->splits = Checks::checkParam($params, "splits");
         $this->tags = Checks::checkParam($params, "tags");
         $this->descriptions = Checks::checkParam($params, "descriptions");
         $this->pdf = Checks::checkParam($params, "pdf");
@@ -101,7 +104,7 @@ class Invoice extends Resource
         $this->transactionIds = Checks::checkParam($params, "transactionIds");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
         $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
-
+        
         $discounts = Checks::checkParam($params, "discounts");
         if (!is_null($discounts)) {
             $checkedDiscounts = [];

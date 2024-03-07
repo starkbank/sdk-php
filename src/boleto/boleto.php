@@ -28,6 +28,7 @@ class Boleto extends Resource
     public $descriptions;
     public $discounts;
     public $tags;
+    public $splits;
     public $id;
     public $fee;
     public $line;
@@ -98,6 +99,7 @@ class Boleto extends Resource
         $this->receiverName = Checks::checkParam($params, "receiverName");
         $this->receiverTaxId = Checks::checkParam($params, "receiverTaxId");
         $this->tags = Checks::checkParam($params, "tags");
+        $this->splits = Checks::checkParam($params, "splits");
         $this->descriptions = Checks::checkParam($params, "descriptions");
         $this->fee = Checks::checkParam($params, "fee");
         $this->line = Checks::checkParam($params, "line");
