@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.16.0] - 2024-03-07
 ### Added
 - Split resource
 - SplitReceiver resource
