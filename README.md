@@ -49,6 +49,9 @@ is as easy as sending a text message to your client!
     - [CorporateBalance](#get-your-corporatebalance): View your corporate balance
     - [CorporateTransactions](#query-corporatetransactions): View the transactions that have affected your corporate balance
     - [CorporateEnums](#corporate-enums): Query enums related to the corporate purchases, such as merchant categories, countries and card purchase methods
+    - [Split](#query-splits): Split received Invoice or Boleto payments between different receivers
+    - [SplitReceiver](#create-splitreceivers): Receiver of an Invoice or Boleto split
+    - [SplitProfile](#put-splitprofile): Configure your SplitProfile
     - [Webhooks](#create-a-webhook-subscription): Configure your webhook endpoints and subscriptions
     - [WebhookEvents](#process-webhook-events): Manage webhook events
     - [WebhookEventAttempts](#query-failed-webhook-event-delivery-attempts-information): Query failed webhook event deliveries
@@ -2194,6 +2197,209 @@ $methods = CardMethod::query([
 foreach ($methods as $method) {
     print_r($method);
 }
+```
+
+## Split
+
+## Query Splits
+
+You can get a list of created Splits given some filters.
+
+```php
+use StarkBank\Split;
+
+$splits = iterator_to_array(Split::query(["limit" => 10, "before" => new DateTime("now")]));
+
+foreach ($splits as $split) {
+    print_r($split);
+}
+```
+
+## Get a Split
+
+To get a single Split by its id, run:
+
+```php
+use StarkBank\Split;
+
+$split = Split::get("5155165527080960");
+print_r($split);
+```
+
+## Query Split Logs
+
+You can query Split logs to check additional information.
+
+```php
+use StarkBank\Split\Log;
+
+$logs = iterator_to_array(Log::query(["limit" => 10, splitIds=>["5155165527080960", "76551659167801921"]]));
+
+foreach ($logs as $log) {
+    print_r($log);
+}
+```
+
+## Get a Split Log
+
+You can also get a Split log by specifying its id.
+
+```php
+use StarkBank\Split\Log;
+
+$log = Log::get("76551659167801921");
+print_r($log);
+```
+
+## Create SplitReceivers
+
+You can create receivers to an Invoice Split by using the SplitReceiver resource.
+
+```php
+use StarkBank\SplitReceiver;
+
+$receivers = [    
+            new SplitReceiver([
+                "name"=> "John Snow",
+                "taxId"=> "01234567890",
+                "bankCode"=> "18236120",
+                "branchCode"=> "0001",
+                "accountNumber"=> "10000-0",
+                "accountType"=> "checking",
+                "tags"=> ["Snow"],
+            ]),
+            new SplitReceiver([
+                "name"=> "Aria Stark",
+                "taxId"=> "01234567890",
+                "bankCode"=> "18236120",
+                "branchCode"=> "0001",
+                "accountNumber"=> "10000-0",
+                "accountType"=> "checking",
+                "tags"=> ["Stark"],
+            ]),
+        ];
+$receivers = SplitReceiver::create($receivers);
+
+print_r($receivers)
+```
+
+## Query SplitReceivers
+
+To take a look at the SplitReceivers created to your workspace, just run the following:
+
+```php
+use StarkBank\SplitReceiver;
+
+$receivers = iterator_to_array(SplitReceiver::query(["limit" => 10, "before" => new DateTime("now")]));
+
+foreach ($receivers as $receiver) {
+    print_r($receiver);
+}
+```
+
+## Get a Split Receiver
+
+To get a single SplitReceiver by its id, run:
+
+```php
+use StarkBank\SplitReceiver;
+
+$receiver = SplitReceiver::get("5155165527080960");
+print_r($receiver);
+```
+
+## Query SplitReceiver Logs
+
+You can query SplitReceiver logs to check additional information
+
+```php
+use StarkBank\SplitReceiver\Log;
+
+$logs = iterator_to_array(Log::query(["limit" => 10, receiverIds=>["5155165527080960", "76551659167801921"]]));
+
+foreach ($logs as $log) {
+    print_r($log);
+}
+```
+
+## Get a SplitReceiver Log
+
+You can also get a SplitReceiver Log by specifying its id.
+
+```php
+use StarkBank\SplitReceiver\Log;
+
+$log = Log::get("76551659167801921");
+print_r($log);
+```
+
+## Put SplitProfile
+
+You can create a profile or update if it is alredy created.
+
+```php
+use StarkBank\SplitProfile;
+
+$profile = [    
+            new SplitProfile([
+                "interval"=> "day",
+                "delay"=> 0,
+                "tags"= ["john", "snow"]
+            ]),
+        ];
+$profile = SplitProfile::put($profile);
+
+print_r($profile)
+```
+
+## Query SplitProfile
+
+To take a look at the SplitProfile created to your workspace, just run the following:
+
+```php
+use StarkBank\SplitProfile;
+
+$profiles = iterator_to_array(SplitProfile::query(["limit" => 10, "before" => new DateTime("now")]));
+
+foreach ($profiles as $profile) {
+    print_r($profile);
+}
+```
+
+## Get a Split Profile
+
+To get a single SplitProfile by its id, run:
+
+```php
+use StarkBank\SplitProfile;
+
+$profile = SplitProfile::get("5155165527080960");
+print_r($profile);
+```
+
+## Query SplitProfile Logs
+
+You can query SplitProfile logs to check additional information
+
+```php
+use StarkBank\SplitProfile\Log;
+
+$logs = iterator_to_array(Log::query(["limit" => 10]));
+
+foreach ($logs as $log) {
+    print_r($log);
+}
+```
+
+## Get a SplitProfile Log
+
+You can also get a SplitProfile Log by specifying its id.
+
+```php
+use StarkBank\SplitProfile\Log;
+
+$log = Log::get("76551659167801921");
+print_r($log);
 ```
 
 ## Create a webhook subscription

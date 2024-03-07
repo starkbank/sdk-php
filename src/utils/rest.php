@@ -158,6 +158,20 @@ class Rest
             $query
         );
     }
+    public static function putMulti($user, $resource, $entities)
+    {
+        return \StarkCore\Utils\Rest::putMulti(
+            self::getSdkVersion(),
+            self::getHost(),
+            self::getApiVersion(),
+            Settings::getUser($user),
+            $resource,
+            $entities,
+            Settings::getLanguage(),
+            Settings::getTimeout(),
+            []
+        );
+    }
 
     public static function getSdkVersion()
     {
