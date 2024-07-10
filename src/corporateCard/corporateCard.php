@@ -111,7 +111,8 @@ class CorporateCard extends Resource
     public static function create($card, $params = null, $user = null)
     {
         $path = API::endpoint(CorporateCard::resource()["name"]) . "/" . "token";
-        $json = Rest::postRaw($user, $path, API::apiJson($card), $params);
+        $request = Rest::postRaw($user, $path, API::apiJson($card), null, $params);
+        $json = json_decode($request, true);
         $entityJson = $json[API::lastName(CorporateCard::resource()["name"])];
         return API::fromApiJson(CorporateCard::resource()["maker"], $entityJson);
     }
