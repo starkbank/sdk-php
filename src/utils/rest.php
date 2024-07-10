@@ -13,6 +13,7 @@ class Rest
 
     public static function getPage($user, $resource, array $query = [])
     {
+        $testLang = Settings::getLanguage();
         return \StarkCore\Utils\Rest::getPage(
             self::getSdkVersion(),
             self::getHost(),
@@ -144,20 +145,6 @@ class Rest
         );
     }
 
-    public static function postRaw($user, $path, $payload, $query = null)
-    {
-        return \StarkCore\Utils\Rest::postRaw(
-            self::getSdkVersion(),
-            self::getHost(),
-            self::getApiVersion(),
-            Settings::getUser($user),
-            Settings::getLanguage(),
-            Settings::getTimeout(),
-            $path,
-            $payload,
-            $query
-        );
-    }
     public static function putMulti($user, $resource, $entities)
     {
         return \StarkCore\Utils\Rest::putMulti(
@@ -186,5 +173,86 @@ class Rest
     public static function getHost()
     {
         return self::host;
+    }
+
+    public static function postRaw($user, $path, $payload, $prefix = null, $query = null)
+    {
+        return \StarkCore\Utils\Rest::postRaw(
+            self::getSdkVersion(),
+            self::getHost(),
+            self::getApiVersion(),
+            Settings::getUser($user),
+            Settings::getLanguage(),
+            Settings::getTimeout(),
+            $path,
+            $payload,
+            $query,
+            $prefix
+        );
+    }
+
+    public static function getRaw($user, $path, $query = null, $prefix = null, $payload = null)
+    {
+        return \StarkCore\Utils\Rest::getRaw(
+            self::getSdkVersion(),
+            self::getHost(),
+            self::getApiVersion(),
+            Settings::getUser($user),
+            Settings::getLanguage(),
+            Settings::getTimeout(),
+            $path,
+            $payload,
+            $query,
+            $prefix,
+            $prefix
+        );
+    }
+
+    public static function patchRaw($user, $path, $payload, $prefix = null, $query = null)
+    {
+        return \StarkCore\Utils\Rest::patchRaw(
+            self::getSdkVersion(),
+            self::getHost(),
+            self::getApiVersion(),
+            Settings::getUser($user),
+            Settings::getLanguage(),
+            Settings::getTimeout(),
+            $path,
+            $payload,
+            $query,
+            $prefix
+        );
+    }
+
+    public static function putRaw($user, $path, $payload, $prefix = null, $query = null)
+    {
+        return \StarkCore\Utils\Rest::putRaw(
+            self::getSdkVersion(),
+            self::getHost(),
+            self::getApiVersion(),
+            Settings::getUser($user),
+            Settings::getLanguage(),
+            Settings::getTimeout(),
+            $path,
+            $payload,
+            $query,
+            $prefix
+        );
+    }
+
+    public static function deleteRaw($user, $path, $payload, $prefix = null, $query = null)
+    {
+        return \StarkCore\Utils\Rest::deleteRaw(
+            self::getSdkVersion(),
+            self::getHost(),
+            self::getApiVersion(),
+            Settings::getUser($user),
+            Settings::getLanguage(),
+            Settings::getTimeout(),
+            $path,
+            $payload,
+            $query,
+            $prefix
+        );
     }
 }
