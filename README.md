@@ -2635,6 +2635,164 @@ use StarkBank\Workspace;
  print_r($workspace);
  ```
 
+# Request
+
+This resource allows you to send HTTP requests to StarkBank routes.
+
+## GET
+
+You can perform a GET request to any StarkBank route.
+
+It's possible to get a single resource using its id in the path.
+
+```php
+use StarkBank\Request;
+
+$request = Request::get("invoice/5155165527080960")->json();
+
+print_r($request);
+```
+
+You can also get the specific resource log,
+
+```php
+use StarkBank\Request;
+
+$request = Request::get("invoice/log/5155165527080960")->json();
+
+print_r($request);
+```
+
+This same method will be used to list all created items for the requested resource.
+
+```php
+use StarkBank\Request;
+
+$query = [
+    "limit" => 10,
+    "status" => "paid"
+]
+$request = Request::get(
+    "invoice/log/5155165527080960",
+    $query
+    )->json();
+
+print_r($request);
+```
+
+To list logs, you will use the same logic as for getting a single log.
+
+```php
+use StarkBank\Request;
+
+$query = [
+    "limit" => 10,
+    "status" => "created"
+]
+$request = Request::get(
+    "invoice/log/5155165527080960",
+    $query
+    )->json();
+
+print_r($request);
+```
+
+You can get a resource file using this method.
+
+```php
+use StarkBank\Request;
+
+$request = Request::get(
+    "invoice/log/5155165527080960/pdf",
+    )->content;
+
+$fp = fopen('invoice.pdf', 'w');
+fwrite($fp, $request);
+fclose($fp);
+```
+
+## POST
+
+You can perform a POST request to any StarkBank route.
+
+This will create an object for each item sent in your request
+
+**Note**: It's not possible to create multiple resources simultaneously. You need to send separate requests if you want to create multiple resources, such as invoices and boletos.
+
+```php
+use StarkBank\Request;
+
+$body = [
+    "invoices" => [
+        [
+            "amount" => 400000,
+            "taxId" => "012.345.678-90",
+            "name" => "Arya Stark",    
+        ]
+    ]
+];
+$request = Request::post(
+    "invoice",
+    $body
+)->json();
+
+print_r($request)
+```
+
+## PATCH
+
+You can perform a PATCH request to any StarkBank route.
+
+It's possible to update a single item of a StarkBank resource.
+```php
+use StarkBank\Request;
+
+$body = ["amount" => 0];
+$request = Request::patch(
+    "invoice/log/5155165527080960/",
+    $body
+)->json();
+
+print_r($request)
+```
+
+## PUT
+
+You can perform a PUT request to any StarkBank route.
+
+It's possible to put a single item of a StarkBank resource.
+```php
+use StarkBank\Request;
+
+$data = [
+    "profiles" =>[
+        [
+            "interval" => "day",
+            "delay" => 0
+        ]
+    ]
+];
+
+$request = Request::put(
+    "split-profile",
+    $data
+)->json();
+
+print_r($request)
+```
+## DELETE
+
+You can perform a DELETE request to any StarkBank route.
+
+It's possible to delete a single item of a StarkBank resource.
+```php
+use StarkBank\Request;
+
+$request = Request::delete("invoice/log/5155165527080960")->json();
+
+print_r($request);
+```
+
 # Handling errors
 
 The SDK may raise one of four types of errors: __InputErrors__, __InternalServerError__, __UnknownError__, __InvalidSignatureError__
