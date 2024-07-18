@@ -69,5 +69,6 @@ include_once("splitReceiver.php");
 include_once("splitReceiverLog.php");
 include_once("splitProfile.php");
 include_once("splitProfileLog.php");
+include_once("request.php");
 
 echo "\n\nAll tests concluded\n\n";
