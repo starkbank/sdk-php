@@ -13,12 +13,16 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Changed
+- core version
+### Added
+- Marketplace app as user type
 
 ## [2.17.0] - 2024-07-18
 ### Changed
 - core version
 ### Added
-- request methodss
+- request methods
 
 ## [2.16.0] - 2024-03-07
 ### Added
