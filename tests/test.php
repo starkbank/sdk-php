@@ -74,5 +74,13 @@ include_once("invoicePullRequest.php");
 include_once("invoicePullRequestLog.php");
 include_once("invoicePullSubscription.php");
 include_once("invoicePullSubscriptionLog.php");
+include_once("merchantSession.php");
+include_once("merchantSessionLog.php");
+include_once("merchantPurchase.php");
+include_once("merchantPurchaseLog.php");
+include_once("merchantInstallment.php");
+include_once("merchantInstallmentLog.php");
+include_once("merchantCard.php");
+include_once("merchantCardLog.php");
 
 echo "\n\nAll tests concluded\n\n";

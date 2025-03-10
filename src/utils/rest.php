@@ -54,7 +54,7 @@ class Rest
         );
     }
 
-    public static function getContent($user, $resource, $id, $subresourceName, $options = null)
+    public static function getContent($user, $resource, $id, $subResourceName, $options = null)
     {
         return \StarkCore\Utils\Rest::getContent(
             self::getSdkVersion(),
@@ -63,14 +63,14 @@ class Rest
             Settings::getUser($user),
             $resource,
             $id,
-            $subresourceName,
+            $subResourceName,
             Settings::getLanguage(),
             Settings::getTimeout(),
             $options
         );
     }
 
-    public static function getSubresource($user, $resource, $id, $subresource, $options = null)
+    public static function getSubresource($user, $resource, $id, $subResource, $options = null)
     {
         return \StarkCore\Utils\Rest::getSubresource(
             self::getSdkVersion(),
@@ -79,10 +79,26 @@ class Rest
             Settings::getUser($user),
             $resource,
             $id,
-            $subresource,
+            $subResource,
             Settings::getLanguage(),
             Settings::getTimeout(),
             $options
+        );
+    }
+
+    public static function postSubResource($user, $resource, $id, $subResource, $entity = null)
+    {
+    return \StarkCore\Utils\Rest::postSubResource(
+            self::getSdkVersion(),
+            self::getHost(),
+            self::getApiVersion(),
+            Settings::getUser($user),
+            $resource,
+            $id,
+            $subResource,
+            $entity,
+            Settings::getLanguage(),
+            Settings::getTimeout(),
         );
     }
 
