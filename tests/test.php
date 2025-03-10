@@ -70,5 +70,13 @@ include_once("splitReceiverLog.php");
 include_once("splitProfile.php");
 include_once("splitProfileLog.php");
 include_once("request.php");
+include_once("merchantSession.php");
+include_once("merchantSessionLog.php");
+include_once("merchantPurchase.php");
+include_once("merchantPurchaseLog.php");
+include_once("merchantInstallment.php");
+include_once("merchantInstallmentLog.php");
+include_once("merchantCard.php");
+include_once("merchantCardLog.php");
 
 echo "\n\nAll tests concluded\n\n";
