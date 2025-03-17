@@ -65,7 +65,15 @@ class TestDynamicBrcode
                 "tags" => [
                     'War supply',
                     'DynamicBrcode #1234'
-                ]
+                ],
+                "rules" => [
+                    new DynamicBrcode\Rule([
+                        "key" => "allowedTaxIds",
+                        "value" => [
+                            "012.345.678-90"
+                        ]
+                    ])
+                ],
             ]),
             new DynamicBrcode([
                 "amount" => 40000,
@@ -73,7 +81,15 @@ class TestDynamicBrcode
                 "tags" => [
                     'War supply',
                     'DynamicBrcode #1234'
-                ]
+                ],
+                "rules" => [
+                    new DynamicBrcode\Rule([
+                        "key" => "allowedTaxIds",
+                        "value" => [
+                            "012.345.678-90"
+                        ]
+                    ])
+                ],
             ])
         ];
     }

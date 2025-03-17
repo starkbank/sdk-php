@@ -4,6 +4,7 @@ namespace StarkBank;
 use StarkCore\Utils\Checks;
 use StarkCore\Utils\Resource;
 use StarkBank\Utils\Rest;
+use StarkBank\DynamicBrcode\Rule;
 
 
 class DynamicBrcode extends Resource
@@ -14,6 +15,8 @@ class DynamicBrcode extends Resource
     public $tags;
     public $uuid;
     public $pictureUrl;
+    public $rules;
+    public $displayDescription;
     public $updated;
     public $created;
 
@@ -34,6 +37,8 @@ class DynamicBrcode extends Resource
     ## Parameters (optional):
         - expiration [DateInterval or integer, default 3600 (1 hour)]: time interval in seconds between due date and expiration date. ex 123456789
         - tags [list of strings, default []]: list of strings for tagging, these will be passed to the respective Deposit resource when paid
+        - displayDescription [string, default null]: optional description to be shown in the receiver bank interface. ex: 'Payment for service #1234'
+        - rules [list of dictionaries, default null]: array of dictionaries with "amount": int, "currencyCode": string, "id": string, "interval": string, "name": string pairs.
 
     ## Attributes (return-only):
         - id [string]: id returned on creation, this is the BR code. ex: "00020126360014br.gov.bcb.pix0114+552840092118152040000530398654040.095802BR5915Jamie Lannister6009Sao Paulo620705038566304FC6C"
@@ -51,6 +56,8 @@ class DynamicBrcode extends Resource
         $this->tags = Checks::checkParam($params, "tags");
         $this->uuid = Checks::checkParam($params, "uuid");
         $this->pictureUrl = Checks::checkParam($params, "pictureUrl");
+        $this->rules = Rule::parseRules(Checks::checkParam($params, "rules"));
+        $this->displayDescription = Checks::checkParam($params, "displayDescription");
         $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
 
