@@ -1,6 +1,7 @@
 <?php
 
 namespace StarkBank;
+use Exception;
 use StarkBank\Utils\Rest;
 use StarkCore\Utils\Checks;
 use StarkCore\Utils\Resource;
@@ -68,6 +69,7 @@ class Transaction extends Resource
     }
 
     /**
+     * @deprecated Function deprecated since 2.20.0
     # Create Transactions
 
     Send an array of Transaction objects for creation in the Stark Bank API
@@ -83,7 +85,7 @@ class Transaction extends Resource
      */
     public static function create($transactions, $user = null)
     {
-        return Rest::post($user, Transaction::resource(), $transactions);
+        throw new Exception("Function deprecated since 2.20.0");
     }
 
     /**
