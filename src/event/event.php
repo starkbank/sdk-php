@@ -58,7 +58,9 @@ class Event extends Resource
             "brcode-payment" => Event::brcodePaymentLogResource(),
             "boleto-holmes" => Event::boletoHolmesLogResource(),
             "invoice" => Event::invoiceLogResource(),
-            "deposit" => Event::depositLogResource()
+            "deposit" => Event::depositLogResource(),
+            "invoice-pull-subscription" => Event::invoicePullSubscriptionLogResource(),
+            "invoice-pull-request" => Event::invoicePullRequestLogResource()
         ];
 
         if (!isset($makerOptions[$subscription])) {
@@ -203,6 +205,34 @@ class Event extends Resource
             $array["payment"] = API::fromApiJson($payment, $array["payment"]);
             $log = function ($array) {
                 return new BrcodePayment\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
+
+    private static function invoicePullSubscriptionLogResource()
+    {
+        return function ($array) {
+            $subscription = function ($array) {
+                return new InvoicePullSubscription($array);
+            };
+            $array["subscription"] = API::fromApiJson($subscription, $array["subscription"]);
+            $log = function ($array) {
+                return new InvoicePullSubscription\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
+
+    private static function invoicePullRequestLogResource()
+    {
+        return function ($array) {
+            $request = function ($array) {
+                return new InvoicePullRequest($array);
+            };
+            $array["request"] = API::fromApiJson($request, $array["request"]);
+            $log = function ($array) {
+                return new InvoicePullRequest\Log($array);
             };
             return API::fromApiJson($log, $array);
         };
