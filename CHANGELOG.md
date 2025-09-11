@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- InvoicePullSubscription and InvoicePullRequest resources
 
 ## [2.19.0] - 2025-03-17
 ### Added

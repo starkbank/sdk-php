@@ -70,5 +70,9 @@ include_once("splitReceiverLog.php");
 include_once("splitProfile.php");
 include_once("splitProfileLog.php");
 include_once("request.php");
+include_once("invoicePullRequest.php");
+include_once("invoicePullRequestLog.php");
+include_once("invoicePullSubscription.php");
+include_once("invoicePullSubscriptionLog.php");
 
 echo "\n\nAll tests concluded\n\n";
