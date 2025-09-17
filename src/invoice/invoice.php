@@ -24,6 +24,7 @@ class Invoice extends Resource
     public $rules;
     public $splits;
     public $descriptions;
+    public $displayDescription;
     public $pdf;
     public $link;
     public $nominalAmount;
@@ -69,6 +70,7 @@ class Invoice extends Resource
         - fineAmount [integer]: Invoice fine value calculated over nominalAmount. ex: 20000
         - interestAmount [integer]: Invoice interest value calculated over nominalAmount. ex: 10000
         - discountAmount [integer]: Invoice discount value calculated over nominalAmount. ex: 3000
+        - displayDescription [string]: description to be shown in the receiver bank interface. ex: "Payment for service #1234"
         - id [string]: unique id returned when Invoice is created. ex: "5656565656565656"
         - brcode [string]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
         - fee [integer]: fee charged by this Invoice. ex: 65 (= R$ 0.65)
@@ -92,6 +94,7 @@ class Invoice extends Resource
         $this->splits = Checks::checkParam($params, "splits");
         $this->tags = Checks::checkParam($params, "tags");
         $this->descriptions = Checks::checkParam($params, "descriptions");
+        $this->displayDescription = Checks::checkParam($params, "displayDescription");
         $this->pdf = Checks::checkParam($params, "pdf");
         $this->link = Checks::checkParam($params, "link");
         $this->nominalAmount = Checks::checkParam($params, "nominalAmount");

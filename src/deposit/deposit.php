@@ -19,6 +19,7 @@ class Deposit extends Resource
     public $amount;
     public $type;
     public $status;
+    public $displayDescription;
     public $tags;
     public $fee;
     public $transactionIds;
@@ -41,6 +42,7 @@ class Deposit extends Resource
         - amount [integer]: Deposit value in cents. ex: 1234 (= R$ 12.34)
         - type [string]: type of settlement that originated the deposit. ex: "pix" or "ted"
         - status [string]: current Deposit status. ex: "created"
+        - displayDescription [string]: description to be shown in the receiver bank interface. ex: "Payment for service #1234"
         - tags [list of strings]: list of strings that are tagging the deposit. ex: ["reconciliationId", "taxId"]
         - fee [integer]: fee charged when a deposit is created. ex: 50 (= R$ 0.50)
         - transactionIds [list of strings]: ledger transaction ids linked to this deposit (if there are more than one, all but first are reversals). ex: ["19827356981273"]
@@ -60,6 +62,7 @@ class Deposit extends Resource
         $this->amount = Checks::checkParam($params, "amount");
         $this->type = Checks::checkParam($params, "type");
         $this->status = Checks::checkParam($params, "status");
+        $this->displayDescription = Checks::checkParam($params, "displayDescription");
         $this->tags = Checks::checkParam($params, "tags");
         $this->fee = Checks::checkParam($params, "fee");
         $this->transactionIds = Checks::checkParam($params, "transactionIds");
