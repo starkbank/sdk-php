@@ -109,6 +109,7 @@ class TestTransfer
             "amount" => 10,
             "name" => "João da Silva",
             "description" => "Test description",
+            "displayDescription" => "Payment for service #1234",
             "taxId" => "012.345.678-90",
             "bankCode" => "01",
             "branchCode" => "0001",

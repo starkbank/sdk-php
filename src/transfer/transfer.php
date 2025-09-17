@@ -22,6 +22,7 @@ class Transfer extends Resource
     public $externalId;
     public $scheduled;
     public $description;
+    public $displayDescription;
     public $tags;
     public $rules;
     public $fee;
@@ -51,6 +52,7 @@ class Transfer extends Resource
         - externalId [string, default null]: url safe string that must be unique among all your transfers. Duplicated externalIds will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
         - scheduled [DateTime or date, default now]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-11-30"
         - description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
+        - displayDescription [string]: description to be shown in the receiver bank interface. ex: "Payment for service #1234"
         - tags [array of strings]: array of strings for reference when searching for transfers. ex: ["employees", "monthly"]
         - rules [list of Transfer\Rules, default []]: list of Transfer\Rule objects for modifying transfer behavior. ex: [Transfer\Rule(key=>"resendingLimit", value=>5)]
 
@@ -77,6 +79,7 @@ class Transfer extends Resource
         $this->externalId = Checks::checkParam($params, "externalId");
         $this->scheduled = Checks::checkDateTime(Checks::checkParam($params, "scheduled"));
         $this->description = Checks::checkParam($params, "description");
+        $this->displayDescription = Checks::checkParam($params, "displayDescription");
         $this->tags = Checks::checkParam($params, "tags");
         $this->rules = Rule::parseRules(Checks::checkParam($params, "rules"));
         $this->fee = Checks::checkParam($params, "fee");
