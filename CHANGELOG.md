@@ -21,6 +21,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [2.20.0] - 2025-09-11
 ### Added
 - InvoicePullSubscription and InvoicePullRequest resources
+### Changed
+- create method from Transaction resource. This method is now deprecated
 
 ## [2.19.0] - 2025-03-17
 ### Added
