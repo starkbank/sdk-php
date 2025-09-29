@@ -7,25 +7,17 @@ use StarkBank\Transaction;
 
 class TestTransaction
 {
-    public function createAndQuery()
+    public function create()
     {
         $externalId = uniqid();
         $transactions = [self::example($externalId)];
 
-        $transactions = Transaction::create($transactions);
-
-        if ($transactions[0]->externalId != $externalId) {
-            throw new Exception("failed");
-        }
-
-        $transactions = iterator_to_array(Transaction::query(["limit" => 10, "externalIds" => [$externalId]]));
-
-        if (count($transactions) != 1) {
-            throw new Exception("failed");
-        }
-        
-        if ($transactions[0]->externalId != $externalId) {
-            throw new Exception("failed");
+        try {
+            Transaction::create($transactions);
+        } catch (Exception $e) {
+            if ($e->getMessage() !== "Function deprecated since v2.22.0") {
+                echo(" - Failed");
+            }
         }
     }
 
@@ -104,8 +96,8 @@ echo "\n\nTransaction:";
 
 $test = new TestTransaction();
 
-echo "\n\t- create and query";
-$test->createAndQuery();
+echo "\n\t- create";
+$test->create();
 echo " - OK";
 
 echo "\n\t- query and get";
