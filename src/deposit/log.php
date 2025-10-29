@@ -110,6 +110,25 @@ class Log extends Resource
         return Rest::getPage($user, Log::resource(), $options);
     }
 
+    /**
+    # Retrieve a reversed Deposit\Log receipt pdf file
+
+    Receive a reversed Deposit\Log pdf receipt file generated in the Stark Bank API by its id.
+    
+    ## Parameters (required):
+        - id [string]: object unique id. ex: "5656565656565656"
+
+    ## Parameters (optional):
+        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
+    
+    ## Return:
+        - Deposit pdf file
+     */
+    public static function pdf($id, $user = null)
+    {
+        return Rest::getContent($user, Log::resource(), $id, "pdf");
+    }
+
     private static function resource()
     {
         $depositLog = function ($array) {

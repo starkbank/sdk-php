@@ -936,6 +936,21 @@ $depositLog = Log::get("5656565656565656");
 print_r($deposit);
 ```
 
+## Get a reversed deposit log PDF
+
+Whenever an Deposit is successfully reversed, a reversed log will be created. 
+To retrieve a specific reversal receipt, you can request the corresponding log PDF:
+
+```php
+use StarkBank\Deposit\Log;
+
+$pdf = Log::pdf("5656565656565656");
+
+$fp = fopen('deposit.pdf', 'w');
+fwrite($fp, $pdf);
+fclose($fp);
+```
+
 ## Create boletos
 
 You can create boletos to charge customers or to receive money from accounts
