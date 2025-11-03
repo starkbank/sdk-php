@@ -48,6 +48,25 @@ class TestDepositLog
             throw new Exception("failed");
         }
     }
+
+    public function getReversedDepositPdf()
+    {
+        $reversedDepositLog = iterator_to_array(Log::query(["limit" => 1, "types" => ["reversed"]]));
+
+        if (count($reversedDepositLog) != 1) {
+            throw new Exception("failed");
+        }
+
+        $pdf = Log::pdf($reversedDepositLog[0]->id);
+
+        if (gettype($pdf) != "string" || strlen($pdf) == 0) {
+            throw new Exception("failed");
+        }
+
+        $fp = fopen('deposit.pdf', 'w');
+        fwrite($fp, $pdf);
+        fclose($fp);
+    }
 }
 
 echo "\n\nDepositLog:";
@@ -60,4 +79,8 @@ echo " - OK";
 
 echo "\n\t- get page";
 $test->getPage();
+echo " - OK";
+
+echo "\n\t- get pdf";
+$test->getReversedDepositPdf();
 echo " - OK";

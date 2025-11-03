@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- pdf method to Deposit resource
 
 ## [2.22.0] - 2025-09-30
 ### Changed
