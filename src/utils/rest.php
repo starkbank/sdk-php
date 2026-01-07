@@ -98,7 +98,7 @@ class Rest
             $subResource,
             $entity,
             Settings::getLanguage(),
-            Settings::getTimeout(),
+            Settings::getTimeout()
         );
     }
 

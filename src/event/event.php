@@ -60,7 +60,10 @@ class Event extends Resource
             "invoice" => Event::invoiceLogResource(),
             "deposit" => Event::depositLogResource(),
             "invoice-pull-subscription" => Event::invoicePullSubscriptionLogResource(),
-            "invoice-pull-request" => Event::invoicePullRequestLogResource()
+            "invoice-pull-request" => Event::invoicePullRequestLogResource(),
+            "merchant-card" => Event::merchantCardLogResource(),
+            "merchant-installment" => Event::merchantInstallmentLogResource(),
+            "merchant-purchase" => Event::merchantPurchaseLogResource(),
         ];
 
         if (!isset($makerOptions[$subscription])) {
@@ -238,6 +241,47 @@ class Event extends Resource
         };
     }
 
+    private static function merchantCardLogResource()
+    {
+        return function ($array) {
+            $card = function ($array) {
+                return new MerchantCard($array);
+            };
+            $array["card"] = API::fromApiJson($card, $array["card"]);
+            $log = function ($array) {
+                return new MerchantCard\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
+
+    private static function merchantInstallmentLogResource()
+    {
+        return function ($array) {
+            $installment = function ($array) {
+                return new MerchantInstallment($array);
+            };
+            $array["installment"] = API::fromApiJson($installment, $array["installment"]);
+            $log = function ($array) {
+                return new MerchantInstallment\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
+
+    private static function merchantPurchaseLogResource()
+    {
+        return function ($array) {
+            $purchase = function ($array) {
+                return new MerchantPurchase($array);
+            };
+            $array["purchase"] = API::fromApiJson($purchase, $array["purchase"]);
+            $log = function ($array) {
+                return new MerchantPurchase\Log($array);
+            };
+            return API::fromApiJson($log, $array);
+        };
+    }
 
     /**
     # Retrieve a specific notification Event

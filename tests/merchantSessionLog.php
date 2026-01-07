@@ -7,18 +7,17 @@ use StarkBank\MerchantSession\Log;
 
 class TestMerchantSessionLog
 {
-    public function queryAnGet()
+    public function queryAndGet()
     {
-        $logs = Log::query(["limit" => 10]);
+        $logs = iterator_to_array(Log::query(["limit" => 10]));
         
         foreach ($logs as $log) {
             if (is_null($log->id)) {
                 throw new Exception("failed");
             }
 
-            $log = iterator_to_array(Log::query(["limit" => 1]))[0];
-            $log = Log::get($log->id);
-            if (!is_string($log->id)) {
+            $getLog = Log::get($log->id);
+            if ($log->id != $getLog->id) {
                 throw new Exception("failed");
             }
         }
@@ -48,7 +47,7 @@ echo "\n\MerchantSessionLog:";
 $test = new TestMerchantSessionLog();
 
 echo "\n\t- query and get";
-$test->queryAnGet();
+$test->queryAndGet();
 echo " - OK";
 
 echo "\n\t- page";

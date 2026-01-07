@@ -4,8 +4,6 @@ namespace Test\MerchantSession;
 use \Exception;
 use StarkBank\MerchantSession;
 use \DateTime;
-use \DateTimeZone;
-use \DateInterval;
 
 
 class TestMerchantSession
@@ -19,19 +17,20 @@ class TestMerchantSession
         }
     }
 
-    public function query()
+    public function queryAndGet()
     {
         $sessions = iterator_to_array(MerchantSession::query(["limit" => 5, "before" => new DateTime("now")]));
-        $index = 0;
 
         foreach ($sessions as $session) {
-        $testSession = MerchantSession::get($session->id);
-            print_r($testSession);
+            $getSession = MerchantSession::get($session->id);
             
-            if ($sessions[$index]->id != $session->id) {
+            if ($session->id != $getSession->id) {
                 throw new Exception("failed");
             }
-            $index = $index + 1;
+        }
+
+        if (count($sessions) != 5) {
+            throw new Exception("failed");
         }
     }
 
@@ -63,7 +62,7 @@ class TestMerchantSession
 
         $purchase = [
             "installmentCount" => 12,
-            "amount" => 180,
+            "amount" => 6000,
             "cardExpiration" => "2035-01",
             "cardNumber" => "5277696455399733",
             "cardSecurityCode" => "123",
@@ -84,7 +83,7 @@ class TestMerchantSession
         $merchantSession = MerchantSession::create($sessionExample);
 
         $purchase = [
-            "amount" => 180,
+            "amount" => 6000,
             "installmentCount" => 12,
             "cardExpiration" => "2035-01",
             "cardNumber" => "5277696455399733",
@@ -124,15 +123,15 @@ class TestMerchantSession
             ],
             "allowedInstallments" => [
                 [
-                    "totalAmount" => 0,
+                    "totalAmount" => 5000,
                     "count" => 1
                 ],
                 [
-                    "totalAmount" => 120,
+                    "totalAmount" => 5000,
                     "count" => 2
                 ],
                 [
-                    "totalAmount" => 180,
+                    "totalAmount" => 6000,
                     "count" => 12
                 ]
             ],
@@ -140,7 +139,8 @@ class TestMerchantSession
             "challengeMode" => $challengeMode,
             "tags" => [
                 "yourTags"
-            ]
+            ],
+            "softDescriptor" => "Test descriptor"
         ]);
     }
 }
@@ -149,22 +149,22 @@ echo "\n\MerchantSession:";
 
 $test = new TestMerchantSession();
 
-// echo "\n\t- create";
-// $test->create();
-// echo " - OK";
-
-echo "\n\t- query and get";
-$test->query();
+echo "\n\t- create";
+$test->create();
 echo " - OK";
 
-// echo "\n\t- get page";
-// $test->getPage();
-// echo " - OK";
+echo "\n\t- query and get";
+$test->queryAndGet();
+echo " - OK";
 
-// echo "\n\t- purchase challenge mode disabled";
-// $test->purchaseChallengeModeDisabled();
-// echo " - OK";
+echo "\n\t- get page";
+$test->getPage();
+echo " - OK";
 
-// echo "\n\t- purchase challenge mode enabled";
-// $test->purchaseChallengeModeEnabled();
-// echo " - OK";
+echo "\n\t- purchase challenge mode disabled";
+$test->purchaseChallengeModeDisabled();
+echo " - OK";
+
+echo "\n\t- purchase challenge mode enabled";
+$test->purchaseChallengeModeEnabled();
+echo " - OK";
