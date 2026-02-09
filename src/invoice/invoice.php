@@ -312,7 +312,7 @@ class Invoice extends Resource
             "name" => "Payment",
             "maker" => $payment
         ];
-        return Rest::getSubresource($user, Invoice::resource(), $id, $subResource);
+        return Rest::getSubResource($user, Invoice::resource(), $id, $subResource);
     }
 
     private static function resource()

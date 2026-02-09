@@ -70,9 +70,9 @@ class Rest
         );
     }
 
-    public static function getSubresource($user, $resource, $id, $subResource, $options = null)
+    public static function getSubResource($user, $resource, $id, $subResource, $options = null)
     {
-        return \StarkCore\Utils\Rest::getSubresource(
+        return \StarkCore\Utils\Rest::getSubResource(
             self::getSdkVersion(),
             self::getHost(),
             self::getApiVersion(),
