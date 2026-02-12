@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.24.0] - 2026-02-12
 ### Added
 - Merchant Session resource
 - Merchant Installment resource
