@@ -89,6 +89,7 @@ class TestMerchantPurchase
             "billingZipCode" => "11111-111",
             "holderEmail" => "holdeName@email.com",
             "holderPhone" => "11111111111",
+            "holderId" => "5656565656565656",
             "metadata" => [
                 "userAgent" => "userAgent",
                 "userIp" => "255.255.255.255",

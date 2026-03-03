@@ -140,7 +140,8 @@ class TestMerchantSession
             "tags" => [
                 "yourTags"
             ],
-            "softDescriptor" => "Test descriptor"
+            "softDescriptor" => "Test descriptor",
+            "holderId" => "565656565656556"
         ]);
     }
 }

@@ -22,6 +22,7 @@ class MerchantSession extends Resource
     public $tags;
     public $uuid;
     public $softDescriptor;
+    public $holderId;
     public $created;
     public $updated;
 
@@ -42,6 +43,7 @@ class MerchantSession extends Resource
         $this->tags = Checks::checkParam($params, "tags");
         $this->uuid = Checks::checkParam($params, "uuid");
         $this->softDescriptor = Checks::checkParam($params, "softDescriptor");
+        $this->holderId = Checks::checkParam($params, "holderId");
         $this->created = Checks::checkDateTime(Checks::checkParam($params, "created"));
         $this->updated = Checks::checkDateTime(Checks::checkParam($params, "updated"));
         
