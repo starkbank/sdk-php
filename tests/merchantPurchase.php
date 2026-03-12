@@ -90,6 +90,7 @@ class TestMerchantPurchase
             "holderEmail" => "holdeName@email.com",
             "holderPhone" => "11111111111",
             "holderId" => "5656565656565656",
+            "softDescriptor" => "Test descriptor",
             "metadata" => [
                 "userAgent" => "userAgent",
                 "userIp" => "255.255.255.255",

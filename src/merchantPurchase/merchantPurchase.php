@@ -22,6 +22,7 @@ class MerchantPurchase extends Resource
     public $holderEmail;
     public $holderPhone;
     public $holderId;
+    public $softDescriptor;
     public $billingCountryCode;
     public $billingCity;
     public $billingStateCode;
@@ -59,6 +60,7 @@ class MerchantPurchase extends Resource
         $this->holderEmail = Checks::checkParam($params, "holderEmail");
         $this->holderPhone = Checks::checkParam($params, "holderPhone");
         $this->holderId = Checks::checkParam($params, "holderId");
+        $this->softDescriptor = Checks::checkParam($params, "softDescriptor");
         $this->fundingType = Checks::checkParam($params, "fundingType");
         $this->billingCountryCode = Checks::checkParam($params, "billingCountryCode");
         $this->billingCity = Checks::checkParam($params, "billingCity");

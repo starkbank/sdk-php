@@ -17,6 +17,7 @@ class Purchase extends Resource
     public $holderEmail;
     public $holderPhone;
     public $holderId;
+    public $softDescriptor;
     public $fundingType;
     public $billingCountryCode;
     public $billingCity;
@@ -56,6 +57,7 @@ class Purchase extends Resource
         $this->holderEmail = Checks::checkParam($params, "holderEmail");
         $this->holderPhone = Checks::checkParam($params, "holderPhone");
         $this->holderId = Checks::checkParam($params, "holderId");
+        $this->softDescriptor = Checks::checkParam($params, "softDescriptor");
         $this->fundingType = Checks::checkParam($params, "fundingType");
         $this->billingCountryCode = Checks::checkParam($params, "billingCountryCode");
         $this->billingCity = Checks::checkParam($params, "billingCity");
