@@ -82,5 +82,8 @@ include_once("merchantInstallment.php");
 include_once("merchantInstallmentLog.php");
 include_once("merchantCard.php");
 include_once("merchantCardLog.php");
+include_once("verifiedAccount.php"); 
+include_once("verifiedAccountLog.php");
+include_once("verifiedTransfer.php");
 
 echo "\n\nAll tests concluded\n\n";
