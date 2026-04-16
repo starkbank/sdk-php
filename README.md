@@ -1703,6 +1703,110 @@ print_r($paymentLog);
 resource and routes, which are all analogous to the TaxPayment resource. The ones we currently support are:
 - DarfPayment, for DARFs
 
+## Create VerifiedAccounts
+
+You can create VerifiedAccounts to confirm that a bank account or Pix key belongs to a given tax ID before sending a transfer.
+
+```php
+use StarkBank\VerifiedAccount;
+
+$accounts = [
+    new VerifiedAccount([
+            "taxId" => "012.345.678-90",
+            "bankCode" => "20018183",
+            "branchCode" => "0001",
+            "name" => "Anthony Edward Stark",
+            "number" => "876543-2",
+            "type" => "checking",
+            "tags" => ["iron", "suit"]
+    ])
+];
+
+$verifiedAccount = VerifiedAccount::create($account)[0];
+
+print_r($verifiedAccount);
+```
+
+## Get a VerifiedAccount
+
+You can get a specific VerifiedAccount by its id:
+
+```php
+use StarkBank\VerifiedAccount;
+
+$verifiedAccount = VerifiedAccount::get("5155165527080960");
+
+print_r($verifiedAccount);
+```
+
+## Cancel a VerifiedAccount
+
+You can cancel a VerifiedAccount by its id:
+
+```php
+use StarkBank\VerifiedAccount;
+
+$verifiedAccount = VerifiedAccount::cancel("5155165527080960");
+
+print_r($verifiedAccount);
+```
+
+## Query VerifiedAccounts
+
+To search for VerifiedAccounts using filters, run:
+
+```php
+use StarkBank\VerifiedAccount;
+
+$verifiedAccount = iterator_to_array(VerifiedAccount::query(["limit" => 10, "status" => active, "tags" => ["iron", "suit"]]))
+
+print_r($verifiedAccount);
+```
+
+## Query VerifiedAccount logs
+
+You can search for VerifiedAccount logs by specifying filters:
+
+```php
+use StarkBank\VerifiedAccount\Log;
+
+$log = iterator_to_array(Log::query(["limit" => 10]));
+
+print_r($log);
+```
+
+## Get a VerifiedAccount log
+
+If you want to get a specific VerifiedAccount log by its id, just run:
+
+```php
+use StarkBank\VerifiedAccount\Log;
+
+$log = Log::get("5155165527080960");
+
+print_r($log);
+```
+
+## Create VerifiedTransfers
+
+You can send a transfer to a previously verified account by creating a VerifiedTransfer:
+
+```php
+use StarkBank\VerifiedTransfer;
+
+$transfes = [
+    new VerifiedTransfer([
+        "amount" => 1000,
+        "accountId" => "5155165527080960",
+        "tags" => ["verified-transfer-test"],
+    ])
+]
+
+foreach ($tranfers as $transfer) {
+    print_r($transfer);
+}
+```
+
 ## Preview payment information before executing the payment
 
 You can preview multiple types of payment to confirm any information before actually paying.
