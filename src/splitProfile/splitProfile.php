@@ -22,9 +22,12 @@ class SplitProfile extends Resource
     created in the Stark Bank API    
 
     ## Parameters (required):
-        - interval [string]: frequency of transfer, default "week". Options: "day", "week", "month"
-        - delay [string]: how long the amount will stay at the workspace in milliseconds
-    
+        - interval [string]: frequency of transfer. Options: "instant", "day", "week", "month"
+
+    ## Parameters (optional):
+        - delay [integer, default 0]: how long the amount will stay at the workspace before being transferred, in milliseconds (0 to 1000000000)
+        - tags [array of strings, default []]: array of strings for tagging
+
     ## Attributes (return-only):
         - id [string]: unique id returned when the splitProfile is created. ex: "5656565656565656"
         - delay [DateInterval or integer]: ex: 604800,

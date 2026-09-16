@@ -57,11 +57,11 @@ class Invoice extends Resource
         - expiration [DateInterval or integer, default null]: time interval in seconds between due date and expiration date. ex 123456789
         - fine [float, default 2.0]: Invoice fine for overdue payment in %. ex: 2.5
         - interest [float, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
-        - discounts [array of dictionaries, default null]: array of dictionaries with "percentage":float and "due":DateTime or string pairs
+        - discounts [array of dictionaries, default null]: array of up to 5 dictionaries with "percentage":float and "due":DateTime or string pairs
         - rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
         - splits [list of Split.Splits, default []]: list of Split.Splits objects to indicate payment receivers. ex: [Invoice.Split(amount=141, receiverId="5706627130851328")]
         - tags [array of strings, default null]: array of strings for tagging
-        - descriptions [array of dictionaries, default null]: array of dictionaries with "key":string and (optional) "value":string pairs
+        - descriptions [array of dictionaries, default null]: array of up to 15 dictionaries with "key":string and (optional) "value":string pairs
 
     ## Attributes (return-only):
         - pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
@@ -140,7 +140,7 @@ class Invoice extends Resource
     /**
     # Create Invoices
 
-    Send an array of Invoice objects for creation in the Stark Bank API
+    Send an array of Invoice objects for creation in the Stark Bank API. You can create up to 100 Invoices per call. If an Invoice is created with amount 0, any amount paid by the customer will be accepted; otherwise only the exact amount specified is accepted.
 
     ## Parameters (required):
         - invoices [array of Invoice objects]: array of Invoice objects to be created in the API
@@ -270,9 +270,9 @@ class Invoice extends Resource
     Update notification Invoice by passing id.
 
     ## Parameters (required):
-        - id [array of strings]: Invoice unique ids. ex: "5656565656565656"
+        - id [string]: Invoice unique id. ex: "5656565656565656"
         - status [string]: If the Invoice hasn't been paid yet, you may cancel it by passing "canceled" in the status
-        - amount [string]: If the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer
+        - amount [integer, default null]: if the Invoice has not yet been paid, sets the new requested amount; if it has already been paid, the amount can only be decreased, which triggers a payment reversal for the difference.
         - due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
         - expiration [DateInterval or integer, default null]: time interval in seconds between due date and expiration date. ex 123456789
         - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call

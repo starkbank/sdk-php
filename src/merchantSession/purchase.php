@@ -42,8 +42,27 @@ class Purchase extends Resource
     
     /**
     # MerchantSession\Purchase object
-    Check out our API Documentation at https://starkbank.com/docs/api#merchant-session
-    */
+
+    Carries the card and purchase data submitted through MerchantSession::purchase() to charge a card directly from the payer's client application.
+
+    ## Parameters (required):
+        - amount [integer]: amount in cents to be received.
+        - cardExpiration [string]: card expiration in "YYYY-MM" format.
+        - cardNumber [string]: card number.
+        - cardSecurityCode [string]: card security code.
+        - fundingType [string]: "credit" or "debit".
+        - holderName [string]: card holder name as printed on the card.
+
+    ## Parameters (conditionally required):
+        - billingCity, billingCountryCode, billingStateCode, billingStreetLine1, billingStreetLine2, billingZipCode, holderEmail, holderPhone: required when the session's challengeMode is "enabled", optional otherwise.
+        - metadata [dictionary]: when challengeMode is "enabled", must include the payer device fields userAgent, timezoneOffset, userIp and language.
+
+    ## Parameters (optional):
+        - installmentCount [integer, default 1]: number of purchase installments.
+
+    ## Attributes (return-only):
+        - cardEnding, cardId, challengeUrl, created, currencyCode, endToEndId, fee, network, source, status, tags, updated
+     */
     function __construct(array $params)
     {
         parent::__construct($params);

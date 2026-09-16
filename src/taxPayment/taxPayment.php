@@ -112,8 +112,7 @@ class TaxPayment extends Resource
     /**
     # Retrieve a specific TaxPayment pdf file
 
-    Receive a single TaxPayment pdf file generated in the Stark Bank API by passing its id.
-    Only valid for tax payments with "success" or "processing" status.
+    Receive a single TaxPayment pdf file generated in the Stark Bank API by its id. Only valid for tax payments with "success", "processing" or "created" status.
 
     ## Parameters (required):
         - id [string]: object unique id. ex: "5656565656565656"
@@ -179,7 +178,7 @@ class TaxPayment extends Resource
     /**
     # Delete a TaxPayment entity
 
-    Delete a TaxPayment entity previously created in the Stark Bank API
+    Cancel a scheduled TaxPayment entity previously created in the Stark Bank API. This only cancels the payment if it has not yet started processing; a payment that has already been processed can still be deleted, but the underlying transfer of funds cannot be undone.
 
     ## Parameters (required):
         - id [string]: TaxPayment unique id. ex: "5656565656565656"

@@ -116,8 +116,7 @@ class BoletoPayment extends Resource
     /**
     # Retrieve a specific BoletoPayment pdf file
 
-    Receive a single BoletoPayment pdf file generated in the Stark Bank API by passing its id.
-    Only valid for boleto payments with "success" status.
+    Receive a single BoletoPayment pdf file generated in the Stark Bank API by its id. Only valid for boleto payments with "success", "processing" or "created" status.
 
     ## Parameters (required):
         - id [string]: object unique id. ex: "5656565656565656"
@@ -185,7 +184,7 @@ class BoletoPayment extends Resource
     /**
     # Delete a BoletoPayment entity
 
-    Delete a BoletoPayment entity previously created in the Stark Bank API
+    Cancel a scheduled BoletoPayment entity previously created in the Stark Bank API. This only cancels the payment if it has not yet started processing; a payment that has already been processed can still be deleted, but the underlying transfer of funds cannot be undone.
 
     ## Parameters (required):
         - id [string]: BoletoPayment unique id. ex: "5656565656565656"

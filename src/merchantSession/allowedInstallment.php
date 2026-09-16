@@ -12,6 +12,15 @@ class AllowedInstallment extends SubResource
     public $totalAmount;
     public $count;
 
+    /**
+    # MerchantSession\AllowedInstallment object
+
+    Defines one installment configuration allowed for purchases created against a MerchantSession.
+
+    ## Parameters (required):
+        - totalAmount [integer]: total amount in cents to be received for this installment plan. ex: 100 (= R$1.00)
+        - count [integer]: number of installments in this plan.
+     */
     function __construct(array $params)
     {
         $this->totalAmount = Checks::checkParam($params, "totalAmount");

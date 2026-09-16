@@ -23,6 +23,7 @@ class BoletoHolmes extends Resource
     When you initialize a BoletoHolmes, the entity will not be automatically
     created in the Stark Bank API. The 'create' function sends the objects
     to the Stark Bank API and returns the array of created objects.
+    The investigation runs asynchronously against CIP and resolves in under an hour; register a webhook to receive the result instead of polling.
 
     ## Parameters (required):
         - boletoId [string]: investigated boleto entity ID. ex: "5656565656565656"

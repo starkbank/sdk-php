@@ -39,7 +39,7 @@ class BrcodePayment extends Resource
         - description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
     
     ## Parameters (conditionally required):
-        - amount [integer, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
+        - amount [integer, default null]: amount to pay, in cents. Required only if the brcode itself carries no fixed amount (the payment fails if left unset in that case); otherwise defaults to the brcode's own amount. ex: 23456 (= R$ 234.56)
 
     ## Parameters (optional):    
         - scheduled [DateTime or string, default now]: payment scheduled date or datetime. ex: "2020-11-25T17:59:26.249976+00:00"
@@ -88,7 +88,7 @@ class BrcodePayment extends Resource
     /**
     # Create BrcodePayments
 
-    Send an array of BrcodePayment objects for creation in the Stark Bank API
+    Send an array of BrcodePayment objects for creation in the Stark Bank API. Because the brcode is processed asynchronously, the returned object's amount will initially be zero until processing completes.
 
     ## Parameters (required):
         - payments [array of BrcodePayment objects]: array of BrcodePayment objects to be created in the API
@@ -126,7 +126,7 @@ class BrcodePayment extends Resource
     /**
     # Retrieve a specific BrcodePayment pdf file
 
-    Receive a single BrcodePayment pdf receipt file generated in the Stark Bank API by passing its id.
+    Receive a single BrcodePayment pdf receipt file generated in the Stark Bank API by passing its id. Only valid for brcode payments with "success", "processing" or "created" status.
 
     ## Parameters (required):
         - id [string]: object unique id. ex: "5656565656565656"
@@ -148,7 +148,7 @@ class BrcodePayment extends Resource
     Update notification BrcodePayment by passing id.
 
     ## Parameters (required):
-        - id [array of strings]: BrcodePayment unique ids. ex: "5656565656565656"
+        - id [string]: BrcodePayment unique id, passed in the URL path. ex: "5656565656565656"
         - status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
         - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 

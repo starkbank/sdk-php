@@ -18,9 +18,17 @@ class Log extends Resource
     public $session;
 
     /**
-    # MerchantSession\Log object    
-      Check out our API Documentation at https://starkbank.com/docs/api#merchant-session
-    */
+    # MerchantSession\Log object
+
+    Every time a MerchantSession entity is updated, a corresponding MerchantSession\Log is generated for the entity.
+
+    ## Attributes (return-only):
+        - id [string]: unique id returned when the log is created.
+        - session [MerchantSession]: MerchantSession entity to which the log refers to.
+        - errors [array of strings]: array of errors linked to this MerchantSession event.
+        - type [string]: type of the MerchantSession event which triggered the log creation.
+        - created [DateTime]: creation datetime for the log.
+     */
     function __construct(array $params)
     {
         parent::__construct($params);

@@ -18,9 +18,17 @@ class Log extends Resource
     public $purchase;
 
     /**
-    # MerchantPurchase\Log object    
-      Check out our API Documentation at https://starkbank.com/docs/api#merchant-purchase
-    */
+    # MerchantPurchase\Log object
+
+    Every time a MerchantPurchase entity is updated, a corresponding MerchantPurchase\Log is generated for the entity.
+
+    ## Attributes (return-only):
+        - id [string]: unique id returned when the log is created.
+        - purchase [MerchantPurchase]: MerchantPurchase entity to which the log refers to.
+        - errors [array of strings]: array of errors linked to this MerchantPurchase event.
+        - type [string]: type of the MerchantPurchase event which triggered the log creation.
+        - created [DateTime]: creation datetime for the log.
+     */
     function __construct(array $params)
     {
         parent::__construct($params);
