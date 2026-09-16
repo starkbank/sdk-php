@@ -13,6 +13,10 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- VerifiedAccount resource
+- VerifiedTransfer resource
+
 ### Fixed
 - Docstrings
 
