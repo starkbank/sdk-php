@@ -1888,15 +1888,13 @@ You can issue cards with specific spending rules.
 ```php
 use StarkBank\CorporateCard;
 
-$cards = CorporateCard::create(
-    new CorporateCard(
-        "holdeId" => "5155165527080960",
-    ),
+$card = CorporateCard::create(
+    new CorporateCard([
+        "holderId" => "5155165527080960",
+    ])
 );
 
-foreach ($cards as $card) {
-    print_r($card);
-}
+print_r($card);
 ```
 
 ## Query CorporateCards
@@ -2079,17 +2077,14 @@ by using the Withdrawal resource.
 ```php
 use StarkBank\CorporateWithdrawal;
 
-$withdrawals = CorporateWithdrawal::create(
+$withdrawal = CorporateWithdrawal::create(
     new CorporateWithdrawal([
-        "amount" => 10000.
+        "amount" => 10000,
         "externalId" => "123",
-        "description" => "Sending back"
     ])
 );
 
-foreach ($withdrawals as $withdrawal) {
-    print_r($withdrawal);
-}
+print_r($withdrawal);
 ```
 
 **Note**: Instead of using CorporateWithdrawal objects, you can also pass each element in dictionary format
@@ -2113,10 +2108,10 @@ You can get a list of created withdrawals given some filters.
 ```php
 use StarkBank\CorporateWithdrawal;
 
-$withdrawals = CorporateWithdrawal::query(
+$withdrawals = CorporateWithdrawal::query([
     "after" => "2020-01-01",
     "before" => "2020-03-01"
-);
+]);
 
 foreach ($withdrawals as $withdrawal) {
     print_r($withdrawal);

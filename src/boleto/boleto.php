@@ -62,10 +62,10 @@ class Boleto extends Resource
         - fine [float, default 2.0]: Boleto fine for overdue payment in %. ex: 2.5
         - interest [float, default 1.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
         - overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
-        - receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
-        - receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-        - descriptions [array of dictionaries, default null]: array of dictionaries with "text":string and (optional) "amount":integer pairs
-        - discounts [array of dictionaries, default null]: array of dictionaries with "percentage":float and "date":DateTime or string pairs
+        - receiverName [string, default null]: receiver (Sacador Avalista) full name. If omitted, the workspace owner's name is used; if informed, receiverTaxId must also be informed. ex: "Anthony Edward Stark"
+        - receiverTaxId [string, default null]: receiver (Sacador Avalista) tax ID (CPF or CNPJ), with or without formatting. If omitted, the workspace owner's tax ID is used; if informed, receiverName must also be informed.
+        - descriptions [array of dictionaries, default null]: array of up to 15 dictionaries with "text":string and (optional) "amount":integer pairs. When the "booklet" PDF layout is used, only the text of the first description is shown, filling the installment cell.
+        - discounts [array of dictionaries, default null]: array of up to 2 dictionaries with "percentage":float and "date":DateTime or string pairs
         - tags [array of strings]: array of strings for tagging
     
     ## Attributes (return-only):
@@ -142,7 +142,7 @@ class Boleto extends Resource
     /**
     # Create Boletos
 
-    Send an array of Boleto objects for creation in the Stark Bank API
+    Send an array of Boleto objects for creation in the Stark Bank API. You can create up to 100 Boletos per request. If a Boleto is paid after its due date and carries fine, interest or a discount, its amount attribute will be updated to reflect the amount actually paid.
 
     ## Parameters (required):
         - boletos [array of Boleto objects]: array of Boleto objects to be created in the API
@@ -180,13 +180,14 @@ class Boleto extends Resource
     /**
     # Retrieve a specific Boleto pdf file
 
-    Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
+    Receive a single Boleto pdf file generated in the Stark Bank API by passing its id. This route is public and does not require authentication headers, but repeated requests for an invalid Boleto id will get your IP blocked for this specific route.
 
     ## Parameters (required):
         - id [string]: object unique id. ex: "5656565656565656"
 
     ## Parameters (optional):
-        - layout [string]: Layout specification. Available options are "default" and "booklet"
+        - layout [string, default "default"]: Layout specification. Available options are "default" (full page) and "booklet" ("carne")
+        - hiddenFields [array of strings, default null]: list of fields to hide in the Boleto pdf. ex: ["customerAddress"]
         - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
 
     ## Return:
@@ -250,7 +251,7 @@ class Boleto extends Resource
     /**
     # Delete a Boleto entity
 
-    Delete a Boleto entity previously created in the Stark Bank API
+    Delete a Boleto entity previously created in the Stark Bank API. This sends a cancellation request to CIP; once canceled, the Boleto can no longer be paid. This action cannot be undone.
 
     ## Parameters (required):
         - id [string]: Boleto unique id. ex: "5656565656565656"

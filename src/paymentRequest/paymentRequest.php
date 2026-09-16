@@ -34,7 +34,7 @@ class PaymentRequest extends Resource
 
     ## Parameters (required):
         - centerId [string]: target cost center ID. ex: "5656565656565656"
-        - payment [Transfer, Transaction, BoletoPayment, UtilityPayment or dictionary]: payment entity that should be approved and executed.
+        - payment [Transfer, Transaction, BoletoPayment, UtilityPayment, TaxPayment, DarfPayment or dictionary]: payment entity that should be approved and executed. Do not set a "scheduled" value on this payment; the PaymentRequest's own "due" parameter serves that purpose.
 
     ## Parameters (conditionally required):
         - type [string]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "brcode-payment"
@@ -111,7 +111,7 @@ class PaymentRequest extends Resource
         - limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
         - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-        - sort [string, default "-created"]: sort order considered in response. Valid options are "-created" or "-due".
+        - sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
         - status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
         - type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "brcode-payment"
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
@@ -139,7 +139,7 @@ class PaymentRequest extends Resource
         - limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
         - after [DateTime or string, default null] date filter for objects created only after specified date. ex: "2020-04-03"
         - before [DateTime or string, default null] date filter for objects created only before specified date. ex: "2020-04-03"
-        - sort [string, default "-created"]: sort order considered in response. Valid options are "-created" or "-due".
+        - sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
         - status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
         - type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
         - tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]

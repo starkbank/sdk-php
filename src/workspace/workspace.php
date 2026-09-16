@@ -56,9 +56,9 @@ class Workspace extends Resource
 
     /**
     # Create Workspace
-    
-    Send a Workspace for creation in the Stark Bank API
-    
+
+    Send a Workspace for creation in the Stark Bank API. Only Organization credentials can create Workspaces.
+
     ## Parameters (required):
         - username [string]: Simplified name to define the workspace URL. This name must be unique across all Stark Bank Workspaces. Ex: "starkbankworkspace"
         - name [string]: Full name that identifies the Workspace. This name will appear when people access the Workspace on our platform, for example. Ex: "Stark Bank Workspace"
@@ -152,7 +152,7 @@ class Workspace extends Resource
         - name [string]: Full name that identifies the Workspace. This name will appear when people access the Workspace on our platform, for example. Ex: "Stark Bank Workspace"
         - allowedTaxIds [list of strings, default []]: list of tax IDs that will be allowed to send Deposits to this Workspace. If empty, all are allowed. ex: ["012.345.678-90", "20.018.183/0001-80"]
         - picture [list of bytes, default null]: Binary buffer of the picture. ex: file_get_contents('myprofilepic.jpg');
-        - status [string, default null]: current Workspace status. Options: "active" or "blocked"
+        - status [string, default null]: current Workspace status. Options: "active", "closed", "frozen" or "blocked"
         - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was set before function call
     
     ## Return:

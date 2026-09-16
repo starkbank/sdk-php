@@ -18,9 +18,17 @@ class Log extends Resource
     public $installment;
 
     /**
-    # MerchantInstallment\Log object    
-      Check out our API Documentation at https://starkbank.com/docs/api#merchant-installment
-    */
+    # MerchantInstallment\Log object
+
+    Every time a MerchantInstallment entity is updated, a corresponding MerchantInstallment\Log is generated for the entity.
+
+    ## Attributes (return-only):
+        - id [string]: unique id returned when the log is created.
+        - installment [MerchantInstallment]: MerchantInstallment entity to which the log refers to.
+        - errors [array of strings]: array of errors linked to this MerchantInstallment event.
+        - type [string]: type of the MerchantInstallment event which triggered the log creation.
+        - created [DateTime]: creation datetime for the log.
+     */
     function __construct(array $params)
     {
         parent::__construct($params);

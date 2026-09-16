@@ -350,7 +350,7 @@ class Event extends Resource
     /**
     # Delete notification Events
 
-    Delete an array of notification Event entities previously created in the Stark Bank API
+    Delete a single notification Event entity, identified by id, previously created in the Stark Bank API.
 
     ## Parameters (required):
         - id [string]: Event unique id. ex: "5656565656565656"
@@ -373,7 +373,7 @@ class Event extends Resource
     If isDelivered is true, the event will no longer be returned on queries with isDelivered=false.
 
     ## Parameters (required):
-        - id [array of strings]: Event unique ids. ex: "5656565656565656"
+        - id [string]: Event unique id. ex: "5656565656565656"
         - isDelivered [bool]: If true and event hasn't been delivered already, event will be set as delivered. ex: true
 
     ## Parameters (optional):

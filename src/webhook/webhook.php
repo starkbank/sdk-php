@@ -16,8 +16,9 @@ class Webhook extends Resource
     # Webhook subscription object
 
     A Webhook is used to subscribe to notification events on a user-selected endpoint.
-    Currently available services for subscription are transfer, boleto, boleto-holmes,
-    boleto-payment, utility-payment, invoice, deposit and brcode-payment.
+    If the endpoint does not return a 200 status, delivery is retried up to three times, at 5, 30 and 120 minutes.
+    Webhooks only fire for events raised in the same API version they were registered under (e.g. a v2 webhook is not triggered by v1 events).
+    Currently available services for subscription are boleto, boleto-holmes, boleto-payment, brcode-payment, darf-payment, deposit, invoice, payment-request, tax-payment, transfer and utility-payment.
 
     ## Parameters (required):
         - url [string]: Url that will be notified when an event occurs.
@@ -115,7 +116,7 @@ class Webhook extends Resource
     /**
     # Delete a Webhook subscription entity
 
-    Delete a Webhook subscription entity previously created in the Stark Bank API
+    Delete a Webhook subscription entity previously created in the Stark Bank API. This action cannot be undone.
 
     ## Parameters (required):
         - id [string]: Webhook unique id. ex: "5656565656565656"

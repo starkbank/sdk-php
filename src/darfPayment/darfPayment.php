@@ -125,8 +125,7 @@ class DarfPayment extends Resource
     /**
     # Retrieve a specific DarfPayment pdf file
 
-    Receive a single DarfPayment pdf file generated in the Stark Bank API by passing its id.
-    Only valid for darf payments with "success" or "processing" status.
+    Receive a single DarfPayment pdf file generated in the Stark Bank API by its id. Only valid for darf payments with "success", "processing" or "created" status.
     
     ## Parameters (required):
         - id [string]: object unique id. ex: "5656565656565656"
@@ -194,7 +193,7 @@ class DarfPayment extends Resource
     /**
     # Delete a DarfPayment entity
 
-    Delete a DarfPayment entity previously created in the Stark Bank API
+    Cancel a scheduled DarfPayment entity previously created in the Stark Bank API. This only cancels the payment if it has not yet started processing; a payment that has already been processed can still be deleted, but the underlying transfer of funds cannot be undone.
     
     ## Parameters (required):
         - id [string]: DarfPayment unique id. ex: "5656565656565656"

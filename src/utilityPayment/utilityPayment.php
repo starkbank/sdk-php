@@ -119,8 +119,7 @@ class UtilityPayment extends Resource
     /**
     # Retrieve a specific UtilityPayment pdf file
 
-    Receive a single UtilityPayment pdf file generated in the Stark Bank API by passing its id.
-    Only valid for utility payments with "success" status.
+    Receive a single UtilityPayment pdf file generated in the Stark Bank API by its id. Only valid for utility payments with "success", "processing" or "created" status.
 
     ## Parameters (required):
         - id [string]: object unique id. ex: "5656565656565656"
@@ -189,7 +188,7 @@ class UtilityPayment extends Resource
     /**
     # Delete a UtilityPayment entity
 
-    Delete a UtilityPayment entity previously created in the Stark Bank API
+    Cancel a scheduled UtilityPayment entity previously created in the Stark Bank API. This only cancels the payment if it has not yet started processing; a payment that has already been processed can still be deleted, but the underlying transfer of funds cannot be undone.
 
     ## Parameters (required):
         - id [string]: UtilityPayment unique id. ex: "5656565656565656"

@@ -62,7 +62,7 @@ class DictKey extends Resource
     /**
     # Retrieve a specific DictKey
 
-    Receive a single DictKey object by passing its id
+    Receive a single DictKey object by passing its id. This also works for keys you do not own, so you can use it to look up a payee's account before creating a Transfer. Avoid looking up a key without sending a Transfer afterwards: Bacen blocks users who make too many standalone lookups in a short timespan, and invalid key searches count toward that block. The encrypted branchCode/accountNumber returned can be passed straight into a Transfer without decrypting them.
 
     ## Parameters (required):
         - id [string]: DictKey object unique id and Pix key itself. ex: 'tony@starkbank.com', '722.461.430-04', '20.018.183/0001-80', '+5511988887777', 'b6295ee1-f054-47d1-9e90-ee57b74f60d9'

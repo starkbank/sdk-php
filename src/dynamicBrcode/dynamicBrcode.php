@@ -35,10 +35,10 @@ class DynamicBrcode extends Resource
         - amount [integer]: DynamicBrcode value in cents. Minimum = 0 (any value will be accepted). ex: 1234 (= R$ 12.34)
 
     ## Parameters (optional):
-        - expiration [DateInterval or integer, default 3600 (1 hour)]: time interval in seconds between due date and expiration date. ex 123456789
+        - expiration [DateInterval or integer, default 3600 (1 hour)]: time interval in seconds, counted from the DynamicBrcode's creation datetime, until the brcode expires and can no longer be paid. ex: 123456789
         - tags [list of strings, default []]: list of strings for tagging, these will be passed to the respective Deposit resource when paid
         - displayDescription [string, default null]: optional description to be shown in the receiver bank interface. ex: 'Payment for service #1234'
-        - rules [list of dictionaries, default null]: array of dictionaries with "amount": int, "currencyCode": string, "id": string, "interval": string, "name": string pairs.
+        - rules [list of dictionaries or DynamicBrcode\Rule objects, default null]: list of dictionaries with "key" [string, currently only "allowedTaxIds" is supported] and "value" [list of strings] pairs, used to modify DynamicBrcode behavior. ex: [{"key": "allowedTaxIds", "value": ["012.345.678-90", "45.059.493/0001-73"]}]
 
     ## Attributes (return-only):
         - id [string]: id returned on creation, this is the BR code. ex: "00020126360014br.gov.bcb.pix0114+552840092118152040000530398654040.095802BR5915Jamie Lannister6009Sao Paulo620705038566304FC6C"
@@ -67,7 +67,7 @@ class DynamicBrcode extends Resource
     /**
     # Create DynamicBrcodes
 
-    Send an array of DynamicBrcode objects for creation in the Stark Bank API
+    Send an array of DynamicBrcode objects for creation in the Stark Bank API. You can create up to 100 DynamicBrcodes per call.
 
     ## Parameters (required):
         - brcodes [array of DynamicBrcode objects]: array of DynamicBrcode objects to be created in the API
