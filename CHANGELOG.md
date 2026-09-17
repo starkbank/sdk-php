@@ -20,6 +20,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Fixed
 - Docstrings
 
+### Changed
+- core to v0.6.0
+
 ## [2.25.0] - 2026-03-25
 ### Added
 - holderId and softDescriptor attributes to MerchantSession and MerchantPurchase
