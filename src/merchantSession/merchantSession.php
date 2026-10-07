@@ -1,13 +1,13 @@
 <?php
 
 namespace StarkBank;
+use Exception;
 use StarkCore\Utils\API;
 use StarkBank\Utils\Rest;
 use StarkBank\Utils\Parse;
 use StarkCore\Utils\Checks;
 use StarkCore\Utils\Resource;
 use StarkCore\Utils\StarkDate;
-use StarkBank\MerchantSession\Purchase;
 use StarkBank\MerchantSession\AllowedInstallment;
 
 
@@ -89,23 +89,14 @@ class MerchantSession extends Resource
     }
 
     /**
-    # Create a MerchantSession Purchase
+     * @deprecated Function deprecated since v2.26.0
+    # Create a MerchantSession Purchase (removed)
 
-    Charge a card directly from the payer's client application using a MerchantSession uuid previously created by the merchant.
-
-    ## Parameters (required):
-        - uuid [string]: uuid of the MerchantSession created by the merchant.
-        - purchase [MerchantSession\Purchase object]: card and purchase data (amount, cardNumber, cardExpiration, cardSecurityCode, fundingType, holderName, and billing/holder fields conditionally required when the session's challengeMode is "enabled").
-
-    ## Parameters (optional):
-        - user [Organization/Project object, default null]: Organization or Project object. Not necessary if StarkBank\Settings::setUser() was used before function call
-
-    ## Return:
-        - MerchantSession\Purchase object with updated attributes
+    purchase is deprecated and disabled in this SDK: calling it raises an Exception immediately, without making any request. Card data must be sent directly from the payer's front-end to the Stark Bank API through the POST /v2/merchant-session/:uuid/purchase route, so that sensitive card data never passes through the back-end of your integration.
      */
     public static function purchase($uuid, $purchase, $user = null)
     {
-        return Rest::postSubResource($user, self::resource(), $uuid, Purchase::resource(), $purchase);
+        throw new Exception("Function deprecated since v2.26.0");
     }
 
     private static function resource()
