@@ -23,6 +23,10 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Changed
 - core to v0.6.0
 
+## [2.26.0] - 2026-10-13
+### Deprecated
+- MerchantSession::purchase function, since card data must be sent directly from the front-end to the Stark Bank API
+
 ## [2.25.0] - 2026-03-25
 ### Added
 - holderId and softDescriptor attributes to MerchantSession and MerchantPurchase

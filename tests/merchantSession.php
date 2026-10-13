@@ -55,63 +55,30 @@ class TestMerchantSession
         }
     }
 
-    public function purchaseChallengeModeDisabled()
+    public function purchaseDeprecated()
     {
-        $sessionExample = self::generateExampleMerchantSessionJson("disabled");
-        $merchantSession = MerchantSession::create($sessionExample);
+        $purchase = self::examplePurchase();
 
-        $purchase = [
+        try {
+            MerchantSession::purchase("0bb894a2697d41d99fe02cad2c00c9bc", $purchase);
+        } catch (Exception $e) {
+            if ($e->getMessage() !== "Function deprecated since v2.26.0") {
+                echo(" - Failed");
+            }
+        }
+    }
+
+    public static function examplePurchase()
+    {
+        return [
             "installmentCount" => 12,
             "amount" => 6000,
             "cardExpiration" => "2035-01",
             "cardNumber" => "5277696455399733",
             "cardSecurityCode" => "123",
             "holderName" => "João da Silva",
-            "fundingType"=> "credit"
+            "fundingType" => "credit"
         ];
-
-        $MerchantSessionPurchase = MerchantSession::purchase($merchantSession->uuid, $purchase);
-
-        if (is_null($MerchantSessionPurchase->id)) {
-            throw new Exception("failed");
-        }
-    }
-
-    public function purchaseChallengeModeEnabled()
-    {
-        $sessionExample = self::generateExampleMerchantSessionJson("enabled");
-        $merchantSession = MerchantSession::create($sessionExample);
-
-        $purchase = [
-            "amount" => 6000,
-            "installmentCount" => 12,
-            "cardExpiration" => "2035-01",
-            "cardNumber" => "5277696455399733",
-            "cardSecurityCode" => "123",
-            "holderName" => "Holder Name",
-            "holderEmail" => "holdeName@email.com",
-            "holderPhone" => "11111111111",
-            "fundingType" => "credit",
-            "billingCountryCode" => "BRA",
-            "billingCity" => "São Paulo",
-            "billingStateCode" => "SP",
-            "billingStreetLine1" => "Rua do Holder Name, 123",
-            "billingStreetLine2" => "",
-            "billingZipCode" => "11111-111",
-            "metadata" => [
-                "userAgent" => "Postman",
-                "userIp" => "255.255.255.255",
-                "language" => "pt-BR",
-                "timezoneOffset" => 3,
-                "extraData" => "extraData"
-            ]
-        ];
-
-        $MerchantSessionPurchase = MerchantSession::purchase($merchantSession->uuid, $purchase);
-
-        if (is_null($MerchantSessionPurchase->id)) {
-            throw new Exception("failed");
-        }
     }
 
     public static function generateExampleMerchantSessionJson($challengeMode) 
@@ -162,10 +129,6 @@ echo "\n\t- get page";
 $test->getPage();
 echo " - OK";
 
-echo "\n\t- purchase challenge mode disabled";
-$test->purchaseChallengeModeDisabled();
-echo " - OK";
-
-echo "\n\t- purchase challenge mode enabled";
-$test->purchaseChallengeModeEnabled();
+echo "\n\t- purchase deprecated";
+$test->purchaseDeprecated();
 echo " - OK";
