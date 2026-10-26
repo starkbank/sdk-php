@@ -16,12 +16,14 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Added
 - VerifiedAccount resource
 - VerifiedTransfer resource
-
 ### Fixed
 - Docstrings
-
 ### Changed
-- core to v0.6.0
+- core to v0.8.0. Text outside Latin-1 (em dash, euro sign, emoji, CJK) in request fields such as externalIds and tags is now sent verbatim instead of as "?", so a retry spanning the upgrade is not caught as a repeated externalId
+- PHP requirement to `~8.2.35 || ~8.3.36 || ~8.4.27 || >=8.5.12`. Earlier PHP versions can no longer install this SDK
+- Distributions that backport the fix without changing the PHP version number may be blocked by this requirement; use `--ignore-platform-req=php` only after confirming the fix in the distribution's advisory
+### Security
+- Require PHP versions that fix CVE-2026-109618 and CVE-2026-109619 (PHP2Shell), which affect PHP 5.4 through 8.5.11 and allow unauthenticated remote code execution
 
 ## [2.26.0] - 2026-10-13
 ### Deprecated
