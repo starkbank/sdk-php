@@ -65,16 +65,10 @@ is as easy as sending a text message to your client!
 
 This library supports the following PHP versions:
 
-* PHP 7.1
-* PHP 7.2
-* PHP 7.3
-* PHP 7.4
-* PHP 8.0
-* PHP 8.1
-* PHP 8.2
-* PHP 8.3
-* PHP 8.4
-* PHP 8.5
+* PHP 8.2 (8.2.35 or later)
+* PHP 8.3 (8.3.36 or later)
+* PHP 8.4 (8.4.27 or later)
+* PHP 8.5 (8.5.12 or later)
 
 ## Stark Bank API documentation
 
